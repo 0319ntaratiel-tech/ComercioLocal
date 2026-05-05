@@ -20,12 +20,12 @@ public class Pedido implements Lectora{
     private int codigoCliente;
     private String fechaRealizacion;
     private String fechaEntrega;
-    private Configuracion estado;
+    private String estado;
     private double importe;
     
     //constructor
 
-    public Pedido(int codigo, int codigoVendedor, int codigoCliente, String fechaRealizacion, String fechaEntrega, Configuracion estado, double importe) {
+    public Pedido(int codigo, int codigoVendedor, int codigoCliente, String fechaRealizacion, String fechaEntrega, String estado, double importe) {
         this.codigo = codigo;
         this.codigoVendedor = codigoVendedor;
         this.codigoCliente = codigoCliente;
@@ -82,7 +82,7 @@ public class Pedido implements Lectora{
      * metodo que devuelve el estado del pedido
      * @return estado
      */
-    public Configuracion getEstado() {
+    public String getEstado() {
         return estado;
     }
 

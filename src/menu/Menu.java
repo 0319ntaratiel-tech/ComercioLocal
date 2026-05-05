@@ -4,11 +4,17 @@
  */
 package menu;
 
+
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import modelos.Cliente;
 import modelos.Vendedor;
+import modelos.Fabricante;
+import servicios.Conexiones;
 
 /**
  *
@@ -102,6 +108,24 @@ public class Menu {
             switch (opcion) {
 
                 case 1:
+                    servicios.Conexiones.conexionEstablecida();
+                    System.out.println("INSERTA EL CODIGO DEL FABRICANTE");
+                    int codigoFabri = teclado.nextInt();
+                    System.out.println("INSERTA EL NOMBRE DEL FABRICANTE");
+                    String nombreFabri = teclado.nextLine();
+                    System.out.println("INSERTA EL AÑO DE FUNDACION DEL FABRICANTE");
+                    int anyoFundacionFabri = teclado.nextInt();
+                    System.out.println("INSERTA EL LUGAR SEDE DEL FABRICANTE ");
+                    String lugarSeedeFabri = teclado.nextLine();
+                    System.out.println("INSERTA EL EL NUMERO DE EMPLEADOS DEL FABRICANTE");
+                    int empleadosFabri = teclado.nextInt();
+                    System.out.println("INSERTA EL SITIO WEB DEL FABRICANTE");
+                    String sitioWebFabri = teclado.next();
+                    
+                    Fabricante f1 = new Fabricante(codigoFabri, nombreFabri, anyoFundacionFabri, lugarSeedeFabri, empleadosFabri, sitioWebFabri);
+                    
+                   Conexiones.insertarDatos(f1);
+                   
                     
                     break;
 
@@ -191,9 +215,10 @@ public class Menu {
                     
                     Cliente c1 = new Cliente(codigoCli, nombreCli, fechaNacimiento, direccionEnvio, telCliente, correoCli);
                     
-                    PreparedStatement pst = con.prepareStatement("insert into coche values (?,?,?)");
+               
                     
                     break;
+
 
                 case 2:
 
@@ -578,10 +603,10 @@ public class Menu {
             System.out.println("\t 8) EXPORTAR TABLA A FICHERO BINARIO");
             System.out.println("\t 9) EXPORTAR TABLA A FICHERO JSON");
             System.out.println("Si desea importarla eliga la forma ");
-            System.out.println("\t 10) EXPORTAR TABLA A FICHERO DE TEXTO");
-            System.out.println("\t 11) EXPORTAR TABLA A FICHERO DE CSV");
-            System.out.println("\t 12) EXPORTAR TABLA A FICHERO BINARIO");
-            System.out.println("\t 13) EXPORTAR TABLA A FICHERO JSON");
+            System.out.println("\t 10) IMPORTAR TABLA A FICHERO DE TEXTO");
+            System.out.println("\t 11) IMPORTAR TABLA A FICHERO DE CSV");
+            System.out.println("\t 12) IMPORTAR TABLA A FICHERO BINARIO");
+            System.out.println("\t 13) IMPORTAR TABLA A FICHERO JSON");
             System.out.println("Si no quiere realizar ninguna operacion de gestion pulse ");
             System.out.println("\t 14) SALIR ");
     }

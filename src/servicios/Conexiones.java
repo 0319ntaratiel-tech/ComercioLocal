@@ -3,12 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package servicios;
-
+import java.sql.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import modelos.Fabricante;
+import modelos.Producto;
 import utils.Configuracion;
 
 /**
@@ -38,8 +40,31 @@ public class Conexiones {
         }
     }
 
-    public static Connection getCon() {
-        return con;
+    public static void insertarDatos(Object o){
+        try {
+            if(o.getClass()== Fabricante.class.getClass()){
+                PreparedStatement pst = con.prepareStatement("insert into fabricante values (?,?,?,?,?,?)" );
+                pst.setInt(1, ((Fabricante)o).getCodigo());
+                pst.setString(2, ((Fabricante)o).getNombre());
+                pst.setInt(3, ((Fabricante)o).getAnyoFundacion());
+                pst.setString(4, ((Fabricante)o).getLugarSeede());
+                pst.setInt(5, ((Fabricante)o).getEmpleados());
+                pst.setString(6, ((Fabricante)o).getSitioWeb());
+            }
+            
+            if(o.getClass()== Producto.class.getClass()){
+                PreparedStatement pst = con.prepareStatement("insert into producto values (?,?,?,?,?,?)" );
+                pst.setInt(1, ((Producto)o).getCodigo());
+                pst.setInt(2, ((Producto)o).getCodigoFabricante());
+                pst.setString(3, ((Producto)o).getNombre());
+                pst.setString(4, ((Producto)o).getCategoria());
+                pst.setString(5, ((Producto)o).getDisponibilidad());
+                pst.setDouble(6, ((Producto)o).getPrecioVenta() );
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     

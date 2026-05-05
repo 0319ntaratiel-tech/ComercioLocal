@@ -16,18 +16,20 @@ public class Producto implements Lectora{
     //Atributos
 
     private int codigo;
-    private Fabricante codigoFabricante;
+    private int codigoFabricante;
     private String nombre;
     private String categoria;
-    private Configuracion disponibilidad;
+    private String disponibilidad;
+    private double precioVenta;
 
     //Constructor
-    public Producto(int codigo, Fabricante codigoFabricante, String nombre, String categoria, Configuracion disponibilidad) {
+    public Producto(int codigo, int codigoFabricante, String nombre, String categoria, String disponibilidad, double precioVenta) {
         this.codigo = codigo;
         this.codigoFabricante = codigoFabricante;
         this.nombre = nombre;
         this.categoria = categoria;
         this.disponibilidad = disponibilidad;
+        this.precioVenta = precioVenta;
     }
 
     /**
@@ -44,7 +46,7 @@ public class Producto implements Lectora{
      *
      * @return codigoFabricante
      */
-    public Fabricante getCodigoFabricante() {
+    public int getCodigoFabricante() {
         return codigoFabricante;
     }
 
@@ -71,9 +73,19 @@ public class Producto implements Lectora{
      *
      * @return disponibilidad
      */
-    public Configuracion getDisponibilidad() {
+    public String getDisponibilidad() {
         return disponibilidad;
     }
+
+    /**
+     * Metodo que devuelve el precio de venta  del producto
+     * @return precioVenta
+     */
+    public double getPrecioVenta() {
+        return precioVenta;
+    }
+    
+    
 
     /**
      * Metodo que devuelve una cadena de texto con los atributos de la clase con
