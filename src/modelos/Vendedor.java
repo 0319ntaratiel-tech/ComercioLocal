@@ -18,13 +18,17 @@ public class Vendedor implements Lectora{
     private String nombre;
     private String fechaAlta;
     private String domicilio;
+    private double salario;
+    private double porcentaje;
 
     //Constructor
-    public Vendedor(int codigo, String nombre, String fechaAlta, String domicilio) {
+    public Vendedor(int codigo, String nombre, String fechaAlta, String domicilio, double salario, double porcentaje) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.fechaAlta = fechaAlta;
         this.domicilio = domicilio;
+        this.salario = salario;
+        this.porcentaje = porcentaje;
     }
 
     //Metodos
@@ -65,6 +69,24 @@ public class Vendedor implements Lectora{
     }
 
     /**
+     * Metodo que devuelve el salario
+     * @return salario
+     */
+    public double getSalario() {
+        return salario;
+    }
+
+    /**
+     * Metodo que devuelve el porcentaje
+     * @return porcentaje
+     */
+    public double getPorcentaje() {
+        return porcentaje;
+    }
+    
+    
+
+    /**
      * Metodo que devuelve una cadena de texto con los atributos de la clase con
      * punto y coma
      *
@@ -72,8 +94,8 @@ public class Vendedor implements Lectora{
      */
     @Override
     public String mostrarDatosConPuntoComa() {
-        return "Fabricante{" + ";" + "codigo:" + ";" + getCodigo() + ";" + ";" + "nombre:" + ";" + getNombre()
-                + "fecha alta:" + ";" + getFechaAlta() + ";" + "domicilio:" + ";" + getDomicilio() + '}';
+        return "Fabricante" + ";" + getCodigo() + ";" + getNombre()
+                +  ";" + getFechaAlta() + ";" + getDomicilio() + ";" + getSalario()  + ";" + getPorcentaje();
     }
 
     /**
@@ -84,9 +106,9 @@ public class Vendedor implements Lectora{
      */
     @Override
     public String mostrarDatosConDosPuntos() {
-        return "Fabricante{" + " codigo: " + getCodigo() + " nombre: " + getNombre()
-                + " fecha alta: " + getFechaAlta() + " domicilio: " + getDomicilio()
-                + +'}';
+        return "Fabricante" + ":" + getCodigo() + ":" + getNombre()
+                + ":" + getFechaAlta() + ":" + getDomicilio()
+                 + ":" + getSalario()  + ":" + getPorcentaje();
     }
 
 }

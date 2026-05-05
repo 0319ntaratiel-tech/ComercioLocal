@@ -16,17 +16,17 @@ public class Fabricante implements Lectora{
   private int codigo;
   private String nombre;
   private int anyoFundacion;
-  private String lugarSeede;
+  private String lugarSede;
   private int empleados;
   private String sitioWeb;
  
   //Constructor
 
-    public Fabricante(int codigo, String nombre, int anyoFundacion, String lugarSeede, int empleados, String sitioWeb) {
+    public Fabricante(int codigo, String nombre, int anyoFundacion, String lugarSede, int empleados, String sitioWeb) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.anyoFundacion = anyoFundacion;
-        this.lugarSeede = lugarSeede;
+        this.lugarSede = lugarSede;
         this.empleados = empleados;
         this.sitioWeb = sitioWeb;
     }
@@ -62,8 +62,8 @@ public class Fabricante implements Lectora{
      * Metodo que devuelve el lugar de la sede
      * @return lugarsede
      */    
-    public String getLugarSeede() {
-        return lugarSeede;
+    public String getLugarSede() {
+        return lugarSede;
     }
    
     /**
@@ -88,10 +88,10 @@ public class Fabricante implements Lectora{
      */
     @Override
     public String mostrarDatosConPuntoComa() {
-        return "Fabricante{" +";"+ "codigo:" +";"+ getCodigo() +";"+
-                "nombre:"+";" + getNombre() +";"+ "anyoFundacion:" +";"+ getAnyoFundacion() + ";"+
-                "lugarSeede:" +";"+ getLugarSeede() +";"+ "empleados:" +";"+ getEmpleados() +";"+ "sitioWeb:" +";"+
-                getSitioWeb() +";"+ '}';
+        return "Fabricante" + ";" + getCodigo() +";"+
+                getNombre() + ";" + getAnyoFundacion() + ";"+
+                getLugarSede() +";"+ getEmpleados() +";"+
+                getSitioWeb() ;
     }
 
     /**
@@ -100,9 +100,9 @@ public class Fabricante implements Lectora{
      */
     @Override
     public String mostrarDatosConDosPuntos() {
-        return "Fabricante{" +" codigo: " + getCodigo()+ " nombre: " + getNombre() +
-                " anyoFundacion: "+ getAnyoFundacion() + " lugarSeede: " +getLugarSeede() +
-                " empleados: " + getEmpleados() + " sitioWeb: "+ getSitioWeb() +'}';
+        return "Fabricante" + ":" + getCodigo()+ ":" + getNombre() +
+                ":" + getAnyoFundacion() + ":" + getLugarSede() +
+                ":" + getEmpleados() + ":" + getSitioWeb();
     }
 
     

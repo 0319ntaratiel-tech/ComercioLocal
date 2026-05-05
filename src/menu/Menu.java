@@ -14,6 +14,9 @@ import java.util.logging.Logger;
 import modelos.Cliente;
 import modelos.Vendedor;
 import modelos.Fabricante;
+import modelos.LineaPedido;
+import modelos.Pedido;
+import modelos.Producto;
 import servicios.Conexiones;
 
 /**
@@ -116,15 +119,15 @@ public class Menu {
                     System.out.println("INSERTA EL AÑO DE FUNDACION DEL FABRICANTE");
                     int anyoFundacionFabri = teclado.nextInt();
                     System.out.println("INSERTA EL LUGAR SEDE DEL FABRICANTE ");
-                    String lugarSeedeFabri = teclado.nextLine();
+                    String lugarSedeFabri = teclado.nextLine();
                     System.out.println("INSERTA EL EL NUMERO DE EMPLEADOS DEL FABRICANTE");
                     int empleadosFabri = teclado.nextInt();
                     System.out.println("INSERTA EL SITIO WEB DEL FABRICANTE");
                     String sitioWebFabri = teclado.next();
                     
-                    Fabricante f1 = new Fabricante(codigoFabri, nombreFabri, anyoFundacionFabri, lugarSeedeFabri, empleadosFabri, sitioWebFabri);
+                    Fabricante f1 = new Fabricante(codigoFabri, nombreFabri, anyoFundacionFabri, lugarSedeFabri, empleadosFabri, sitioWebFabri);
                     
-                   Conexiones.insertarDatos(f1);
+                    Conexiones.insertarDatos(f1);
                    
                     
                     break;
@@ -216,6 +219,7 @@ public class Menu {
                     Cliente c1 = new Cliente(codigoCli, nombreCli, fechaNacimiento, direccionEnvio, telCliente, correoCli);
                     
                
+                    Conexiones.insertarDatos(c1);
                     
                     break;
 
@@ -304,8 +308,9 @@ public class Menu {
                     System.out.println("INSERTA EL PORCENTAJE DEL VENDEDOR");
                     double porcentajeVen = teclado.nextDouble();
                     
-                    Vendedor ven = new Vendedor(codigoVen, nombreVen, fechaAltaVen, domicilioVen);
+                    Vendedor ven = new Vendedor(codigoVen, nombreVen, fechaAltaVen, domicilioVen, salarioVen, porcentajeVen);
                     
+                    Conexiones.insertarDatos(ven);
                     break;
 
                 case 2:
@@ -379,7 +384,23 @@ public class Menu {
             switch (opcion) {
 
                 case 1:
-
+                    servicios.Conexiones.conexionEstablecida();
+                    System.out.println("INSERTA EL CODIGO DEL PRODUCTO");
+                    int codigoPro = teclado.nextInt();
+                    System.out.println("INSERTA EL CODIGO DEL FABRICANTE");
+                    int codidoFab = teclado.nextInt();
+                    System.out.println("INSERTA EL NOMBRE DEL PRODUCTO");
+                    String nombre = teclado.nextLine();
+                    System.out.println("INSERTA LA CATEGORIA DEL PRODUCTO");
+                    String categoria = teclado.nextLine();
+                    System.out.println("INSERTA LA DISPONIBILIDAD DEL PRODUCTO");
+                    String disponibilidad = teclado.next();
+                    System.out.println("INSERTA EL PRECIO DE VENTA DEL PRODUCTO");
+                    double precioVenta = teclado.nextDouble();
+                    
+                    Producto p1 = new Producto(codigoPro, codidoFab, nombre, categoria, disponibilidad, precioVenta);
+                    
+                    Conexiones.insertarDatos(p1);
                     break;
 
                 case 2:
@@ -454,6 +475,25 @@ public class Menu {
 
                 case 1:
 
+                    servicios.Conexiones.conexionEstablecida();
+                    System.out.println("INSERTA EL CODIGO DEL PEDIDO");
+                    int codigoPed = teclado.nextInt();
+                    System.out.println("INSERTA EL CODIGO DEL VENDEDOR");
+                    int codigoVen = teclado.nextInt();
+                    System.out.println("INSERTA EL CODIGO DEL CLIENTE");
+                    int codigoCli = teclado.nextInt();
+                    System.out.println("INSERTA LA FECHA DE REALIZACION DEL PEDIDO");
+                    String fechaRea = teclado.next();
+                    System.out.println("INSERTA LA FECHA DE ENTREGA DEL PEDIDO");
+                    String fechaEnt = teclado.next();
+                    System.out.println("INSERTA EL ESTADO DEL PEDIDO");
+                    String estado = teclado.next();
+                    System.out.println("INSERTA EL IMPORTE DEL PEDIDO");
+                    double importe = teclado.nextDouble();
+                    
+                    Pedido ped = new Pedido(codigoCli, codigoVen, codigoCli, fechaRea, fechaEnt, estado, importe);
+                    
+                    Conexiones.insertarDatos(ped);
                     break;
 
                 case 2:
@@ -528,6 +568,20 @@ public class Menu {
 
                 case 1:
 
+                    servicios.Conexiones.conexionEstablecida();
+                    System.out.println("INSERTA EL CODIGO DEL PEDIDO");
+                    int codigoPed = teclado.nextInt();
+                    System.out.println("INSERTA EL CODIGO DEL PRODUCTO");
+                    int codigoPro = teclado.nextInt();
+                    System.out.println("INSERTA LAS UNIDADES COMPRADAS");
+                    int unidadesCompradas = teclado.nextInt();
+                    System.out.println("INSERTA EL SUBTOTAL");
+                    double subTotal = teclado.nextDouble();
+                    
+                    LineaPedido lp = new LineaPedido(codigoPed, codigoPro, unidadesCompradas, subTotal);
+                    
+                    Conexiones.insertarDatos(lp);
+                    
                     break;
 
                 case 2:

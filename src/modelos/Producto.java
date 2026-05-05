@@ -94,8 +94,9 @@ public class Producto implements Lectora{
      */
     @Override
     public String mostrarDatosConPuntoComa() {
-        return "Fabricante{" + ";" + "codigo:" + ";" + getCodigo() + ";" + ";" + "codigoFabricante:" + ";" + getCodigoFabricante()
-                + "nombre:" + ";" + getNombre() + ";" + "categoria:" + ";" + getCategoria() + ";" + "disponibilidad:" + ";" + getDisponibilidad() + '}';
+        return "Fabricante" + ";" + getCodigo() + ";" + getCodigoFabricante()
+                +  ";" + getNombre() + ";" + getCategoria() + ";" 
+                + getDisponibilidad()  + ";" + getPrecioVenta();
     }
 
     /**
@@ -105,8 +106,8 @@ public class Producto implements Lectora{
      */
     @Override
     public String mostrarDatosConDosPuntos() {
-        return "Fabricante{" + " codigo: " + getCodigo() + " codigoFabricante: " + getCodigoFabricante()
-                + " nombre: " + getNombre() + " categoria: " + getCategoria()
-                + " disponibilidad: " + getDisponibilidad() + '}';
+        return "Fabricante" + ":" + getCodigo() + ":" + getCodigoFabricante()
+                + ":" + getNombre() + ":" + getCategoria()
+                + ":" + getDisponibilidad()  + ":" + getPrecioVenta();
     }
 }
