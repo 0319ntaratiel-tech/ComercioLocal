@@ -4,8 +4,10 @@
  */
 package menu;
 
+import java.time.LocalDate;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import modelos.Cliente;
 
 /**
  *
@@ -173,6 +175,20 @@ public class Menu {
 
                 case 1:
                     servicios.Conexiones.conexionEstablecida();
+                    System.out.println("INSERTA EL CODIGO DEL CLIENTE");
+                    int codigoCli = teclado.nextInt();
+                    System.out.println("INSERTA EL NOMBRE DEL CLIENTE");
+                    String nombreCli = teclado.nextLine();
+                    System.out.println("INSERTA LA FECHA DE NACIMIENTO DEL CLIENTE");
+                    String fechaNacimiento = teclado.nextLine();
+                    System.out.println("INSERTA LA DIRECCION DE ENVIO DEL CLIENTE");
+                    String direccionEnvio = teclado.nextLine();
+                    System.out.println("INSERTA EL TELEFONO DEL CLIENTE");
+                    String telCliente = teclado.next();
+                    System.out.println("INSERTA EL CORREO DEL CLIENTE");
+                    String correoCli = teclado.next();
+                    
+                    Cliente c1 = new Cliente(codigoCli, nombreCli, fechaNacimiento, direccionEnvio, telCliente, correoCli);
                     
                     break;
 

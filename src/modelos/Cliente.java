@@ -16,14 +16,14 @@ public class Cliente implements Lectora{
     //atributos
     private int codigo;
     private String nombre;
-    private LocalDate fechaNacimiento;
+    private String fechaNacimiento;
     private String direccionEnvio;
     private String telefono;
     private String correo;
     
     //constructor
 
-    public Cliente(int codigo, String nombre, LocalDate fechaNacimiento, String direccionEnvio, String telefono, String correo) {
+    public Cliente(int codigo, String nombre, String fechaNacimiento, String direccionEnvio, String telefono, String correo) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.fechaNacimiento = fechaNacimiento;
@@ -55,7 +55,7 @@ public class Cliente implements Lectora{
      * metodo que devuelve la fecha de Nacimiento del cliente
      * @return fechaNacimiento
      */
-    public LocalDate getFechaNacimiento() {
+    public String getFechaNacimiento() {
         return fechaNacimiento;
     }
 
