@@ -16,11 +16,11 @@ public class Vendedor implements Lectora{
 
     private int codigo;
     private String nombre;
-    private LocalDate fechaAlta;
+    private String fechaAlta;
     private String domicilio;
 
     //Constructor
-    public Vendedor(int codigo, String nombre, LocalDate fechaAlta, String domicilio) {
+    public Vendedor(int codigo, String nombre, String fechaAlta, String domicilio) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.fechaAlta = fechaAlta;
@@ -51,7 +51,7 @@ public class Vendedor implements Lectora{
      *
      * @return fechaAlta
      */
-    public LocalDate getFechaAlta() {
+    public String getFechaAlta() {
         return fechaAlta;
     }
 

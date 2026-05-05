@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import modelos.Cliente;
+import modelos.Vendedor;
 
 /**
  *
@@ -190,6 +191,8 @@ public class Menu {
                     
                     Cliente c1 = new Cliente(codigoCli, nombreCli, fechaNacimiento, direccionEnvio, telCliente, correoCli);
                     
+                    PreparedStatement pst = con.prepareStatement("insert into coche values (?,?,?)");
+                    
                     break;
 
                 case 2:
@@ -262,7 +265,22 @@ public class Menu {
             switch (opcion) {
 
                 case 1:
-
+                    servicios.Conexiones.conexionEstablecida();
+                    System.out.println("INSERTA EL CODIGO DEL VENDEDOR");
+                    int codigoVen = teclado.nextInt();
+                    System.out.println("INSERTA EL NOMBRE DEL VENDEDOR");
+                    String nombreVen = teclado.nextLine();
+                    System.out.println("INSERTA LA FECHA DE ALTA DEL VENDEDOR");
+                    String fechaAltaVen = teclado.nextLine();
+                    System.out.println("INSERTA EL DOMICILIO DEL VENDEDOR");
+                    String domicilioVen = teclado.nextLine();
+                    System.out.println("INSERTA EL SALARIO DEL VENDEDOR");
+                    double salarioVen = teclado.nextDouble();
+                    System.out.println("INSERTA EL PORCENTAJE DEL VENDEDOR");
+                    double porcentajeVen = teclado.nextDouble();
+                    
+                    Vendedor ven = new Vendedor(codigoVen, nombreVen, fechaAltaVen, domicilioVen);
+                    
                     break;
 
                 case 2:

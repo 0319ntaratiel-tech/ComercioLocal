@@ -37,4 +37,11 @@ public class Conexiones {
             Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public static Connection getCon() {
+        return con;
+    }
+    
+    
+    
 }

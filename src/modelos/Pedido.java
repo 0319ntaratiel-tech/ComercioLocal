@@ -18,14 +18,14 @@ public class Pedido implements Lectora{
     private int codigo;
     private int codigoVendedor;
     private int codigoCliente;
-    private LocalDate fechaRealizacion;
-    private LocalDate fechaEntrega;
+    private String fechaRealizacion;
+    private String fechaEntrega;
     private Configuracion estado;
     private double importe;
     
     //constructor
 
-    public Pedido(int codigo, int codigoVendedor, int codigoCliente, LocalDate fechaRealizacion, LocalDate fechaEntrega, Configuracion estado, double importe) {
+    public Pedido(int codigo, int codigoVendedor, int codigoCliente, String fechaRealizacion, String fechaEntrega, Configuracion estado, double importe) {
         this.codigo = codigo;
         this.codigoVendedor = codigoVendedor;
         this.codigoCliente = codigoCliente;
@@ -66,7 +66,7 @@ public class Pedido implements Lectora{
      * metodo que devuelve la fecha de Realizacion del pedido
      * @return fechaRealizacion
      */
-    public LocalDate getFechaRealizacion() {
+    public String getFechaRealizacion() {
         return fechaRealizacion;
     }
 
@@ -74,7 +74,7 @@ public class Pedido implements Lectora{
      * metodo que devuelve la fecha de entrega del pedido
      * @return fechaEntrega
      */
-    public LocalDate getFechaEntrega() {
+    public String getFechaEntrega() {
         return fechaEntrega;
     }
 
