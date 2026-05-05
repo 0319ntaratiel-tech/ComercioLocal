@@ -4,10 +4,12 @@
  */
 package menu;
 
+import com.mysql.cj.jdbc.PreparedStatementWrapper;
 import java.time.LocalDate;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import modelos.Cliente;
+import modelos.Fabricante;
 
 /**
  *
@@ -101,6 +103,23 @@ public class Menu {
             switch (opcion) {
 
                 case 1:
+                    servicios.Conexiones.conexionEstablecida();
+                    System.out.println("INSERTA EL CODIGO DEL FABRICANTE");
+                    int codigoFabri = teclado.nextInt();
+                    System.out.println("INSERTA EL NOMBRE DEL FABRICANTE");
+                    String nombreFabri = teclado.nextLine();
+                    System.out.println("INSERTA EL AÑO DE FUNDACION DEL FABRICANTE");
+                    int anyoFundacionFabri = teclado.nextInt();
+                    System.out.println("INSERTA EL LUGAR SEDE DEL FABRICANTE ");
+                    String lugarSeedeFabri = teclado.nextLine();
+                    System.out.println("INSERTA EL EL NUMERO DE EMPLEADOS DEL FABRICANTE");
+                    int empleadosFabri = teclado.nextInt();
+                    System.out.println("INSERTA EL SITIO WEB DEL FABRICANTE");
+                    String sitioWebFabri = teclado.next();
+                    
+                    Fabricante f1 = new Fabricante(codigoFabri, nombreFabri, anyoFundacionFabri, lugarSeedeFabri, empleadosFabri, sitioWebFabri);
+                    
+                   
                     
                     break;
 
