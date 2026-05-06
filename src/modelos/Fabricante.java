@@ -82,6 +82,53 @@ public class Fabricante implements Lectora{
         return sitioWeb;
     }
 
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setAnyoFundacion(int anyoFundacion) {
+        this.anyoFundacion = anyoFundacion;
+    }
+
+    public void setLugarSede(String lugarSede) {
+        this.lugarSede = lugarSede;
+    }
+
+    public void setEmpleados(int empleados) {
+        this.empleados = empleados;
+    }
+
+    public void setSitioWeb(String sitioWeb) {
+        this.sitioWeb = sitioWeb;
+    }
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /**
      * Metodo que devuelve una cadena de texto con los atributos de la clase con punto y coma
      * @return String
