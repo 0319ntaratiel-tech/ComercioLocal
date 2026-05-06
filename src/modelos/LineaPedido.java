@@ -82,4 +82,7 @@ public class LineaPedido implements Lectora{
                 + getUnidadesCompradas()+ ";" + getSubTotal();
     }
     
+    public static double calcularSubtotal(){
+        return 2;
+    }
 }

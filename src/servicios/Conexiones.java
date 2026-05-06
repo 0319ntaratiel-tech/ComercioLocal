@@ -48,6 +48,7 @@ public class Conexiones {
 
     public static void insertarDatos(Object o) {
         try {
+            conexionEstablecida();
             if (o.getClass() == Fabricante.class) {
 
                 PreparedStatement pst = con.prepareStatement("insert into fabricante values (?,?,?,?,?,?)");
@@ -59,9 +60,8 @@ public class Conexiones {
                 pst.setString(6, ((Fabricante) o).getSitioWeb());
 
                 pst.executeUpdate();
-            }
-
-            if (o.getClass() == Producto.class.getClass()) {
+                pst.close();
+            } else if (o.getClass() == Producto.class) {
                 PreparedStatement pst = con.prepareStatement("insert into producto values (?,?,?,?,?,?)");
                 pst.setInt(1, ((Producto) o).getCodigo());
                 pst.setInt(2, ((Producto) o).getCodigoFabricante());
@@ -71,9 +71,8 @@ public class Conexiones {
                 pst.setDouble(6, ((Producto) o).getPrecioVenta());
 
                 pst.executeUpdate();
-            }
-
-            if (o.getClass() == Vendedor.class.getClass()) {
+                pst.close();
+            } else if (o.getClass() == Vendedor.class) {
                 PreparedStatement pst = con.prepareStatement("insert into vendedor values (?,?,?,?,?,?)");
                 pst.setInt(1, ((Vendedor) o).getCodigo());
                 pst.setString(2, ((Vendedor) o).getNombre());
@@ -83,9 +82,8 @@ public class Conexiones {
                 pst.setDouble(6, ((Vendedor) o).getPorcentaje());
 
                 pst.executeUpdate();
-            }
-
-            if (o.getClass() == Cliente.class.getClass()) {
+                pst.close();
+            } else if (o.getClass() == Cliente.class) {
                 PreparedStatement pst = con.prepareStatement("insert into cliente values (?,?,?,?,?,?)");
                 pst.setInt(1, ((Cliente) o).getCodigo());
                 pst.setString(2, ((Cliente) o).getNombre());
@@ -95,9 +93,8 @@ public class Conexiones {
                 pst.setString(6, ((Cliente) o).getCorreo());
 
                 pst.executeUpdate();
-            }
-
-            if (o.getClass() == Pedido.class.getClass()) {
+                pst.close();
+            } else if (o.getClass() == Pedido.class) {
                 PreparedStatement pst = con.prepareStatement("insert into pedido values (?,?,?,?,?,?,?)");
                 pst.setInt(1, ((Pedido) o).getCodigo());
                 pst.setInt(2, ((Pedido) o).getCodigoVendedor());
@@ -108,9 +105,8 @@ public class Conexiones {
                 pst.setDouble(7, ((Pedido) o).getImporte());
 
                 pst.executeUpdate();
-            }
-
-            if (o.getClass() == LineaPedido.class.getClass()) {
+                pst.close();
+            } else if (o.getClass() == LineaPedido.class) {
                 PreparedStatement pst = con.prepareStatement("insert into pedido values (?,?,?,?)");
                 pst.setInt(1, ((LineaPedido) o).getCodigoPedido());
                 pst.setInt(2, ((LineaPedido) o).getCodigoProducto());
@@ -118,7 +114,12 @@ public class Conexiones {
                 pst.setDouble(4, ((LineaPedido) o).getSubTotal());
 
                 pst.executeUpdate();
+                pst.close();
+            } else {
+                System.out.println("Esa clase no existe");
             }
+
+            cierreDeConexion();
         } catch (SQLException ex) {
             Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -135,37 +136,38 @@ public class Conexiones {
                 pst.setInt(1, codigo);
                 ResultSet rs = pst.executeQuery();
                 existe = rs.next();
-                cierreDeConexion();
-            }
-            if (clase == 2) {
+                pst.close();
+
+            } else if (clase == 2) {
                 PreparedStatement pst = con.prepareStatement("select codigo from producto where codigo=? ");
                 pst.setInt(1, codigo);
                 ResultSet rs = pst.executeQuery();
                 existe = rs.next();
-                cierreDeConexion();
-            }
-            if (clase == 3) {
+                pst.close();
+            } else if (clase == 3) {
                 PreparedStatement pst = con.prepareStatement("select codigo from vendedor where codigo=? ");
                 pst.setInt(1, codigo);
                 ResultSet rs = pst.executeQuery();
                 existe = rs.next();
-                cierreDeConexion();
-            }
-            if (clase == 4) {
+                pst.close();
+
+            } else if (clase == 4) {
                 PreparedStatement pst = con.prepareStatement("select codigo from cliente where codigo=? ");
                 pst.setInt(1, codigo);
                 ResultSet rs = pst.executeQuery();
                 existe = rs.next();
-                cierreDeConexion();
-            }
-            if (clase == 5) {
+                pst.close();
+            } else if (clase == 5) {
                 PreparedStatement pst = con.prepareStatement("select codigo from pedido where codigo=? ");
                 pst.setInt(1, codigo);
                 ResultSet rs = pst.executeQuery();
                 existe = rs.next();
-                cierreDeConexion();
+                pst.close();
+            } else {
+                System.out.println("Esa clase no existe");
             }
 
+            cierreDeConexion();
         } catch (SQLException ex) {
             Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -176,8 +178,8 @@ public class Conexiones {
     public static boolean verificarExistenciaLineaPedido(int codPed, int codPro) {
         boolean existe = false;
         try {
-         conexionEstablecida();
-            PreparedStatement pst = con.prepareStatement("select codigo from lineaPedido where codigoPedido=? and codigoProducto=? ");
+            conexionEstablecida();
+            PreparedStatement pst = con.prepareStatement("select codigoPedido, codigoProducto from lineaPedido where codigoPedido=? and codigoProducto=? ");
             pst.setInt(1, codPed);
             pst.setInt(2, codPro);
             ResultSet rs = pst.executeQuery();
@@ -195,6 +197,7 @@ public class Conexiones {
     public static void actualizarFila(int clase, int codigo) {
 
         try {
+            conexionEstablecida();
             if (clase == 1) {
                 System.out.println("INSERTA NUEVO NOMBRE DEL FABRICANTE");
                 String nombreFabri = teclado.nextLine();
@@ -216,9 +219,8 @@ public class Conexiones {
                 pst.setString(5, sitioWebFabri);
                 pst.setInt(6, codigo);
                 pst.executeUpdate();
-            }
-
-            if (clase == 2) {
+                pst.close();
+            } else if (clase == 2) {
 
                 System.out.println("INSERTA NUEVO CODIGO DEL FABRICANTE");
                 int codidoFab = teclado.nextInt();
@@ -241,9 +243,8 @@ public class Conexiones {
                 pst.setDouble(5, precioVenta);
                 pst.setInt(6, codigo);
                 pst.executeUpdate();
-            }
-
-            if (clase == 3) {
+                pst.close();
+            } else if (clase == 3) {
 
                 System.out.println("INSERTA NUEVO NOMBRE DEL VENDEDOR");
                 String nombreVen = teclado.nextLine();
@@ -266,9 +267,8 @@ public class Conexiones {
                 pst.setDouble(5, porcentajeVen);
                 pst.setInt(6, codigo);
                 pst.executeUpdate();
-            }
-
-            if (clase == 4) {
+                pst.close();
+            } else if (clase == 4) {
 
                 System.out.println("INSERTA NUEVO  NOMBRE DEL CLIENTE");
                 String nombreCli = teclado.nextLine();
@@ -291,9 +291,8 @@ public class Conexiones {
                 pst.setString(5, correoCli);
                 pst.setInt(6, codigo);
                 pst.executeUpdate();
-            }
-
-            if (clase == 5) {
+                pst.close();
+            } else if (clase == 5) {
 
                 System.out.println("INSERTA NUEVO CODIGO DEL VENDEDOR");
                 int codigoVen = teclado.nextInt();
@@ -319,8 +318,11 @@ public class Conexiones {
                 pst.setDouble(6, importe);
                 pst.setInt(7, codigo);
                 pst.executeUpdate();
+                pst.close();
+            } else {
+                System.out.println("Clase no encontrada");
             }
-
+            cierreDeConexion();
         } catch (SQLException ex) {
             Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -341,7 +343,7 @@ public class Conexiones {
             pst.setInt(4, codigoped);
             pst.executeUpdate();
             pst.close();
-             cierreDeConexion();
+            cierreDeConexion();
         } catch (SQLException ex) {
             Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -355,39 +357,33 @@ public class Conexiones {
                 PreparedStatement pst = con.prepareStatement("delete from fabricante where codigo=?");
                 pst.setInt(1, codigo);
                 pst.executeUpdate();
-                cierreDeConexion();
-            }
-
-            if (clase == 2) {
+                pst.close();
+            } else if (clase == 2) {
                 PreparedStatement pst = con.prepareStatement("delete from producto  where codigo=? ");
                 pst.setInt(1, codigo);
                 pst.executeUpdate();
-                cierreDeConexion();
-            }
-
-            if (clase == 3) {
+                pst.close();
+            } else if (clase == 3) {
                 PreparedStatement pst = con.prepareStatement("delete from vendedor where codigo=? ");
                 pst.setInt(1, codigo);
                 pst.executeUpdate();
-                cierreDeConexion();
-            }
-
-            if (clase == 4) {
+                pst.close();
+            } else if (clase == 4) {
                 PreparedStatement pst = con.prepareStatement("delete from cliente where codigo=? ");
 
                 pst.setInt(1, codigo);
                 pst.executeUpdate();
-                cierreDeConexion();
-            }
-
-            if (clase == 5) {
+                pst.close();
+            } else if (clase == 5) {
                 PreparedStatement pst = con.prepareStatement("delete from pedido where codigo=? ");
 
                 pst.setInt(1, codigo);
                 pst.executeUpdate();
-                cierreDeConexion();
+                pst.close();
+            } else {
+                System.out.println("Clase no encontrada");
             }
-
+            cierreDeConexion();
         } catch (SQLException ex) {
             Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -395,7 +391,7 @@ public class Conexiones {
 
     public static void eliminarLineaPedido(int codPed, int codPro) {
         try {
-
+            conexionEstablecida();
             PreparedStatement pst = con.prepareStatement("delete from lineaPedido  where codigoPedido=? and codigoProducto ");
 
             pst.setInt(1, codPed);
@@ -416,37 +412,29 @@ public class Conexiones {
                 PreparedStatement pst = con.prepareStatement("select * from fabricante where codigo=?");
                 pst.setInt(1, codigo);
                 pst.executeUpdate();
-                cierreDeConexion();
-            }
-
-            if (clase == 2) {
+                pst.close();
+            } else if (clase == 2) {
                 PreparedStatement pst = con.prepareStatement("select * from producto  where codigo=? ");
                 pst.setInt(1, codigo);
                 pst.executeUpdate();
-                cierreDeConexion();
-            }
-
-            if (clase == 3) {
+                pst.close();
+            } else if (clase == 3) {
                 PreparedStatement pst = con.prepareStatement("select * from vendedor where codigo=? ");
                 pst.setInt(1, codigo);
                 pst.executeUpdate();
-                cierreDeConexion();
-            }
-
-            if (clase == 4) {
+                pst.close();
+            } else if (clase == 4) {
                 PreparedStatement pst = con.prepareStatement("select * from cliente where codigo=? ");
-
                 pst.setInt(1, codigo);
                 pst.executeUpdate();
-                cierreDeConexion();
-            }
-
-            if (clase == 5) {
+                pst.close();
+            } else if (clase == 5) {
                 PreparedStatement pst = con.prepareStatement("select * from pedido where codigo=? ");
-
                 pst.setInt(1, codigo);
                 pst.executeUpdate();
-                cierreDeConexion();
+                pst.close();
+            } else {
+                System.out.println("Clase no encontrada");
             }
 
         } catch (SQLException ex) {
@@ -456,12 +444,13 @@ public class Conexiones {
 
     public static void consultarLineaPedido(int codPed, int codPro) {
         try {
-
+            conexionEstablecida();
             PreparedStatement pst = con.prepareStatement("select * from lineaPedido where where codigoPedido=? and codigoProducto ");
 
             pst.setInt(1, codPed);
             pst.setInt(1, codPro);
             pst.executeUpdate();
+            pst.close();
             cierreDeConexion();
 
         } catch (SQLException ex) {
@@ -473,72 +462,66 @@ public class Conexiones {
 
         try {
             conexionEstablecida();
-            if (clase==1) {
+            if (clase == 1) {
 
                 PreparedStatement pst = con.prepareStatement("SELECT * FROM fabricante");
                 ResultSet rs = pst.executeQuery();
-                 while (rs.next()) {
+                while (rs.next()) {
                     System.out.println(
-                        "Codigo: " + rs.getInt("codigo") +
-                        " | Nombre: " + rs.getString("nombre")
+                            "Codigo: " + rs.getInt("codigo")
+                            + " | Nombre: " + rs.getString("nombre")
                     );
+                    
                 }
+                
+                pst.close();
 
-                cierreDeConexion();
-            }
-
-            if (clase == 2) {
+                
+            } else if (clase == 2) {
                 PreparedStatement pst = con.prepareStatement("select * from producto ");
                 ResultSet rs = pst.executeQuery();
                 while (rs.next()) {
-                    
-                }
-                cierreDeConexion();
-            }
 
-            if (clase == 3) {
+                }
+                pst.close();
+            } else if (clase == 3) {
                 PreparedStatement pst = con.prepareStatement("select * from vendedor ");
                 ResultSet rs = pst.executeQuery();
                 while (rs.next()) {
-                    
-                }
-                cierreDeConexion();
-            }
 
-            if (clase == 4) {
+                }
+                pst.close();
+            } else if (clase == 4) {
                 PreparedStatement pst = con.prepareStatement("select * from cliente ");
                 ResultSet rs = pst.executeQuery();
                 while (rs.next()) {
-                    
-                }
-                cierreDeConexion();
-            }
 
-            if (clase == 5) {
+                }
+                pst.close();
+            } else if (clase == 5) {
                 PreparedStatement pst = con.prepareStatement("select * from pedido ");
 
                 ResultSet rs = pst.executeQuery();
                 while (rs.next()) {
-                    
+
                 }
-                cierreDeConexion();
-            }
-            
-              if (clase == 6) {
+                pst.close();
+            } else if (clase == 6) {
                 PreparedStatement pst = con.prepareStatement("select * from lineaPedido ");
 
                 ResultSet rs = pst.executeQuery();
                 while (rs.next()) {
-                    
+
                 }
-                cierreDeConexion();
+                pst.close();
+            } else {
+                System.out.println("Clase no encontrada");
             }
 
-
+            cierreDeConexion();
         } catch (SQLException ex) {
             Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    
 }
