@@ -107,7 +107,7 @@ public class Conexiones {
                 pst.executeUpdate();
                 pst.close();
             } else if (o.getClass() == LineaPedido.class) {
-                PreparedStatement pst = con.prepareStatement("insert into pedido values (?,?,?,?)");
+                PreparedStatement pst = con.prepareStatement("insert into lineaPedido values (?,?,?,?)");
                 pst.setInt(1, ((LineaPedido) o).getCodigoPedido());
                 pst.setInt(2, ((LineaPedido) o).getCodigoProducto());
                 pst.setInt(3, ((LineaPedido) o).getUnidadesCompradas());
@@ -136,6 +136,7 @@ public class Conexiones {
                 pst.setInt(1, codigo);
                 ResultSet rs = pst.executeQuery();
                 existe = rs.next();
+                rs.close();
                 pst.close();
 
             } else if (clase == 2) {
@@ -143,12 +144,14 @@ public class Conexiones {
                 pst.setInt(1, codigo);
                 ResultSet rs = pst.executeQuery();
                 existe = rs.next();
+                rs.close();
                 pst.close();
             } else if (clase == 3) {
                 PreparedStatement pst = con.prepareStatement("select codigo from vendedor where codigo=? ");
                 pst.setInt(1, codigo);
                 ResultSet rs = pst.executeQuery();
                 existe = rs.next();
+                rs.close();
                 pst.close();
 
             } else if (clase == 4) {
@@ -156,12 +159,14 @@ public class Conexiones {
                 pst.setInt(1, codigo);
                 ResultSet rs = pst.executeQuery();
                 existe = rs.next();
+                rs.close();
                 pst.close();
             } else if (clase == 5) {
                 PreparedStatement pst = con.prepareStatement("select codigo from pedido where codigo=? ");
                 pst.setInt(1, codigo);
                 ResultSet rs = pst.executeQuery();
                 existe = rs.next();
+                rs.close();
                 pst.close();
             } else {
                 System.out.println("Esa clase no existe");
@@ -184,6 +189,8 @@ public class Conexiones {
             pst.setInt(2, codPro);
             ResultSet rs = pst.executeQuery();
             existe = rs.next();
+            rs.close();
+            pst.close();
 
             cierreDeConexion();
 
@@ -335,12 +342,13 @@ public class Conexiones {
             int unidadesCompradas = teclado.nextInt();
             System.out.println("INSERTA EL SUBTOTAL");
             double subTotal = teclado.nextDouble();
-            PreparedStatement pst = con.prepareStatement("update  lineaPedido set unidadesCompradas=?, subTotal=? where codigoPedido=? and codigoProducto ");
+            PreparedStatement pst = con.prepareStatement( "update lineaPedido set unidadesCompradas=?, subTotal=? " +
+            "where codigoPedido=? and codigoProducto=?");
 
             pst.setInt(1, unidadesCompradas);
             pst.setDouble(2, subTotal);
             pst.setInt(3, codigoped);
-            pst.setInt(4, codigoped);
+            pst.setInt(4, codpro);
             pst.executeUpdate();
             pst.close();
             cierreDeConexion();
