@@ -571,6 +571,7 @@ public class Conexiones {
                     );
 
                 }
+                rs.close();
                 pst.close();
             } else if (clase == 3) {
                 PreparedStatement pst = con.prepareStatement("select * from vendedor ");
@@ -586,6 +587,7 @@ public class Conexiones {
                     );  
 
                 }
+                rs.close();
                 pst.close();
             } else if (clase == 4) {
                 PreparedStatement pst = con.prepareStatement("select * from cliente ");
@@ -601,6 +603,7 @@ public class Conexiones {
                     );
 
                 }
+                rs.close();
                 pst.close();
             } else if (clase == 5) {
                 PreparedStatement pst = con.prepareStatement("select * from pedido ");
@@ -618,6 +621,7 @@ public class Conexiones {
                     );
 
                 }
+                rs.close();
                 pst.close();
             } else if (clase == 6) {
                 PreparedStatement pst = con.prepareStatement("select * from lineaPedido ");
@@ -632,6 +636,7 @@ public class Conexiones {
                     );
 
                 }
+                rs.close();
                 pst.close();
             } else {
                 System.out.println("Clase no encontrada");

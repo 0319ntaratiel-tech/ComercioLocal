@@ -20,7 +20,7 @@ import servicios.Conexiones;
 
 /**
  *
- * @author Natalia
+ * @author Natalia y Gabriela
  */
 public class Menu {
 
@@ -113,11 +113,11 @@ public class Menu {
                     System.out.println("INSERTA EL CODIGO DEL FABRICANTE");
                     int codigoFabri = teclado.nextInt();
                     System.out.println("INSERTA EL NOMBRE DEL FABRICANTE");
-                    String nombreFabri = teclado.nextLine();
+                    String nombreFabri = teclado.next();
                     System.out.println("INSERTA EL AÑO DE FUNDACION DEL FABRICANTE");
                     int anyoFundacionFabri = teclado.nextInt();
                     System.out.println("INSERTA EL LUGAR SEDE DEL FABRICANTE ");
-                    String lugarSedeFabri = teclado.nextLine();
+                    String lugarSedeFabri = teclado.next();
                     System.out.println("INSERTA EL EL NUMERO DE EMPLEADOS DEL FABRICANTE");
                     int empleadosFabri = teclado.nextInt();
                     System.out.println("INSERTA EL SITIO WEB DEL FABRICANTE");
@@ -504,6 +504,7 @@ public class Menu {
                     boolean existeEF = Conexiones.verificarExistenciaCodigo(2, codigoProEF);
                     if (existeEF == true) {
                         Conexiones.eliminarFila(2, codigoProEF);
+                        System.out.println("PRODUCTO ELIMINADO");
                     } else {
                         System.out.println("NO EXISTE EL CODIGO INGRESADO");
                     }
@@ -512,7 +513,7 @@ public class Menu {
                     break;
 
                 case 4:
-                    System.out.println("INSERTAR CODIGO PARA CONSULTAR UNA FILA");
+                    System.out.println("INSERTAR CODIGO PARA CONSULTAR UN PRODUCTO");
                     int codigoProCF = teclado.nextInt();
                     boolean existeCF = Conexiones.verificarExistenciaCodigo(2, codigoProCF);
                     if (existeCF == true) {
@@ -606,7 +607,7 @@ public class Menu {
                     break;
 
                 case 2:
-                    System.out.println("INSERTAR CODIGO PARA ACTUALIZAR FILA");
+                    System.out.println("INSERTAR CODIGO PARA ACTUALIZAR UN PEDIDO");
                     int codigoPedFi = teclado.nextInt();
                     boolean existe = Conexiones.verificarExistenciaCodigo(5, codigoPedFi);
                     if (existe == true) {
@@ -618,15 +619,32 @@ public class Menu {
                     break;
 
                 case 3:
-
+                    System.out.println("INSERTAR CODIGO PARA ELIMINAR UN PEDIDO");
+                    int codigoPedEF = teclado.nextInt();
+                    boolean existeEF = Conexiones.verificarExistenciaCodigo(5, codigoPedEF);
+                    if (existeEF == true) {
+                        Conexiones.actualizarFila(5, codigoPedEF);
+                        System.out.println("PEDIDO ELIMINADO");
+                    } else {
+                        System.out.println("NO EXISTE EL CODIGO INGRESADO");
+                    }
                     break;
 
                 case 4:
-
+                 System.out.println("INSERTAR CODIGO PARA CONSULTAR UN PEDIDO");
+                    int codigoPedCP = teclado.nextInt();
+                    boolean existeCP = Conexiones.verificarExistenciaCodigo(5, codigoPedCP);
+                    if (existeCP == true) {
+                        Conexiones.actualizarFila(5, codigoPedCP);
+                        
+                    } else {
+                        System.out.println("NO EXISTE EL CODIGO INGRESADO");
+                    }
                     break;
 
                 case 5:
-
+                    System.out.println("DATOS DE TODOS LOS PEDIDOS");
+                    Conexiones.consultarTodasFila(5);
                     break;
 
                 case 6:
@@ -703,8 +721,10 @@ public class Menu {
                 case 2:
                     System.out.println("INSERTAR CODIGO DE PEDIDO Y CODIGO DE PRODUCTO PARA ACTUALIZAR");
                     System.out.print("PEDIDO:");
+                    
                     int codigoPedFi = teclado.nextInt();
                     System.out.print("PRODUCTO:");
+                    
                     int codigoProFi = teclado.nextInt();
                     boolean existe = Conexiones.verificarExistenciaLineaPedido(codigoPedFi, codigoPedFi);
                     if (existe == true) {
@@ -716,14 +736,15 @@ public class Menu {
                     break;
 
                 case 3:
-                    System.out.println("INSERTAR CODIGO DE PEDIDO Y CODIGO DE PRODUCTO PARA ACTUALIZAR");
+                    System.out.println("INSERTAR CODIGO DE PEDIDO Y CODIGO DE PRODUCTO PARA ELIMINAR LINEA DE PEDIDO");
                     System.out.print("PEDIDO:");
                     int codigoPedE = teclado.nextInt();
                     System.out.print("PRODUCTO:");
                     int codigoProE = teclado.nextInt();
-                    boolean existeE = Conexiones.verificarExistenciaLineaPedido(codigoPedE, codigoPedE);
+                    boolean existeE = Conexiones.verificarExistenciaLineaPedido(codigoPedE, codigoProE);
                     if (existeE == true) {
                         Conexiones.eliminarLineaPedido(codigoPedE, codigoProE);
+                        System.out.println("LINEA DE PEDIDO ELIMINADA");
                     } else {
                         System.out.println("NO EXISTE LA LINEA DE PEDIDO INGRESADA");
                     }
@@ -731,10 +752,22 @@ public class Menu {
                     break;
 
                 case 4:
-
+                   System.out.println("INSERTAR CODIGO DE PEDIDO Y CODIGO DE PRODUCTO PARA CONSULTAR UNA LINEA DE PEDIDO");
+                    System.out.print("PEDIDO:");
+                    int codigoPedCC = teclado.nextInt();
+                    System.out.print("PRODUCTO:");
+                    int codigoProECC = teclado.nextInt();
+                    boolean existeECC = Conexiones.verificarExistenciaLineaPedido(codigoPedCC, codigoProECC);
+                    if (existeECC == true) {
+                        Conexiones.eliminarLineaPedido(codigoPedCC, codigoProECC);
+                    } else {
+                        System.out.println("NO EXISTE LA LINEA DE PEDIDO INGRESADA");
+                    }
                     break;
 
                 case 5:
+                    System.out.println("DATOS DE LINEAS DE PEDIDO");
+                    Conexiones.consultarTodasFila(6);
 
                     break;
 
