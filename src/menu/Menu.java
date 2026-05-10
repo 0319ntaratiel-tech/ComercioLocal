@@ -112,14 +112,17 @@ public class Menu {
 
                     System.out.println("INSERTA EL CODIGO DEL FABRICANTE");
                     int codigoFabri = teclado.nextInt();
+                    teclado.nextLine();
                     System.out.println("INSERTA EL NOMBRE DEL FABRICANTE");
-                    String nombreFabri = teclado.next();
+                    String nombreFabri = teclado.nextLine();
                     System.out.println("INSERTA EL AÑO DE FUNDACION DEL FABRICANTE");
                     int anyoFundacionFabri = teclado.nextInt();
+                    teclado.nextLine();
                     System.out.println("INSERTA EL LUGAR SEDE DEL FABRICANTE ");
-                    String lugarSedeFabri = teclado.next();
+                    String lugarSedeFabri = teclado.nextLine();
                     System.out.println("INSERTA EL EL NUMERO DE EMPLEADOS DEL FABRICANTE");
                     int empleadosFabri = teclado.nextInt();
+                    teclado.nextLine();
                     System.out.println("INSERTA EL SITIO WEB DEL FABRICANTE");
                     String sitioWebFabri = teclado.next();
 
@@ -133,6 +136,7 @@ public class Menu {
 
                     System.out.println("INSERTAR CODIGO PARA ACTUALIZAR UN FABRICANTE");
                     int codigoFabri1 = teclado.nextInt();
+                    teclado.nextLine();
                     boolean existeFA = Conexiones.verificarExistenciaCodigo(1, codigoFabri1);
                     if (existeFA == true) {
                         Conexiones.actualizarFila(1, codigoFabri1);
@@ -146,6 +150,7 @@ public class Menu {
                 case 3:
                     System.out.println("INSERTAR CODIGO PARA ELIMINAR UN FABRICANTE");
                     int codigoFabrEli = teclado.nextInt();
+                    teclado.nextLine();
                     boolean existeEF = Conexiones.verificarExistenciaCodigo(1, codigoFabrEli);
                     if (existeEF == true) {
                         Conexiones.eliminarFila(1, codigoFabrEli);
@@ -159,6 +164,7 @@ public class Menu {
                 case 4:
                     System.out.println("INSERTAR CODIGO PARA CONSULTAR UN FABRICANTE");
                     int codigoFabrB = teclado.nextInt();
+                    teclado.nextLine();
                     boolean existeBf = Conexiones.verificarExistenciaCodigo(1, codigoFabrB);
                     if (existeBf == true) {
                         Conexiones.consultarFila(1, codigoFabrB);
@@ -233,6 +239,7 @@ public class Menu {
 
                     System.out.println("INSERTA EL CODIGO DEL CLIENTE");
                     int codigoCli = teclado.nextInt();
+                    teclado.nextLine();
                     System.out.println("INSERTA EL NOMBRE DEL CLIENTE");
                     String nombreCli = teclado.nextLine();
                     System.out.println("INSERTA LA FECHA DE NACIMIENTO DEL CLIENTE");
@@ -240,9 +247,9 @@ public class Menu {
                     System.out.println("INSERTA LA DIRECCION DE ENVIO DEL CLIENTE");
                     String direccionEnvio = teclado.nextLine();
                     System.out.println("INSERTA EL TELEFONO DEL CLIENTE");
-                    String telCliente = teclado.next();
+                    String telCliente = teclado.nextLine();
                     System.out.println("INSERTA EL CORREO DEL CLIENTE");
-                    String correoCli = teclado.next();
+                    String correoCli = teclado.nextLine();
 
                     Cliente c1 = new Cliente(codigoCli, nombreCli, fechaNacimiento, direccionEnvio, telCliente, correoCli);
 
@@ -253,6 +260,7 @@ public class Menu {
                 case 2:
                     System.out.println("INSERTAR CODIGO PARA ACTUALIZAR CLIENTE");
                     int codigoCliFi = teclado.nextInt();
+                    teclado.nextLine();
                     boolean existe = Conexiones.verificarExistenciaCodigo(4, codigoCliFi);
                     if (existe == true) {
                         Conexiones.actualizarFila(4, codigoCliFi);
@@ -266,6 +274,7 @@ public class Menu {
                 case 3:
                     System.out.println("INSERTAR CODIGO PARA ELIMINAR UN CLIENTE");
                     int codigoCliEF = teclado.nextInt();
+                    teclado.nextLine();
                     boolean existeEF = Conexiones.verificarExistenciaCodigo(4, codigoCliEF);
                     if (existeEF == true) {
                         Conexiones.actualizarFila(4, codigoCliEF);
@@ -279,6 +288,7 @@ public class Menu {
                 case 4:
                     System.out.println("INSERTAR CODIGO PARA CONSULTAR UN CLIENTE");
                     int codigoCliCC = teclado.nextInt();
+                    teclado.nextLine();
                     boolean existeCC = Conexiones.verificarExistenciaCodigo(4, codigoCliCC);
                     if (existeCC == true) {
                         Conexiones.consultarFila(4, codigoCliCC);
@@ -351,6 +361,7 @@ public class Menu {
 
                     System.out.println("INSERTA EL CODIGO DEL VENDEDOR");
                     int codigoVen = teclado.nextInt();
+                    teclado.nextLine();
                     System.out.println("INSERTA EL NOMBRE DEL VENDEDOR");
                     String nombreVen = teclado.nextLine();
                     System.out.println("INSERTA LA FECHA DE ALTA DEL VENDEDOR");
@@ -359,8 +370,10 @@ public class Menu {
                     String domicilioVen = teclado.nextLine();
                     System.out.println("INSERTA EL SALARIO DEL VENDEDOR");
                     double salarioVen = teclado.nextDouble();
+                    teclado.nextLine();
                     System.out.println("INSERTA EL PORCENTAJE DEL VENDEDOR");
                     double porcentajeVen = teclado.nextDouble();
+                    teclado.nextLine();
 
                     Vendedor ven = new Vendedor(codigoVen, nombreVen, fechaAltaVen, domicilioVen, salarioVen, porcentajeVen);
 
@@ -370,6 +383,7 @@ public class Menu {
                 case 2:
                     System.out.println("INSERTAR CODIGO PARA ACTUALIZAR UN VENDEDOR");
                     int codigoVenFi = teclado.nextInt();
+                    teclado.nextLine();
                     boolean existe = Conexiones.verificarExistenciaCodigo(3, codigoVenFi);
                     if (existe == true) {
                         Conexiones.actualizarFila(3, codigoVenFi);
@@ -383,6 +397,7 @@ public class Menu {
                 case 3:
                     System.out.println("INSERTAR CODIGO PARA ELIMINAR UN VENDEDOR");
                     int codigoVenEF = teclado.nextInt();
+                    teclado.nextLine();
                     boolean existeEF = Conexiones.verificarExistenciaCodigo(3, codigoVenEF);
                     if (existeEF == true) {
                         Conexiones.eliminarFila(3, codigoVenEF);
@@ -396,6 +411,7 @@ public class Menu {
                 case 4:
                     System.out.println("INSERTAR CODIGO PARA CONSULTAR UN VENDEDOR");
                     int codigoVenCF = teclado.nextInt();
+                    teclado.nextLine();
                     boolean existeCF = Conexiones.verificarExistenciaCodigo(3, codigoVenCF);
                     if ( existeCF == true) {
                         Conexiones.consultarFila(3, codigoVenCF);
@@ -469,17 +485,21 @@ public class Menu {
 
                     System.out.println("INSERTA EL CODIGO DEL PRODUCTO");
                     int codigoPro = teclado.nextInt();
+                    teclado.nextLine();
                     System.out.println("INSERTA EL CODIGO DEL FABRICANTE");
                     int codidoFab = teclado.nextInt();
+                    teclado.nextLine();
                     // Verificar codigo 
                     System.out.println("INSERTA EL NOMBRE DEL PRODUCTO");
                     String nombre = teclado.nextLine();
                     System.out.println("INSERTA LA CATEGORIA DEL PRODUCTO");
                     String categoria = teclado.nextLine();
                     System.out.println("INSERTA LA DISPONIBILIDAD DEL PRODUCTO");
-                    String disponibilidad = teclado.next();
+                    String disponibilidad = teclado.nextLine();
+                    //Verificar
                     System.out.println("INSERTA EL PRECIO DE VENTA DEL PRODUCTO");
                     double precioVenta = teclado.nextDouble();
+                    teclado.nextLine();
 
                     Producto p1 = new Producto(codigoPro, codidoFab, nombre, categoria, disponibilidad, precioVenta);
 
@@ -501,6 +521,7 @@ public class Menu {
                 case 3:
                      System.out.println("INSERTAR CODIGO PARA ELIMINAR UN PRODUCTO");
                     int codigoProEF = teclado.nextInt();
+                    teclado.nextLine();
                     boolean existeEF = Conexiones.verificarExistenciaCodigo(2, codigoProEF);
                     if (existeEF == true) {
                         Conexiones.eliminarFila(2, codigoProEF);
@@ -515,6 +536,7 @@ public class Menu {
                 case 4:
                     System.out.println("INSERTAR CODIGO PARA CONSULTAR UN PRODUCTO");
                     int codigoProCF = teclado.nextInt();
+                    teclado.nextLine();
                     boolean existeCF = Conexiones.verificarExistenciaCodigo(2, codigoProCF);
                     if (existeCF == true) {
                         Conexiones.consultarFila(2, codigoProCF);
@@ -588,12 +610,16 @@ public class Menu {
 
                     System.out.println("INSERTA EL CODIGO DEL PEDIDO");
                     int codigoPed = teclado.nextInt();
+                    teclado.nextLine();
                     System.out.println("INSERTA EL CODIGO DEL VENDEDOR");
                     int codigoVen = teclado.nextInt();
+                    teclado.nextLine();//Verificar
                     System.out.println("INSERTA EL CODIGO DEL CLIENTE");
                     int codigoCli = teclado.nextInt();
+                    teclado.nextLine();//Verificar
                     System.out.println("INSERTA LA FECHA DE REALIZACION DEL PEDIDO");
                     String fechaRea = teclado.next();
+                    teclado.nextLine();
                     System.out.println("INSERTA LA FECHA DE ENTREGA DEL PEDIDO");
                     String fechaEnt = teclado.next();
                     System.out.println("INSERTA EL ESTADO DEL PEDIDO");
@@ -608,6 +634,7 @@ public class Menu {
                 case 2:
                     System.out.println("INSERTAR CODIGO PARA ACTUALIZAR UN PEDIDO");
                     int codigoPedFi = teclado.nextInt();
+                    teclado.nextLine();
                     boolean existe = Conexiones.verificarExistenciaCodigo(5, codigoPedFi);
                     if (existe == true) {
                         Conexiones.actualizarFila(5, codigoPedFi);
@@ -620,6 +647,7 @@ public class Menu {
                 case 3:
                     System.out.println("INSERTAR CODIGO PARA ELIMINAR UN PEDIDO");
                     int codigoPedEF = teclado.nextInt();
+                    teclado.nextLine();
                     boolean existeEF = Conexiones.verificarExistenciaCodigo(5, codigoPedEF);
                     if (existeEF == true) {
                         Conexiones.actualizarFila(5, codigoPedEF);
@@ -632,6 +660,7 @@ public class Menu {
                 case 4:
                  System.out.println("INSERTAR CODIGO PARA CONSULTAR UN PEDIDO");
                     int codigoPedCP = teclado.nextInt();
+                    teclado.nextLine();
                     boolean existeCP = Conexiones.verificarExistenciaCodigo(5, codigoPedCP);
                     if (existeCP == true) {
                         Conexiones.actualizarFila(5, codigoPedCP);
@@ -704,10 +733,13 @@ public class Menu {
 
                     System.out.println("INSERTA EL CODIGO DEL PEDIDO");
                     int codigoPed = teclado.nextInt();
+                    teclado.nextLine();
                     System.out.println("INSERTA EL CODIGO DEL PRODUCTO");
                     int codigoPro = teclado.nextInt();
+                    teclado.nextLine();
                     System.out.println("INSERTA LAS UNIDADES COMPRADAS");
                     int unidadesCompradas = teclado.nextInt();
+                    teclado.nextLine();
                     
 
                     LineaPedido lp = new LineaPedido(codigoPed, codigoPro, unidadesCompradas);
@@ -718,12 +750,14 @@ public class Menu {
 
                 case 2:
                     System.out.println("INSERTAR CODIGO DE PEDIDO Y CODIGO DE PRODUCTO PARA ACTUALIZAR");
-                    System.out.print("PEDIDO:");
-                    
+                    System.out.print("PEDIDO:"); 
                     int codigoPedFi = teclado.nextInt();
-                    System.out.print("PRODUCTO:");
+                    teclado.nextLine();
                     
+                    System.out.print("PRODUCTO:");
                     int codigoProFi = teclado.nextInt();
+                    teclado.nextLine();
+                    
                     boolean existe = Conexiones.verificarExistenciaLineaPedido(codigoPedFi, codigoPedFi);
                     if (existe == true) {
                         Conexiones.actualizarLineaPedido(codigoPedFi, codigoProFi);
@@ -737,8 +771,10 @@ public class Menu {
                     System.out.println("INSERTAR CODIGO DE PEDIDO Y CODIGO DE PRODUCTO PARA ELIMINAR LINEA DE PEDIDO");
                     System.out.print("PEDIDO:");
                     int codigoPedE = teclado.nextInt();
+                    teclado.nextLine();
                     System.out.print("PRODUCTO:");
                     int codigoProE = teclado.nextInt();
+                    teclado.nextLine();
                     boolean existeE = Conexiones.verificarExistenciaLineaPedido(codigoPedE, codigoProE);
                     if (existeE == true) {
                         Conexiones.eliminarLineaPedido(codigoPedE, codigoProE);
@@ -753,8 +789,10 @@ public class Menu {
                    System.out.println("INSERTAR CODIGO DE PEDIDO Y CODIGO DE PRODUCTO PARA CONSULTAR UNA LINEA DE PEDIDO");
                     System.out.print("PEDIDO:");
                     int codigoPedCC = teclado.nextInt();
+                    teclado.nextLine();
                     System.out.print("PRODUCTO:");
                     int codigoProECC = teclado.nextInt();
+                    teclado.nextLine();
                     boolean existeECC = Conexiones.verificarExistenciaLineaPedido(codigoPedCC, codigoProECC);
                     if (existeECC == true) {
                         Conexiones.eliminarLineaPedido(codigoPedCC, codigoProECC);

@@ -27,6 +27,9 @@ public class Conexiones {
 
     private static Connection con;
 
+    /**
+     * Metodo para establecer la conexion con la base de datos
+     */
     public static void conexionEstablecida() {
         try {
             con = DriverManager.getConnection(Configuracion.url, Configuracion.user, Configuracion.password);
@@ -37,6 +40,9 @@ public class Conexiones {
         }
     }
 
+    /**
+     * Metodo para cerrar la conexion con la base de datos 
+     */
     public static void cierreDeConexion() {
         try {
             con.close();
@@ -46,34 +52,53 @@ public class Conexiones {
         }
     }
 
+    /**
+     * Metodo para insertar datos en la base de datos dependiendo 
+     * del tipo de objeto que se recibe por parametro se insertan los datos en cada tabla correspondiente
+     * @param o objeto que se inserta en la BD
+     */
     public static void insertarDatos(Object o) {
         try {
+            
+            //Establece la conexion con la base de datos
             conexionEstablecida();
+            
+             /*Se verifica que el tipo de objeto que recibe  y dependiendo del  objeto se realiaza una 
+             sentencia diferente para la BD*/
+             
             if (o.getClass() == Fabricante.class) {
-
+                
+                //Si el objeto es de tipo fabricante, se inserta en la tabla fabricante
                 PreparedStatement pst = con.prepareStatement("insert into fabricante values (?,?,?,?,?,?)");
+                //Se asignan los valores a la sentencia
                 pst.setInt(1, ((Fabricante) o).getCodigo());
                 pst.setString(2, ((Fabricante) o).getNombre());
                 pst.setInt(3, ((Fabricante) o).getAnyoFundacion());
                 pst.setString(4, ((Fabricante) o).getLugarSede());
                 pst.setInt(5, ((Fabricante) o).getEmpleados());
                 pst.setString(6, ((Fabricante) o).getSitioWeb());
-
+                //Se ejecuta la insercion en la BD 
                 pst.executeUpdate();
                 pst.close();
+                
             } else if (o.getClass() == Producto.class) {
+                //Si el objeto es de tipo producto, se inserta en la tabla producto
                 PreparedStatement pst = con.prepareStatement("insert into producto values (?,?,?,?,?,?)");
+                //Se asignan los valores a la sentencia
                 pst.setInt(1, ((Producto) o).getCodigo());
                 pst.setInt(2, ((Producto) o).getCodigoFabricante());
                 pst.setString(3, ((Producto) o).getNombre());
                 pst.setString(4, ((Producto) o).getCategoria());
                 pst.setString(5, ((Producto) o).getDisponibilidad());
                 pst.setDouble(6, ((Producto) o).getPrecioVenta());
-
+               //Se ejecuta la insercion en la BD 
                 pst.executeUpdate();
                 pst.close();
+                
             } else if (o.getClass() == Vendedor.class) {
+                //Si el objeto es de tipo vendedor, se inserta en la tabla vendedor
                 PreparedStatement pst = con.prepareStatement("insert into vendedor values (?,?,?,?,?,?)");
+                //Se asignan los valores a la sentencia
                 pst.setInt(1, ((Vendedor) o).getCodigo());
                 pst.setString(2, ((Vendedor) o).getNombre());
                 pst.setString(3, ((Vendedor) o).getFechaAlta());
@@ -81,10 +106,13 @@ public class Conexiones {
                 pst.setDouble(5, ((Vendedor) o).getSalario());
                 pst.setDouble(6, ((Vendedor) o).getPorcentaje());
 
-                pst.executeUpdate();
+                pst.executeUpdate();//Se ejecuta la insercion en la BD 
                 pst.close();
+                
             } else if (o.getClass() == Cliente.class) {
+                //Si el objeto es de tipo cliente, se inserta en la tabla cliente
                 PreparedStatement pst = con.prepareStatement("insert into cliente values (?,?,?,?,?,?)");
+                //Se asignan los valores a la sentencia
                 pst.setInt(1, ((Cliente) o).getCodigo());
                 pst.setString(2, ((Cliente) o).getNombre());
                 pst.setString(3, ((Cliente) o).getFechaNacimiento());
@@ -92,10 +120,13 @@ public class Conexiones {
                 pst.setString(5, ((Cliente) o).getTelefono());
                 pst.setString(6, ((Cliente) o).getCorreo());
 
-                pst.executeUpdate();
+                pst.executeUpdate();//Se ejecuta la insercion en la BD 
                 pst.close();
+                
             } else if (o.getClass() == Pedido.class) {
+                //Si el objeto es de tipo pedido, se inserta en la tabla pedido
                 PreparedStatement pst = con.prepareStatement("insert into pedido values (?,?,?,?,?,?)");
+                //Se asignan los valores a la sentencia
                 pst.setInt(1, ((Pedido) o).getCodigo());
                 pst.setInt(2, ((Pedido) o).getCodigoVendedor());
                 pst.setInt(3, ((Pedido) o).getCodigoCliente());
@@ -104,16 +135,19 @@ public class Conexiones {
                 pst.setString(6, ((Pedido) o).getEstado());
                
 
-                pst.executeUpdate();
+                pst.executeUpdate();//Se ejecuta la insercion en la BD 
                 pst.close();
+                
             } else if (o.getClass() == LineaPedido.class) {
+                //Si el objeto es de tipo LineaPedido, se inserta en la tabla LineaPedido
                 PreparedStatement pst = con.prepareStatement("insert into lineaPedido values (?,?,?,?)");
+                //Se asignan los valores a la sentencia
                 pst.setInt(1, ((LineaPedido) o).getCodigoPedido());
                 pst.setInt(2, ((LineaPedido) o).getCodigoProducto());
                 pst.setInt(3, ((LineaPedido) o).getUnidadesCompradas());
                 pst.setDouble(4, ((LineaPedido) o).calcularSubTotal());
 
-                pst.executeUpdate();
+                pst.executeUpdate();//Se ejecuta la insercion en la BD 
                 pst.close();
             } else {
                 System.out.println("Esa clase no existe");
@@ -126,27 +160,41 @@ public class Conexiones {
 
     }
 
+    /**
+     * Metodo para verifica si un código existe en la base de datos según la clase indicada, estableciendo la conexión y
+     * consultando la tabla correspondiente
+     * @param clase tipo de clase que le indico
+     * @param codigo codigo por el cual se va buscar en la BD
+     * @return true si el codigo existe, false si no existe
+     */
     public static boolean verificarExistenciaCodigo(int clase, int codigo) {
         boolean existe = false;
 
         try {
+            //Se establece la conexion con la base de datos
             conexionEstablecida();
-            if (clase == 1) {
+            
+            if (clase == 1) { //Si la clase es 1, se trata de un fabricante
+                
+                //Consulta para comparar el codigo recibido por parametro, se encuentra en la BD 
                 PreparedStatement pst = con.prepareStatement("select codigo from fabricante where codigo=? ");
+                //Asignamos valores a la consulta
                 pst.setInt(1, codigo);
+                //Se ejecuta la consulta y el resultado se guardar en rs
                 ResultSet rs = pst.executeQuery();
+                //Si devuelve 1 o mas de 1 resultado es porque el codigo existe en la BD 
                 existe = rs.next();
                 rs.close();
                 pst.close();
 
-            } else if (clase == 2) {
+            } else if (clase == 2) {//Si la clase es 2, se trata de un producto
                 PreparedStatement pst = con.prepareStatement("select codigo from producto where codigo=? ");
                 pst.setInt(1, codigo);
                 ResultSet rs = pst.executeQuery();
                 existe = rs.next();
                 rs.close();
                 pst.close();
-            } else if (clase == 3) {
+            } else if (clase == 3) {//Si la clase es 3, se trata de un vendedor
                 PreparedStatement pst = con.prepareStatement("select codigo from vendedor where codigo=? ");
                 pst.setInt(1, codigo);
                 ResultSet rs = pst.executeQuery();
@@ -154,14 +202,14 @@ public class Conexiones {
                 rs.close();
                 pst.close();
 
-            } else if (clase == 4) {
+            } else if (clase == 4) {//Si la clase es 4, se trata de un cliente
                 PreparedStatement pst = con.prepareStatement("select codigo from cliente where codigo=? ");
                 pst.setInt(1, codigo);
                 ResultSet rs = pst.executeQuery();
                 existe = rs.next();
                 rs.close();
                 pst.close();
-            } else if (clase == 5) {
+            } else if (clase == 5) {//Si la clase es 5, se trata de un pedido
                 PreparedStatement pst = con.prepareStatement("select codigo from pedido where codigo=? ");
                 pst.setInt(1, codigo);
                 ResultSet rs = pst.executeQuery();
@@ -210,10 +258,12 @@ public class Conexiones {
                 String nombreFabri = teclado.nextLine();
                 System.out.println("INSERTA NUEVO AÑO DE FUNDACION DEL FABRICANTE");
                 int anyoFundacionFabri = teclado.nextInt();
+                teclado.nextLine();
                 System.out.println("INSERTA NUEVO LUGAR SEDE DEL FABRICANTE ");
                 String lugarSedeFabri = teclado.nextLine();
                 System.out.println("INSERTA NUEVO NUMERO DE EMPLEADOS DEL FABRICANTE");
                 int empleadosFabri = teclado.nextInt();
+                teclado.nextLine();
                 System.out.println("INSERTA NUEVO SITIO WEB DEL FABRICANTE");
                 String sitioWebFabri = teclado.next();
 
@@ -231,14 +281,16 @@ public class Conexiones {
 
                 System.out.println("INSERTA NUEVO CODIGO DEL FABRICANTE");
                 int codidoFab = teclado.nextInt();
+                teclado.nextLine();
                 System.out.println("INSERTA NUEVO NOMBRE DEL PRODUCTO");
                 String nombre = teclado.nextLine();
                 System.out.println("INSERTA NUEVA CATEGORIA DEL PRODUCTO");
                 String categoria = teclado.nextLine();
                 System.out.println("INSERTA NUEVO DISPONIBILIDAD DEL PRODUCTO");
-                String disponibilidad = teclado.next();
+                String disponibilidad = teclado.nextLine();
                 System.out.println("INSERTA NUEVO PRECIO DE VENTA DEL PRODUCTO");
                 double precioVenta = teclado.nextDouble();
+                teclado.nextLine();
 
                 PreparedStatement pst = con.prepareStatement("update producto set codigoFabricante=?,nombre=?,categoria=?,"
                         + "disponibilidad=?,precioVenta=? where codigo=? ");
@@ -261,8 +313,10 @@ public class Conexiones {
                 String domicilioVen = teclado.nextLine();
                 System.out.println("INSERTA NUEVO SALARIO DEL VENDEDOR");
                 double salarioVen = teclado.nextDouble();
+                teclado.nextLine();
                 System.out.println("INSERTA NUEVO PORCENTAJE DEL VENDEDOR");
                 double porcentajeVen = teclado.nextDouble();
+                teclado.nextLine();
 
                 PreparedStatement pst = con.prepareStatement("update vendedor set nombre=?,fechaAlta=?,domicilio=?,"
                         + "salario=?,porcentaje=? where codigo=? ");
@@ -284,9 +338,10 @@ public class Conexiones {
                 System.out.println("INSERTA NUEVA DIRECCION DE ENVIO DEL CLIENTE");
                 String direccionEnvio = teclado.nextLine();
                 System.out.println("INSERTA NUEVO TELEFONO DEL CLIENTE");
-                String telCliente = teclado.next();
+                String telCliente = teclado.nextLine();
+                teclado.nextLine();
                 System.out.println("INSERTA NUEVO CORREO DEL CLIENTE");
-                String correoCli = teclado.next();
+                String correoCli = teclado.nextLine();
 
                 PreparedStatement pst = con.prepareStatement("update cliente set nombre=?,fechaNacimiento=?,"
                         + "direccionEnvio=?,telefono=?,correo=? where codigo=? ");
@@ -303,16 +358,19 @@ public class Conexiones {
 
                 System.out.println("INSERTA NUEVO CODIGO DEL VENDEDOR");
                 int codigoVen = teclado.nextInt();
+                teclado.nextLine();
                 System.out.println("INSERTA NUEVO CODIGO DEL CLIENTE");
                 int codigoCli = teclado.nextInt();
+                teclado.nextLine();
                 System.out.println("INSERTA NUEVA FECHA DE REALIZACION DEL PEDIDO");
-                String fechaRea = teclado.next();
+                String fechaRea = teclado.nextLine();
                 System.out.println("INSERTA NUEVA FECHA DE ENTREGA DEL PEDIDO");
-                String fechaEnt = teclado.next();
+                String fechaEnt = teclado.nextLine();
                 System.out.println("INSERTA NUEVO ESTADO DEL PEDIDO");
-                String estado = teclado.next();
+                String estado = teclado.nextLine();
                 System.out.println("INSERTA NUEVO IMPORTE DEL PEDIDO");
                 double importe = teclado.nextDouble();
+                teclado.nextLine();
 
                 PreparedStatement pst = con.prepareStatement("update pedido set codigoVendedor=?,codigoCliente=?,"
                         + "fechaRealizacion=?,fechaEntrega=?,estado=?,importe=? where codigo=? ");
@@ -340,7 +398,9 @@ public class Conexiones {
             conexionEstablecida();
             System.out.println("INSERTA LAS UNIDADES COMPRADAS");
             int unidadesCompradas = teclado.nextInt();
+            teclado.nextLine();
             System.out.println("INSERTA EL SUBTOTAL");
+            teclado.nextLine();
             double subTotal = teclado.nextDouble();
             PreparedStatement pst = con.prepareStatement( "update lineaPedido set unidadesCompradas=?, subTotal=? " +
             "where codigoPedido=? and codigoProducto=?");
@@ -426,7 +486,7 @@ public class Conexiones {
                             "Codigo: " + rs.getInt("codigo")
                             + " | Nombre: " + rs.getString("nombre")
                             + " | Anyo fundacion: " + rs.getInt("anyoFundacion")
-                            + " | Lugar sede: " + rs.getString("lugarSeede")
+                            + " | Lugar sede: " + rs.getString("lugarSede")
                             + " | Empleados: " + rs.getInt("empleados")
                             + " | Siti web: " + rs.getString("sitioWeb")
                     );  
@@ -547,9 +607,9 @@ public class Conexiones {
                             "Codigo: " + rs.getInt("codigo")
                             + " | Nombre: " + rs.getString("nombre")
                             + " | Anyo fundacion: " + rs.getInt("anyoFundacion")
-                            + " | Lugar sede: " + rs.getString("lugarSeede")
+                            + " | Lugar sede: " + rs.getString("lugarSede")
                             + " | Empleados: " + rs.getInt("empleados")
-                            + " | Siti web: " + rs.getInt("empleados")
+                            + " | Siti web: " + rs.getString("sitioWeb")
                     );
                     
                 }
