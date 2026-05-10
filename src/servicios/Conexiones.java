@@ -107,7 +107,7 @@ public class Conexiones {
                 pst.executeUpdate();
                 pst.close();
             } else if (o.getClass() == LineaPedido.class) {
-                PreparedStatement pst = con.prepareStatement("insert into pedido values (?,?,?,?)");
+                PreparedStatement pst = con.prepareStatement("insert into lineaPedido values (?,?,?,?)");
                 pst.setInt(1, ((LineaPedido) o).getCodigoPedido());
                 pst.setInt(2, ((LineaPedido) o).getCodigoProducto());
                 pst.setInt(3, ((LineaPedido) o).getUnidadesCompradas());
@@ -136,6 +136,7 @@ public class Conexiones {
                 pst.setInt(1, codigo);
                 ResultSet rs = pst.executeQuery();
                 existe = rs.next();
+                rs.close();
                 pst.close();
 
             } else if (clase == 2) {
@@ -143,12 +144,14 @@ public class Conexiones {
                 pst.setInt(1, codigo);
                 ResultSet rs = pst.executeQuery();
                 existe = rs.next();
+                rs.close();
                 pst.close();
             } else if (clase == 3) {
                 PreparedStatement pst = con.prepareStatement("select codigo from vendedor where codigo=? ");
                 pst.setInt(1, codigo);
                 ResultSet rs = pst.executeQuery();
                 existe = rs.next();
+                rs.close();
                 pst.close();
 
             } else if (clase == 4) {
@@ -156,12 +159,14 @@ public class Conexiones {
                 pst.setInt(1, codigo);
                 ResultSet rs = pst.executeQuery();
                 existe = rs.next();
+                rs.close();
                 pst.close();
             } else if (clase == 5) {
                 PreparedStatement pst = con.prepareStatement("select codigo from pedido where codigo=? ");
                 pst.setInt(1, codigo);
                 ResultSet rs = pst.executeQuery();
                 existe = rs.next();
+                rs.close();
                 pst.close();
             } else {
                 System.out.println("Esa clase no existe");
@@ -184,6 +189,8 @@ public class Conexiones {
             pst.setInt(2, codPro);
             ResultSet rs = pst.executeQuery();
             existe = rs.next();
+            rs.close();
+            pst.close();
 
             cierreDeConexion();
 
@@ -335,12 +342,13 @@ public class Conexiones {
             int unidadesCompradas = teclado.nextInt();
             System.out.println("INSERTA EL SUBTOTAL");
             double subTotal = teclado.nextDouble();
-            PreparedStatement pst = con.prepareStatement("update  lineaPedido set unidadesCompradas=?, subTotal=? where codigoPedido=? and codigoProducto ");
+            PreparedStatement pst = con.prepareStatement( "update lineaPedido set unidadesCompradas=?, subTotal=? " +
+            "where codigoPedido=? and codigoProducto=?");
 
             pst.setInt(1, unidadesCompradas);
             pst.setDouble(2, subTotal);
             pst.setInt(3, codigoped);
-            pst.setInt(4, codigoped);
+            pst.setInt(4, codpro);
             pst.executeUpdate();
             pst.close();
             cierreDeConexion();
@@ -397,6 +405,7 @@ public class Conexiones {
             pst.setInt(1, codPed);
             pst.setInt(1, codPro);
             pst.executeUpdate();
+            pst.close();
             cierreDeConexion();
 
         } catch (SQLException ex) {
@@ -411,31 +420,89 @@ public class Conexiones {
             if (clase == 1) {
                 PreparedStatement pst = con.prepareStatement("select * from fabricante where codigo=?");
                 pst.setInt(1, codigo);
-                pst.executeUpdate();
+                ResultSet rs = pst.executeQuery();
+                while(rs.next()){
+                  System.out.println(
+                            "Codigo: " + rs.getInt("codigo")
+                            + " | Nombre: " + rs.getString("nombre")
+                            + " | Anyo fundacion: " + rs.getInt("anyoFundacion")
+                            + " | Lugar sede: " + rs.getString("lugarSeede")
+                            + " | Empleados: " + rs.getInt("empleados")
+                            + " | Siti web: " + rs.getString("sitioWeb")
+                    );  
+                }
+                rs.close();
                 pst.close();
             } else if (clase == 2) {
                 PreparedStatement pst = con.prepareStatement("select * from producto  where codigo=? ");
                 pst.setInt(1, codigo);
-                pst.executeUpdate();
+                ResultSet rs = pst.executeQuery();
+                while(rs.next()){
+                System.out.println(
+                            "Codigo: " + rs.getInt("codigo")
+                            + " | Codigo fabricante: " + rs.getInt("codigoFabricante")
+                            + " | Nombre: " + rs.getString("nombre")
+                            + " | Categoria: " + rs.getString("categoria")
+                            + " | Disponibilidad: " + rs.getInt("disponibilidad")
+                            + " | Precio venta: " + rs.getDouble("precioVenta")
+                    );    
+                }
+                rs.close();
                 pst.close();
             } else if (clase == 3) {
                 PreparedStatement pst = con.prepareStatement("select * from vendedor where codigo=? ");
                 pst.setInt(1, codigo);
-                pst.executeUpdate();
+                ResultSet rs = pst.executeQuery();
+                while(rs.next()){
+                  System.out.println(
+                            "Codigo: " + rs.getInt("codigo")
+                            + " | Nombre: " + rs.getString("nombre")
+                            + " | Fecha alta: " + rs.getString("fechaAlta")
+                            + " | Domicilio: " + rs.getString("domicilio")
+                            + " | Salario: " + rs.getDouble("salario")
+                            + " | Porcentaje: " + rs.getDouble("porcentaje")
+                    ); 
+                }
+                rs.close();
                 pst.close();
             } else if (clase == 4) {
                 PreparedStatement pst = con.prepareStatement("select * from cliente where codigo=? ");
                 pst.setInt(1, codigo);
-                pst.executeUpdate();
+                ResultSet rs = pst.executeQuery();
+                while(rs.next()){
+                 System.out.println(
+                            "Codigo: " + rs.getInt("codigo")
+                            + " | Nombre: " + rs.getString("nombre")
+                            + " | Fecha nacimiento: " + rs.getString("fechaNacimiento")
+                            + " | Direccion de envio: " + rs.getString("direccionEnvio")
+                            + " | Telefono: " + rs.getString("telefono")
+                            + " | Correo: " + rs.getString("correo")   
+                    );   
+                }
+                rs.close();
                 pst.close();
             } else if (clase == 5) {
                 PreparedStatement pst = con.prepareStatement("select * from pedido where codigo=? ");
                 pst.setInt(1, codigo);
-                pst.executeUpdate();
+                ResultSet rs = pst.executeQuery();
+                while(rs.next()){
+                    System.out.println(
+                            "Codigo: " + rs.getInt("codigo")
+                            + " | Codigo vendedor: " + rs.getInt("codigoVendedor")
+                            + " | Codigo cliente: " + rs.getInt("codigoCliente")
+                            + " | Fecha de realizacion: " + rs.getString("fechaRealizacion")
+                            + " | Fecha de entrega: " + rs.getString("fechaEntrega")
+                            + " | Estado: " + rs.getString("estado")
+                            + " | Importe: " + rs.getDouble("importe")
+                    );
+                    
+                }
+                rs.close();
                 pst.close();
             } else {
                 System.out.println("Clase no encontrada");
             }
+            cierreDeConexion();
 
         } catch (SQLException ex) {
             Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
@@ -449,7 +516,16 @@ public class Conexiones {
 
             pst.setInt(1, codPed);
             pst.setInt(1, codPro);
-            pst.executeUpdate();
+            ResultSet rs = pst.executeQuery();
+                while(rs.next()){
+                  System.out.println(
+                            "Codigo de pedido: " + rs.getInt("codigoPedido")
+                            + " | Codigo de producto: " + rs.getInt("codigoProducto")
+                            + " | Unidades compradas: " + rs.getInt("unidadesCompradas")
+                            + " | Subtotal: " + rs.getDouble("subTotal")
+                    );  
+                }
+                rs.close();
             pst.close();
             cierreDeConexion();
 
@@ -470,10 +546,14 @@ public class Conexiones {
                     System.out.println(
                             "Codigo: " + rs.getInt("codigo")
                             + " | Nombre: " + rs.getString("nombre")
+                            + " | Anyo fundacion: " + rs.getInt("anyoFundacion")
+                            + " | Lugar sede: " + rs.getString("lugarSeede")
+                            + " | Empleados: " + rs.getInt("empleados")
+                            + " | Siti web: " + rs.getInt("empleados")
                     );
                     
                 }
-                
+                rs.close();
                 pst.close();
 
                 
@@ -481,13 +561,29 @@ public class Conexiones {
                 PreparedStatement pst = con.prepareStatement("select * from producto ");
                 ResultSet rs = pst.executeQuery();
                 while (rs.next()) {
+                    System.out.println(
+                            "Codigo: " + rs.getInt("codigo")
+                            + " | Codigo fabricante: " + rs.getInt("codigoFabricante")
+                            + " | Nombre: " + rs.getString("nombre")
+                            + " | Categoria: " + rs.getString("categoria")
+                            + " | Disponibilidad: " + rs.getInt("disponibilidad")
+                            + " | Precio venta: " + rs.getDouble("precioVenta")
+                    );
 
                 }
                 pst.close();
             } else if (clase == 3) {
                 PreparedStatement pst = con.prepareStatement("select * from vendedor ");
                 ResultSet rs = pst.executeQuery();
-                while (rs.next()) {
+                while (rs.next()) {    
+                  System.out.println(
+                            "Codigo: " + rs.getInt("codigo")
+                            + " | Nombre: " + rs.getString("nombre")
+                            + " | Fecha alta: " + rs.getString("fechaAlta")
+                            + " | Domicilio: " + rs.getString("domicilio")
+                            + " | Salario: " + rs.getDouble("salario")
+                            + " | Porcentaje: " + rs.getDouble("porcentaje")
+                    );  
 
                 }
                 pst.close();
@@ -495,6 +591,14 @@ public class Conexiones {
                 PreparedStatement pst = con.prepareStatement("select * from cliente ");
                 ResultSet rs = pst.executeQuery();
                 while (rs.next()) {
+                    System.out.println(
+                            "Codigo: " + rs.getInt("codigo")
+                            + " | Nombre: " + rs.getString("nombre")
+                            + " | Fecha nacimiento: " + rs.getString("fechaNacimiento")
+                            + " | Direccion de envio: " + rs.getString("direccionEnvio")
+                            + " | Telefono: " + rs.getString("telefono")
+                            + " | Correo: " + rs.getString("correo")   
+                    );
 
                 }
                 pst.close();
@@ -503,6 +607,15 @@ public class Conexiones {
 
                 ResultSet rs = pst.executeQuery();
                 while (rs.next()) {
+                    System.out.println(
+                            "Codigo: " + rs.getInt("codigo")
+                            + " | Codigo vendedor: " + rs.getInt("codigoVendedor")
+                            + " | Codigo cliente: " + rs.getInt("codigoCliente")
+                            + " | Fecha de realizacion: " + rs.getString("fechaRealizacion")
+                            + " | Fecha de entrega: " + rs.getString("fechaEntrega")
+                            + " | Estado: " + rs.getString("estado")
+                            + " | Importe: " + rs.getDouble("importe")
+                    );
 
                 }
                 pst.close();
@@ -511,6 +624,12 @@ public class Conexiones {
 
                 ResultSet rs = pst.executeQuery();
                 while (rs.next()) {
+                    System.out.println(
+                            "Codigo de pedido: " + rs.getInt("codigoPedido")
+                            + " | Codigo de producto: " + rs.getInt("codigoProducto")
+                            + " | Unidades compradas: " + rs.getInt("unidadesCompradas")
+                            + " | Subtotal: " + rs.getDouble("subTotal")
+                    );
 
                 }
                 pst.close();

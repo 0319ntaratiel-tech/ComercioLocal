@@ -131,11 +131,12 @@ public class Menu {
 
                 case 2:
 
-                    System.out.println("INSERTAR CODIGO PARA ACTUALIZAR FILA");
+                    System.out.println("INSERTAR CODIGO PARA ACTUALIZAR UN FABRICANTE");
                     int codigoFabri1 = teclado.nextInt();
-                    boolean existe = Conexiones.verificarExistenciaCodigo(1, codigoFabri1);
-                    if (existe == true) {
+                    boolean existeFA = Conexiones.verificarExistenciaCodigo(1, codigoFabri1);
+                    if (existeFA == true) {
                         Conexiones.actualizarFila(1, codigoFabri1);
+                        System.out.println("FABRICANTE ACTUALIZADO");
                     } else {
                         System.out.println("NO EXISTE EL CODIGO INGRESADO");
                     }
@@ -143,17 +144,38 @@ public class Menu {
                     break;
 
                 case 3:
+                    System.out.println("INSERTAR CODIGO PARA ELIMINAR UN FABRICANTE");
+                    int codigoFabrEli = teclado.nextInt();
+                    boolean existeEF = Conexiones.verificarExistenciaCodigo(1, codigoFabrEli);
+                    if (existeEF == true) {
+                        Conexiones.eliminarFila(1, codigoFabrEli);
+                        System.out.println("FABRICANTE ELIMINADO");
+                    } else {
+                        System.out.println("NO EXISTE EL CODIGO INGRESADO");
+                    }
 
                     break;
 
                 case 4:
-
+                    System.out.println("INSERTAR CODIGO PARA CONSULTAR UN FABRICANTE");
+                    int codigoFabrB = teclado.nextInt();
+                    boolean existeBf = Conexiones.verificarExistenciaCodigo(1, codigoFabrB);
+                    if (existeBf == true) {
+                        Conexiones.consultarFila(1, codigoFabrB);
+                        
+                    } else {
+                        System.out.println("NO EXISTE EL CODIGO INGRESADO");
+                    }
                     break;
 
                 case 5:
-
-                    break;
-
+                  System.out.println("DATOS DE LOS FABRICANTES");
+                  Conexiones.consultarTodasFila(1);
+                    
+                  
+                  
+                  break;
+                 
                 case 6:
 
                     break;
@@ -229,11 +251,12 @@ public class Menu {
                     break;
 
                 case 2:
-                    System.out.println("INSERTAR CODIGO PARA ACTUALIZAR FILA");
+                    System.out.println("INSERTAR CODIGO PARA ACTUALIZAR CLIENTE");
                     int codigoCliFi = teclado.nextInt();
                     boolean existe = Conexiones.verificarExistenciaCodigo(4, codigoCliFi);
                     if (existe == true) {
                         Conexiones.actualizarFila(4, codigoCliFi);
+                        System.out.println("CLIENTE ACTUALIZADO");
                     } else {
                         System.out.println("NO EXISTE EL CODIGO INGRESADO");
                     }
@@ -241,15 +264,34 @@ public class Menu {
                     break;
 
                 case 3:
+                    System.out.println("INSERTAR CODIGO PARA ELIMINAR UN CLIENTE");
+                    int codigoCliEF = teclado.nextInt();
+                    boolean existeEF = Conexiones.verificarExistenciaCodigo(4, codigoCliEF);
+                    if (existeEF == true) {
+                        Conexiones.actualizarFila(4, codigoCliEF);
+                        System.out.println("CLIENTE ELIMINADO");
+                    } else {
+                        System.out.println("NO EXISTE EL CODIGO INGRESADO");
+                    }
 
                     break;
 
                 case 4:
+                    System.out.println("INSERTAR CODIGO PARA CONSULTAR UN CLIENTE");
+                    int codigoCliCC = teclado.nextInt();
+                    boolean existeCC = Conexiones.verificarExistenciaCodigo(4, codigoCliCC);
+                    if (existeCC == true) {
+                        Conexiones.consultarFila(4, codigoCliCC);
+                        
+                    } else {
+                        System.out.println("NO EXISTE EL CODIGO INGRESADO");
+                    }
 
                     break;
 
                 case 5:
-
+                  System.out.println("DATOS DE LOS CLIENTE");
+                  Conexiones.consultarTodasFila(4);
                     break;
 
                 case 6:
@@ -326,11 +368,12 @@ public class Menu {
                     break;
 
                 case 2:
-                    System.out.println("INSERTAR CODIGO PARA ACTUALIZAR FILA");
+                    System.out.println("INSERTAR CODIGO PARA ACTUALIZAR UN VENDEDOR");
                     int codigoVenFi = teclado.nextInt();
                     boolean existe = Conexiones.verificarExistenciaCodigo(3, codigoVenFi);
                     if (existe == true) {
                         Conexiones.actualizarFila(3, codigoVenFi);
+                        System.out.println("VENDEDOR ACTUALIZADO");
                     } else {
                         System.out.println("NO EXISTE EL CODIGO INGRESADO");
                     }
@@ -338,14 +381,33 @@ public class Menu {
                     break;
 
                 case 3:
+                    System.out.println("INSERTAR CODIGO PARA ELIMINAR UN VENDEDOR");
+                    int codigoVenEF = teclado.nextInt();
+                    boolean existeEF = Conexiones.verificarExistenciaCodigo(3, codigoVenEF);
+                    if (existeEF == true) {
+                        Conexiones.eliminarFila(3, codigoVenEF);
+                        System.out.println("VENDEDOR ELIMINADO");
+                    } else {
+                        System.out.println("NO EXISTE EL CODIGO INGRESADO");
+                    }
 
                     break;
 
                 case 4:
+                    System.out.println("INSERTAR CODIGO PARA CONSULTAR UN VENDEDOR");
+                    int codigoVenCF = teclado.nextInt();
+                    boolean existeCF = Conexiones.verificarExistenciaCodigo(3, codigoVenCF);
+                    if ( existeCF == true) {
+                        Conexiones.consultarFila(3, codigoVenCF);
+                    } else {
+                        System.out.println("NO EXISTE EL CODIGO INGRESADO");
+                    }
 
                     break;
 
                 case 5:
+                    System.out.println("DATOS DE LOS VENDEDORES:");
+                    Conexiones.consultarTodasFila(3);
 
                     break;
 
@@ -409,6 +471,7 @@ public class Menu {
                     int codigoPro = teclado.nextInt();
                     System.out.println("INSERTA EL CODIGO DEL FABRICANTE");
                     int codidoFab = teclado.nextInt();
+                    // Verificar codigo 
                     System.out.println("INSERTA EL NOMBRE DEL PRODUCTO");
                     String nombre = teclado.nextLine();
                     System.out.println("INSERTA LA CATEGORIA DEL PRODUCTO");
@@ -424,7 +487,7 @@ public class Menu {
                     break;
 
                 case 2:
-                    System.out.println("INSERTAR CODIGO PARA ACTUALIZAR FILA");
+                    System.out.println("INSERTAR CODIGO PARA ACTUALIZAR PRODUCTO");
                     int codigoProFi = teclado.nextInt();
                     boolean existe = Conexiones.verificarExistenciaCodigo(2, codigoProFi);
                     if (existe == true) {
@@ -436,14 +499,33 @@ public class Menu {
                     break;
 
                 case 3:
+                     System.out.println("INSERTAR CODIGO PARA ELIMINAR UN PRODUCTO");
+                    int codigoProEF = teclado.nextInt();
+                    boolean existeEF = Conexiones.verificarExistenciaCodigo(2, codigoProEF);
+                    if (existeEF == true) {
+                        Conexiones.eliminarFila(2, codigoProEF);
+                    } else {
+                        System.out.println("NO EXISTE EL CODIGO INGRESADO");
+                    }
+                    
 
                     break;
 
                 case 4:
+                    System.out.println("INSERTAR CODIGO PARA CONSULTAR UNA FILA");
+                    int codigoProCF = teclado.nextInt();
+                    boolean existeCF = Conexiones.verificarExistenciaCodigo(2, codigoProCF);
+                    if (existeCF == true) {
+                        Conexiones.consultarFila(2, codigoProCF);
+                    } else {
+                        System.out.println("NO EXISTE EL CODIGO INGRESADO");
+                    }
 
                     break;
 
                 case 5:
+                    System.out.println("DATOS DE LOS PRODUCTOS:");
+                    Conexiones.consultarTodasFila(2);
 
                     break;
 
