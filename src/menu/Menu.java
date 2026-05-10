@@ -598,10 +598,9 @@ public class Menu {
                     String fechaEnt = teclado.next();
                     System.out.println("INSERTA EL ESTADO DEL PEDIDO");
                     String estado = teclado.next();
-                    System.out.println("INSERTA EL IMPORTE DEL PEDIDO");
-                    double importe = teclado.nextDouble();
+                    
 
-                    Pedido ped = new Pedido(codigoCli, codigoVen, codigoCli, fechaRea, fechaEnt, estado, importe);
+                    Pedido ped = new Pedido(codigoCli, codigoVen, codigoCli, fechaRea, fechaEnt, estado);
 
                     Conexiones.insertarDatos(ped);
                     break;
@@ -709,10 +708,9 @@ public class Menu {
                     int codigoPro = teclado.nextInt();
                     System.out.println("INSERTA LAS UNIDADES COMPRADAS");
                     int unidadesCompradas = teclado.nextInt();
-                    System.out.println("INSERTA EL SUBTOTAL");
-                    double subTotal = teclado.nextDouble();
+                    
 
-                    LineaPedido lp = new LineaPedido(codigoPed, codigoPro, unidadesCompradas, subTotal);
+                    LineaPedido lp = new LineaPedido(codigoPed, codigoPro, unidadesCompradas);
 
                     Conexiones.insertarDatos(lp);
 

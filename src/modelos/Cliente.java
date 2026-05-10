@@ -31,6 +31,11 @@ public class Cliente implements Lectora{
         this.telefono = telefono;
         this.correo = correo;
     }
+
+    public Cliente() {
+    }
+    
+    
     
     
     //getter
@@ -82,6 +87,32 @@ public class Cliente implements Lectora{
     public String getCorreo() {
         return correo;
     }
+
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setFechaNacimiento(String fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public void setDireccionEnvio(String direccionEnvio) {
+        this.direccionEnvio = direccionEnvio;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+    
+    
     
     //metodos
 

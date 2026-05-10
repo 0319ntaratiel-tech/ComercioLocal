@@ -32,6 +32,10 @@ public class Producto implements Lectora{
         this.precioVenta = precioVenta;
     }
 
+    public Producto() {
+    }
+
+    
     /**
      * Metodo que devuelve el codigo
      *
@@ -84,6 +88,32 @@ public class Producto implements Lectora{
     public double getPrecioVenta() {
         return precioVenta;
     }
+
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
+    }
+
+    public void setCodigoFabricante(int codigoFabricante) {
+        this.codigoFabricante = codigoFabricante;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public void setDisponibilidad(String disponibilidad) {
+        this.disponibilidad = disponibilidad;
+    }
+
+    public void setPrecioVenta(double precioVenta) {
+        this.precioVenta = precioVenta;
+    }
+    
+    
     
     
 

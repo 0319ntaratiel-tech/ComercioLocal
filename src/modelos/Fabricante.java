@@ -5,23 +5,24 @@
 package modelos;
 
 import interfaces.Lectora;
+import java.io.Serializable;
 
 /**
  * La clase fabricante tiene la funcion de crear un fabricante con sus atributos
+ *
  * @author Gabriela Gomez
  */
- 
-public class Fabricante implements Lectora{
-      //Atributos
-  private int codigo;
-  private String nombre;
-  private int anyoFundacion;
-  private String lugarSede;
-  private int empleados;
-  private String sitioWeb;
- 
-  //Constructor
+public class Fabricante implements Lectora, Serializable {
+    //Atributos
 
+    private int codigo;
+    private String nombre;
+    private int anyoFundacion;
+    private String lugarSede;
+    private int empleados;
+    private String sitioWeb;
+
+    //Constructor
     public Fabricante(int codigo, String nombre, int anyoFundacion, String lugarSede, int empleados, String sitioWeb) {
         this.codigo = codigo;
         this.nombre = nombre;
@@ -30,12 +31,16 @@ public class Fabricante implements Lectora{
         this.empleados = empleados;
         this.sitioWeb = sitioWeb;
     }
- 
-  // Metodos
-   
-   
+
+    public Fabricante() {
+    }
+    
+    
+
+    // Metodos
     /**
      * Metodo que devuelve el codigo
+     *
      * @return codigo
      */
     public int getCodigo() {
@@ -44,14 +49,16 @@ public class Fabricante implements Lectora{
 
     /**
      * Metodo que devuelve el nombre
+     *
      * @return nombre
      */
     public String getNombre() {
         return nombre;
     }
-   
+
     /**
      * Metodo que devuelve el año de fundacion
+     *
      * @return anyoFundacion
      */
     public int getAnyoFundacion() {
@@ -60,14 +67,16 @@ public class Fabricante implements Lectora{
 
     /**
      * Metodo que devuelve el lugar de la sede
+     *
      * @return lugarsede
-     */    
+     */
     public String getLugarSede() {
         return lugarSede;
     }
-   
+
     /**
      * Metodo que devuelve numero de empleados
+     *
      * @return empleados
      */
     public int getEmpleados() {
@@ -76,6 +85,7 @@ public class Fabricante implements Lectora{
 
     /**
      * Metodo que devuelve el sitio web
+     *
      * @return sitioweb
      */
     public String getSitioWeb() {
@@ -102,57 +112,36 @@ public class Fabricante implements Lectora{
         this.sitioWeb = sitioWeb;
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
+    }
+
     
     /**
-     * Metodo que devuelve una cadena de texto con los atributos de la clase con punto y coma
+     * Metodo que devuelve una cadena de texto con los atributos de la clase con
+     * punto y coma
+     *
      * @return String
      */
     @Override
     public String mostrarDatosConPuntoComa() {
-        return "Fabricante" + ";" + getCodigo() +";"+
-                getNombre() + ";" + getAnyoFundacion() + ";"+
-                getLugarSede() +";"+ getEmpleados() +";"+
-                getSitioWeb() ;
+        return "Fabricante" + ";" + getCodigo() + ";"
+                + getNombre() + ";" + getAnyoFundacion() + ";"
+                + getLugarSede() + ";" + getEmpleados() + ";"
+                + getSitioWeb();
     }
 
     /**
-     * Metodo que devuelve una cadena de texto con los atributos de la clase con punto y coma
+     * Metodo que devuelve una cadena de texto con los atributos de la clase con
+     * punto y coma
+     *
      * @return String
      */
     @Override
     public String mostrarDatosConDosPuntos() {
-        return "Fabricante" + ":" + getCodigo()+ ":" + getNombre() +
-                ":" + getAnyoFundacion() + ":" + getLugarSede() +
-                ":" + getEmpleados() + ":" + getSitioWeb();
+        return "Fabricante" + ":" + getCodigo() + ":" + getNombre()
+                + ":" + getAnyoFundacion() + ":" + getLugarSede()
+                + ":" + getEmpleados() + ":" + getSitioWeb();
     }
 
-    
-    
-   
 }

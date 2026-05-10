@@ -4,7 +4,9 @@
  */
 package modelos;
 
+import contenedores.ContenedorProducto;
 import interfaces.Lectora;
+import java.util.ArrayList;
 
 /**
  * La clase funciona para insertar una
@@ -16,16 +18,21 @@ public class LineaPedido implements Lectora{
     private int codigoPedido;
     private int codigoProducto;
     private int unidadesCompradas;
-    private double subTotal;
+    private ArrayList<ContenedorProducto> productos ;
     
     //constructor
 
-    public LineaPedido(int codigoPedido, int codigoProducto, int unidadesCompradas, double subTotal) {
+    public LineaPedido(int codigoPedido, int codigoProducto, int unidadesCompradas) {
         this.codigoPedido = codigoPedido;
         this.codigoProducto = codigoProducto;
         this.unidadesCompradas = unidadesCompradas;
-        this.subTotal = subTotal;
+        
     }
+
+    public LineaPedido() {
+    }
+    
+    
     
     //getter
 
@@ -53,15 +60,44 @@ public class LineaPedido implements Lectora{
         return unidadesCompradas;
     }
 
-    /**
-     * metodo que devuelve el precio total del pedido
-     * @return subTotal
-     */
-    public double getSubTotal() {
-        return subTotal;
+    public void setCodigoPedido(int codigoPedido) {
+        this.codigoPedido = codigoPedido;
     }
+
+    public void setCodigoProducto(int codigoProducto) {
+        this.codigoProducto = codigoProducto;
+    }
+
+    public void setUnidadesCompradas(int unidadesCompradas) {
+        this.unidadesCompradas = unidadesCompradas;
+    }
+
+    public void setProductos(ArrayList<ContenedorProducto> productos) {
+        this.productos = productos;
+    }
+
+   
+    
     
     //metodos
+    
+    /**
+     * metodo para caalcular el precio total del pedido
+     * @return subTotal
+     */
+    public double calcularSubTotal(){
+        double subTotal = 0;
+        for (ContenedorProducto p : productos) {
+            for (Producto productos : p.getAlmacenProductos()) {
+                subTotal = getUnidadesCompradas() * p.mostrarPrecioVenta();
+            }
+            
+        }
+      
+        return subTotal;
+        
+    }
+    
     /**
      * metodo que muestra los datos de la linea pedido separada mediante punto y coma (;)
      * @return la informacion de la linea pedido
@@ -69,7 +105,7 @@ public class LineaPedido implements Lectora{
     @Override
     public String mostrarDatosConPuntoComa(){
         return "LineaPedido" + ";" + getCodigoPedido()+ ";" + getCodigoProducto()+ ";" 
-                + getUnidadesCompradas()+ ";" + getSubTotal();
+                + getUnidadesCompradas()+ ";" + calcularSubTotal();
     }
     
     /**
@@ -79,7 +115,7 @@ public class LineaPedido implements Lectora{
     @Override
     public String mostrarDatosConDosPuntos(){
         return "LineaPedido" + ";" + getCodigoPedido()+ ";" + getCodigoProducto()+ ";" 
-                + getUnidadesCompradas()+ ";" + getSubTotal();
+                + getUnidadesCompradas()+ ";" + calcularSubTotal();
     }
     
     
