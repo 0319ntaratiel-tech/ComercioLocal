@@ -436,22 +436,68 @@ public class Conexiones {
             } else if (clase == 2) {
                 PreparedStatement pst = con.prepareStatement("select * from producto  where codigo=? ");
                 pst.setInt(1, codigo);
-                pst.executeUpdate();
+                ResultSet rs = pst.executeQuery();
+                while(rs.next()){
+                System.out.println(
+                            "Codigo: " + rs.getInt("codigo")
+                            + " | Codigo fabricante: " + rs.getInt("codigoFabricante")
+                            + " | Nombre: " + rs.getString("nombre")
+                            + " | Categoria: " + rs.getString("categoria")
+                            + " | Disponibilidad: " + rs.getInt("disponibilidad")
+                            + " | Precio venta: " + rs.getDouble("precioVenta")
+                    );    
+                }
+                rs.close();
                 pst.close();
             } else if (clase == 3) {
                 PreparedStatement pst = con.prepareStatement("select * from vendedor where codigo=? ");
                 pst.setInt(1, codigo);
-                pst.executeUpdate();
+                ResultSet rs = pst.executeQuery();
+                while(rs.next()){
+                  System.out.println(
+                            "Codigo: " + rs.getInt("codigo")
+                            + " | Nombre: " + rs.getString("nombre")
+                            + " | Fecha alta: " + rs.getString("fechaAlta")
+                            + " | Domicilio: " + rs.getString("domicilio")
+                            + " | Salario: " + rs.getDouble("salario")
+                            + " | Porcentaje: " + rs.getDouble("porcentaje")
+                    ); 
+                }
+                rs.close();
                 pst.close();
             } else if (clase == 4) {
                 PreparedStatement pst = con.prepareStatement("select * from cliente where codigo=? ");
                 pst.setInt(1, codigo);
-                pst.executeUpdate();
+                ResultSet rs = pst.executeQuery();
+                while(rs.next()){
+                 System.out.println(
+                            "Codigo: " + rs.getInt("codigo")
+                            + " | Nombre: " + rs.getString("nombre")
+                            + " | Fecha nacimiento: " + rs.getString("fechaNacimiento")
+                            + " | Direccion de envio: " + rs.getString("direccionEnvio")
+                            + " | Telefono: " + rs.getString("telefono")
+                            + " | Correo: " + rs.getString("correo")   
+                    );   
+                }
+                rs.close();
                 pst.close();
             } else if (clase == 5) {
                 PreparedStatement pst = con.prepareStatement("select * from pedido where codigo=? ");
                 pst.setInt(1, codigo);
-                pst.executeUpdate();
+                ResultSet rs = pst.executeQuery();
+                while(rs.next()){
+                    System.out.println(
+                            "Codigo: " + rs.getInt("codigo")
+                            + " | Codigo vendedor: " + rs.getInt("codigoVendedor")
+                            + " | Codigo cliente: " + rs.getInt("codigoCliente")
+                            + " | Fecha de realizacion: " + rs.getString("fechaRealizacion")
+                            + " | Fecha de entrega: " + rs.getString("fechaEntrega")
+                            + " | Estado: " + rs.getString("estado")
+                            + " | Importe: " + rs.getDouble("importe")
+                    );
+                    
+                }
+                rs.close();
                 pst.close();
             } else {
                 System.out.println("Clase no encontrada");
@@ -470,7 +516,16 @@ public class Conexiones {
 
             pst.setInt(1, codPed);
             pst.setInt(1, codPro);
-            pst.executeUpdate();
+            ResultSet rs = pst.executeQuery();
+                while(rs.next()){
+                  System.out.println(
+                            "Codigo de pedido: " + rs.getInt("codigoPedido")
+                            + " | Codigo de producto: " + rs.getInt("codigoProducto")
+                            + " | Unidades compradas: " + rs.getInt("unidadesCompradas")
+                            + " | Subtotal: " + rs.getDouble("subTotal")
+                    );  
+                }
+                rs.close();
             pst.close();
             cierreDeConexion();
 
