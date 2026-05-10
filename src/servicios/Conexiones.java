@@ -95,14 +95,14 @@ public class Conexiones {
                 pst.executeUpdate();
                 pst.close();
             } else if (o.getClass() == Pedido.class) {
-                PreparedStatement pst = con.prepareStatement("insert into pedido values (?,?,?,?,?,?,?)");
+                PreparedStatement pst = con.prepareStatement("insert into pedido values (?,?,?,?,?,?)");
                 pst.setInt(1, ((Pedido) o).getCodigo());
                 pst.setInt(2, ((Pedido) o).getCodigoVendedor());
                 pst.setInt(3, ((Pedido) o).getCodigoCliente());
                 pst.setString(4, ((Pedido) o).getFechaRealizacion());
                 pst.setString(5, ((Pedido) o).getFechaEntrega());
                 pst.setString(6, ((Pedido) o).getEstado());
-                pst.setDouble(7, ((Pedido) o).getImporte());
+               
 
                 pst.executeUpdate();
                 pst.close();
@@ -111,7 +111,7 @@ public class Conexiones {
                 pst.setInt(1, ((LineaPedido) o).getCodigoPedido());
                 pst.setInt(2, ((LineaPedido) o).getCodigoProducto());
                 pst.setInt(3, ((LineaPedido) o).getUnidadesCompradas());
-                pst.setDouble(4, ((LineaPedido) o).getSubTotal());
+                pst.setDouble(4, ((LineaPedido) o).calcularSubTotal());
 
                 pst.executeUpdate();
                 pst.close();
