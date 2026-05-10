@@ -31,6 +31,11 @@ public class Vendedor implements Lectora{
         this.porcentaje = porcentaje;
     }
 
+    public Vendedor() {
+    }
+    
+    
+
     //Metodos
     /**
      * Metodo que devuelve el codigo
@@ -82,6 +87,30 @@ public class Vendedor implements Lectora{
      */
     public double getPorcentaje() {
         return porcentaje;
+    }
+
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setFechaAlta(String fechaAlta) {
+        this.fechaAlta = fechaAlta;
+    }
+
+    public void setDomicilio(String domicilio) {
+        this.domicilio = domicilio;
+    }
+
+    public void setSalario(double salario) {
+        this.salario = salario;
+    }
+
+    public void setPorcentaje(double porcentaje) {
+        this.porcentaje = porcentaje;
     }
     
     

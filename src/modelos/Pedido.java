@@ -21,19 +21,23 @@ public class Pedido implements Lectora{
     private String fechaRealizacion;
     private String fechaEntrega;
     private String estado;
-    private double importe;
+    //private double importe;
     
     //constructor
 
-    public Pedido(int codigo, int codigoVendedor, int codigoCliente, String fechaRealizacion, String fechaEntrega, String estado, double importe) {
+    public Pedido(int codigo, int codigoVendedor, int codigoCliente, String fechaRealizacion, String fechaEntrega, String estado) {
         this.codigo = codigo;
         this.codigoVendedor = codigoVendedor;
         this.codigoCliente = codigoCliente;
         this.fechaRealizacion = fechaRealizacion;
         this.fechaEntrega = fechaEntrega;
         this.estado = estado;
-        this.importe = importe;
+        
     }
+
+    public Pedido() {
+    }
+    
     
     
     //getter
@@ -86,13 +90,31 @@ public class Pedido implements Lectora{
         return estado;
     }
 
-    /**
-     * metodo que devuelve el importe del pedido
-     * @return importe
-     */
-    public double getImporte() {
-        return importe;
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
     }
+
+    public void setCodigoVendedor(int codigoVendedor) {
+        this.codigoVendedor = codigoVendedor;
+    }
+
+    public void setCodigoCliente(int codigoCliente) {
+        this.codigoCliente = codigoCliente;
+    }
+
+    public void setFechaRealizacion(String fechaRealizacion) {
+        this.fechaRealizacion = fechaRealizacion;
+    }
+
+    public void setFechaEntrega(String fechaEntrega) {
+        this.fechaEntrega = fechaEntrega;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    
     
     
     //metodos
@@ -106,7 +128,7 @@ public class Pedido implements Lectora{
     public String mostrarDatosConPuntoComa(){
         return "Pedido" + ";" + getCodigo() + ";" + getCodigoVendedor()+ ";" 
                 + getCodigoCliente()+ ";" + getFechaRealizacion()+ ";" +
-                        getFechaEntrega()+ ";" + getEstado() + ";" + getImporte();
+                        getFechaEntrega()+ ";" + getEstado() ;
     }
     
     /**
@@ -117,6 +139,6 @@ public class Pedido implements Lectora{
     public String mostrarDatosConDosPuntos(){
         return "Pedido" + ":" + getCodigo() + ":" + getCodigoVendedor()+ ":" 
                 + getCodigoCliente()+ ":" + getFechaRealizacion()+ ":" +
-                        getFechaEntrega()+ ":" + getEstado() + ":" + getImporte();
+                        getFechaEntrega()+ ":" + getEstado();
     }
 }

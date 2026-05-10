@@ -20,4 +20,12 @@ public class Configuracion {
     public static String user = "root";
             
     public static String password = "root";
+    
+    public static String nombreFicheroTexto = "fichero.txt";
+    
+    public static String nombreFicheroBinario = "fichero.dat";
+    
+    public static String nombreFicheroCSV = "fichero.csv";
+    
+    public static String nombreFicheroJSON = "fichero.json";
 }
