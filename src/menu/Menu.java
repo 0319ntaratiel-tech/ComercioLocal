@@ -811,7 +811,7 @@ public class Menu {
                                 teclado.nextLine();
 
                                 LineaPedido lp = new LineaPedido(codigoPed, codigoPro, unidadesCompradas);
-
+                                
                                 Conexiones.insertarDatos(lp);
                             }
 
