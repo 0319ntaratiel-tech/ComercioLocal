@@ -55,8 +55,8 @@ public class Menu {
                 System.out.println("Inserta una opcion");
                 opcion = teclado.nextInt();
             } catch (InputMismatchException e) {
-                System.err.println("Error. Debes insertar numeros");
-                System.err.println(e);
+                System.err.println("ERROR ENTRADA INVALIDA, DEBE CONTENER SOLO NUMEROS");
+                teclado.nextLine();
             }
 
             switch (opcion) {
@@ -91,7 +91,7 @@ public class Menu {
                     break;
 
                 default:
-                    throw new AssertionError("Opcion incorrecta");
+                    System.out.println("OPCION INCORRECTA");
             }
 
         }
@@ -103,125 +103,136 @@ public class Menu {
         while (!salir) {
             System.out.println("INICIANDO SESION EN FABRICANTE...");
             Menu.historialSubMenus();
+            try {
+                int opcion = teclado.nextInt();
+                switch (opcion) {
 
-            int opcion = teclado.nextInt();
+                    case 1:
 
-            switch (opcion) {
+                        System.out.println("INSERTA EL CODIGO DEL FABRICANTE");
+                        int codigoFabri = teclado.nextInt();
 
-                case 1:
+                        if (Conexiones.verificarExistenciaCodigo(1, codigoFabri)) {
+                            System.out.println("EL CODIGO INGRESADO YA EXISTE");
+                        } else {
+                            teclado.nextLine();
+                            System.out.println("INSERTA EL NOMBRE DEL FABRICANTE");
+                            String nombreFabri = teclado.nextLine();
+                            System.out.println("INSERTA EL AÑO DE FUNDACION DEL FABRICANTE");
+                            int anyoFundacionFabri = teclado.nextInt();
+                            teclado.nextLine();
+                            System.out.println("INSERTA EL LUGAR SEDE DEL FABRICANTE ");
+                            String lugarSedeFabri = teclado.nextLine();
+                            System.out.println("INSERTA EL EL NUMERO DE EMPLEADOS DEL FABRICANTE");
+                            int empleadosFabri = teclado.nextInt();
+                            teclado.nextLine();
+                            System.out.println("INSERTA EL SITIO WEB DEL FABRICANTE");
+                            String sitioWebFabri = teclado.next();
 
-                    System.out.println("INSERTA EL CODIGO DEL FABRICANTE");
-                    int codigoFabri = teclado.nextInt();
-                    teclado.nextLine();
-                    System.out.println("INSERTA EL NOMBRE DEL FABRICANTE");
-                    String nombreFabri = teclado.nextLine();
-                    System.out.println("INSERTA EL AÑO DE FUNDACION DEL FABRICANTE");
-                    int anyoFundacionFabri = teclado.nextInt();
-                    teclado.nextLine();
-                    System.out.println("INSERTA EL LUGAR SEDE DEL FABRICANTE ");
-                    String lugarSedeFabri = teclado.nextLine();
-                    System.out.println("INSERTA EL EL NUMERO DE EMPLEADOS DEL FABRICANTE");
-                    int empleadosFabri = teclado.nextInt();
-                    teclado.nextLine();
-                    System.out.println("INSERTA EL SITIO WEB DEL FABRICANTE");
-                    String sitioWebFabri = teclado.next();
+                            Fabricante f1 = new Fabricante(codigoFabri, nombreFabri, anyoFundacionFabri, lugarSedeFabri, empleadosFabri, sitioWebFabri);
 
-                    Fabricante f1 = new Fabricante(codigoFabri, nombreFabri, anyoFundacionFabri, lugarSedeFabri, empleadosFabri, sitioWebFabri);
+                            Conexiones.insertarDatos(f1);
+                        }
 
-                    Conexiones.insertarDatos(f1);
+                        break;
 
-                    break;
+                    case 2:
 
-                case 2:
+                        System.out.println("INSERTAR CODIGO PARA ACTUALIZAR UN FABRICANTE");
+                        int codigoFabri1 = teclado.nextInt();
+                        teclado.nextLine();
 
-                    System.out.println("INSERTAR CODIGO PARA ACTUALIZAR UN FABRICANTE");
-                    int codigoFabri1 = teclado.nextInt();
-                    teclado.nextLine();
-                    boolean existeFA = Conexiones.verificarExistenciaCodigo(1, codigoFabri1);
-                    if (existeFA == true) {
-                        Conexiones.actualizarFila(1, codigoFabri1);
-                        System.out.println("FABRICANTE ACTUALIZADO");
-                    } else {
-                        System.out.println("NO EXISTE EL CODIGO INGRESADO");
-                    }
+                        if (Conexiones.verificarExistenciaCodigo(1, codigoFabri1)) {
+                            Conexiones.actualizarFila(1, codigoFabri1);
+                            System.out.println("FABRICANTE ACTUALIZADO");
+                        } else {
+                            System.out.println("NO EXISTE EL CODIGO INGRESADO");
+                        }
 
-                    break;
+                        break;
 
-                case 3:
-                    System.out.println("INSERTAR CODIGO PARA ELIMINAR UN FABRICANTE");
-                    int codigoFabrEli = teclado.nextInt();
-                    teclado.nextLine();
-                    boolean existeEF = Conexiones.verificarExistenciaCodigo(1, codigoFabrEli);
-                    if (existeEF == true) {
-                        Conexiones.eliminarFila(1, codigoFabrEli);
-                        System.out.println("FABRICANTE ELIMINADO");
-                    } else {
-                        System.out.println("NO EXISTE EL CODIGO INGRESADO");
-                    }
+                    case 3:
 
-                    break;
+                        System.out.println("INSERTAR CODIGO PARA ELIMINAR UN FABRICANTE");
+                        int codigoFabrEli = teclado.nextInt();
+                        teclado.nextLine();
 
-                case 4:
-                    System.out.println("INSERTAR CODIGO PARA CONSULTAR UN FABRICANTE");
-                    int codigoFabrB = teclado.nextInt();
-                    teclado.nextLine();
-                    boolean existeBf = Conexiones.verificarExistenciaCodigo(1, codigoFabrB);
-                    if (existeBf == true) {
-                        Conexiones.consultarFila(1, codigoFabrB);
-                        
-                    } else {
-                        System.out.println("NO EXISTE EL CODIGO INGRESADO");
-                    }
-                    break;
+                        if (Conexiones.verificarExistenciaCodigo(1, codigoFabrEli)) {
+                            Conexiones.eliminarFila(1, codigoFabrEli);
+                            System.out.println("FABRICANTE ELIMINADO");
+                        } else {
+                            System.out.println("NO EXISTE EL CODIGO INGRESADO");
+                        }
 
-                case 5:
-                  System.out.println("DATOS DE LOS FABRICANTES");
-                  Conexiones.consultarTodasFila(1);
-                    
-                  
-                  
-                  break;
-                 
-                case 6:
+                        break;
 
-                    break;
+                    case 4:
 
-                case 7:
+                        System.out.println("INSERTAR CODIGO PARA CONSULTAR UN FABRICANTE");
+                        int codigoFabrB = teclado.nextInt();
+                        teclado.nextLine();
 
-                    break;
+                        if (Conexiones.verificarExistenciaCodigo(1, codigoFabrB)) {
+                            Conexiones.consultarFila(1, codigoFabrB);
 
-                case 8:
+                        } else {
+                            System.out.println("NO EXISTE EL CODIGO INGRESADO");
+                        }
 
-                    break;
+                        break;
 
-                case 9:
+                    case 5:
+                        System.out.println("DATOS DE LOS FABRICANTES");
+                        Conexiones.consultarTodasFila(1);
 
-                    break;
+                        break;
 
-                case 10:
+                    case 6:
 
-                    break;
+                        break;
 
-                case 11:
+                    case 7:
 
-                    break;
+                        break;
 
-                case 12:
+                    case 8:
 
-                    break;
+                        break;
 
-                case 13:
+                    case 9:
 
-                    break;
+                        break;
 
-                case 14:
-                    salir = true;
-                    System.out.println("Saliendo del programa ...");
-                    break;
+                    case 10:
 
-                default:
-                    throw new AssertionError("Opcion incorrecta");
+                        break;
+
+                    case 11:
+
+                        break;
+
+                    case 12:
+
+                        break;
+
+                    case 13:
+
+                        break;
+
+                    case 14:
+                        salir = true;
+                        System.out.println("Saliendo del programa ...");
+                        break;
+
+                    default:
+                        System.out.println("OPCION INCORRECTA");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("ERROR ENTRADA INVALIDA,DEBE CONTENER SOLO NUMEROS");
+                teclado.nextLine();
+
             }
+
         }
     }
 
@@ -230,120 +241,133 @@ public class Menu {
         while (!salir) {
             System.out.println("INICIANDO SESION EN CLIENTE...");
             Menu.historialSubMenus();
+            try {
+                int opcion = teclado.nextInt();
 
-            int opcion = teclado.nextInt();
+                switch (opcion) {
 
-            switch (opcion) {
+                    case 1:
 
-                case 1:
+                        System.out.println("INSERTA EL CODIGO DEL CLIENTE");
+                        int codigoCli = teclado.nextInt();
+                        if (Conexiones.verificarExistenciaCodigo(4, codigoCli)) {
+                            System.out.println("EL CODIGO INGRESADO YA EXISTE");
+                        } else {
+                            teclado.nextLine();
+                            System.out.println("INSERTA EL NOMBRE DEL CLIENTE");
+                            String nombreCli = teclado.nextLine();
+                            System.out.println("INSERTA LA FECHA DE NACIMIENTO DEL CLIENTE");
+                            String fechaNacimiento = teclado.nextLine();
+                            System.out.println("INSERTA LA DIRECCION DE ENVIO DEL CLIENTE");
+                            String direccionEnvio = teclado.nextLine();
+                            System.out.println("INSERTA EL TELEFONO DEL CLIENTE");
+                            String telCliente = teclado.nextLine();
+                            System.out.println("INSERTA EL CORREO DEL CLIENTE");
+                            String correoCli = teclado.nextLine();
 
-                    System.out.println("INSERTA EL CODIGO DEL CLIENTE");
-                    int codigoCli = teclado.nextInt();
-                    teclado.nextLine();
-                    System.out.println("INSERTA EL NOMBRE DEL CLIENTE");
-                    String nombreCli = teclado.nextLine();
-                    System.out.println("INSERTA LA FECHA DE NACIMIENTO DEL CLIENTE");
-                    String fechaNacimiento = teclado.nextLine();
-                    System.out.println("INSERTA LA DIRECCION DE ENVIO DEL CLIENTE");
-                    String direccionEnvio = teclado.nextLine();
-                    System.out.println("INSERTA EL TELEFONO DEL CLIENTE");
-                    String telCliente = teclado.nextLine();
-                    System.out.println("INSERTA EL CORREO DEL CLIENTE");
-                    String correoCli = teclado.nextLine();
+                            Cliente c1 = new Cliente(codigoCli, nombreCli, fechaNacimiento, direccionEnvio, telCliente, correoCli);
 
-                    Cliente c1 = new Cliente(codigoCli, nombreCli, fechaNacimiento, direccionEnvio, telCliente, correoCli);
+                            Conexiones.insertarDatos(c1);
+                        }
 
-                    Conexiones.insertarDatos(c1);
+                        break;
 
-                    break;
+                    case 2:
 
-                case 2:
-                    System.out.println("INSERTAR CODIGO PARA ACTUALIZAR CLIENTE");
-                    int codigoCliFi = teclado.nextInt();
-                    teclado.nextLine();
-                    boolean existe = Conexiones.verificarExistenciaCodigo(4, codigoCliFi);
-                    if (existe == true) {
-                        Conexiones.actualizarFila(4, codigoCliFi);
-                        System.out.println("CLIENTE ACTUALIZADO");
-                    } else {
-                        System.out.println("NO EXISTE EL CODIGO INGRESADO");
-                    }
+                        System.out.println("INSERTAR CODIGO PARA ACTUALIZAR CLIENTE");
+                        int codigoCliFi = teclado.nextInt();
+                        teclado.nextLine();
 
-                    break;
+                        if (Conexiones.verificarExistenciaCodigo(4, codigoCliFi)) {
+                            Conexiones.actualizarFila(4, codigoCliFi);
+                            System.out.println("CLIENTE ACTUALIZADO");
+                        } else {
+                            System.out.println("NO EXISTE EL CODIGO INGRESADO");
+                        }
 
-                case 3:
-                    System.out.println("INSERTAR CODIGO PARA ELIMINAR UN CLIENTE");
-                    int codigoCliEF = teclado.nextInt();
-                    teclado.nextLine();
-                    boolean existeEF = Conexiones.verificarExistenciaCodigo(4, codigoCliEF);
-                    if (existeEF == true) {
-                        Conexiones.actualizarFila(4, codigoCliEF);
-                        System.out.println("CLIENTE ELIMINADO");
-                    } else {
-                        System.out.println("NO EXISTE EL CODIGO INGRESADO");
-                    }
+                        break;
 
-                    break;
+                    case 3:
 
-                case 4:
-                    System.out.println("INSERTAR CODIGO PARA CONSULTAR UN CLIENTE");
-                    int codigoCliCC = teclado.nextInt();
-                    teclado.nextLine();
-                    boolean existeCC = Conexiones.verificarExistenciaCodigo(4, codigoCliCC);
-                    if (existeCC == true) {
-                        Conexiones.consultarFila(4, codigoCliCC);
-                        
-                    } else {
-                        System.out.println("NO EXISTE EL CODIGO INGRESADO");
-                    }
+                        System.out.println("INSERTAR CODIGO PARA ELIMINAR UN CLIENTE");
+                        int codigoCliEF = teclado.nextInt();
+                        teclado.nextLine();
 
-                    break;
+                        if (Conexiones.verificarExistenciaCodigo(4, codigoCliEF)) {
+                            Conexiones.actualizarFila(4, codigoCliEF);
+                            System.out.println("CLIENTE ELIMINADO");
+                        } else {
+                            System.out.println("NO EXISTE EL CODIGO INGRESADO");
+                        }
 
-                case 5:
-                  System.out.println("DATOS DE LOS CLIENTE");
-                  Conexiones.consultarTodasFila(4);
-                    break;
+                        break;
 
-                case 6:
+                    case 4:
 
-                    break;
+                        System.out.println("INSERTAR CODIGO PARA CONSULTAR UN CLIENTE");
+                        int codigoCliCC = teclado.nextInt();
+                        teclado.nextLine();
 
-                case 7:
+                        if (Conexiones.verificarExistenciaCodigo(4, codigoCliCC)) {
+                            Conexiones.consultarFila(4, codigoCliCC);
 
-                    break;
+                        } else {
+                            System.out.println("NO EXISTE EL CODIGO INGRESADO");
+                        }
 
-                case 8:
+                        break;
 
-                    break;
+                    case 5:
+                        System.out.println("DATOS DE LOS CLIENTE");
+                        Conexiones.consultarTodasFila(4);
+                        break;
 
-                case 9:
+                    case 6:
 
-                    break;
+                        break;
 
-                case 10:
+                    case 7:
 
-                    break;
+                        break;
 
-                case 11:
+                    case 8:
 
-                    break;
+                        break;
 
-                case 12:
+                    case 9:
 
-                    break;
+                        break;
 
-                case 13:
+                    case 10:
 
-                    break;
+                        break;
 
-                case 14:
-                    salir = true;
-                    System.out.println("Saliendo del programa ...");
-                    break;
+                    case 11:
 
-                default:
-                    throw new AssertionError("Opcion incorrecta");
+                        break;
+
+                    case 12:
+
+                        break;
+
+                    case 13:
+
+                        break;
+
+                    case 14:
+                        salir = true;
+                        System.out.println("Saliendo del programa ...");
+                        break;
+
+                    default:
+                        System.out.println("OPCION INVALIDA");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("ERROR ENTRADA INVALIDA,DEBE CONTENER SOLO NUMEROS");
+                teclado.nextLine();
+
             }
+
         }
 
     }
@@ -353,120 +377,135 @@ public class Menu {
         while (!salir) {
             System.out.println("INICIANDO SESION EN VENDEDOR...");
             Menu.historialSubMenus();
-            int opcion = teclado.nextInt();
+            try {
+                int opcion = teclado.nextInt();
 
-            switch (opcion) {
+                switch (opcion) {
 
-                case 1:
+                    case 1:
 
-                    System.out.println("INSERTA EL CODIGO DEL VENDEDOR");
-                    int codigoVen = teclado.nextInt();
-                    teclado.nextLine();
-                    System.out.println("INSERTA EL NOMBRE DEL VENDEDOR");
-                    String nombreVen = teclado.nextLine();
-                    System.out.println("INSERTA LA FECHA DE ALTA DEL VENDEDOR");
-                    String fechaAltaVen = teclado.nextLine();
-                    System.out.println("INSERTA EL DOMICILIO DEL VENDEDOR");
-                    String domicilioVen = teclado.nextLine();
-                    System.out.println("INSERTA EL SALARIO DEL VENDEDOR");
-                    double salarioVen = teclado.nextDouble();
-                    teclado.nextLine();
-                    System.out.println("INSERTA EL PORCENTAJE DEL VENDEDOR");
-                    double porcentajeVen = teclado.nextDouble();
-                    teclado.nextLine();
+                        System.out.println("INSERTA EL CODIGO DEL VENDEDOR");
+                        int codigoVen = teclado.nextInt();
+                        if (Conexiones.verificarExistenciaCodigo(3, codigoVen)) {
+                            System.out.println("EL CODIGO INGRESADO YA EXISTE");
+                        } else {
+                            teclado.nextLine();
+                            System.out.println("INSERTA EL NOMBRE DEL VENDEDOR");
+                            String nombreVen = teclado.nextLine();
+                            System.out.println("INSERTA LA FECHA DE ALTA DEL VENDEDOR");
+                            String fechaAltaVen = teclado.nextLine();
+                            System.out.println("INSERTA EL DOMICILIO DEL VENDEDOR");
+                            String domicilioVen = teclado.nextLine();
+                            System.out.println("INSERTA EL SALARIO DEL VENDEDOR");
+                            double salarioVen = teclado.nextDouble();
+                            teclado.nextLine();
+                            System.out.println("INSERTA EL PORCENTAJE DEL VENDEDOR");
+                            double porcentajeVen = teclado.nextDouble();
+                            teclado.nextLine();
 
-                    Vendedor ven = new Vendedor(codigoVen, nombreVen, fechaAltaVen, domicilioVen, salarioVen, porcentajeVen);
+                            Vendedor ven = new Vendedor(codigoVen, nombreVen, fechaAltaVen, domicilioVen, salarioVen, porcentajeVen);
 
-                    Conexiones.insertarDatos(ven);
-                    break;
+                            Conexiones.insertarDatos(ven);
+                        }
 
-                case 2:
-                    System.out.println("INSERTAR CODIGO PARA ACTUALIZAR UN VENDEDOR");
-                    int codigoVenFi = teclado.nextInt();
-                    teclado.nextLine();
-                    boolean existe = Conexiones.verificarExistenciaCodigo(3, codigoVenFi);
-                    if (existe == true) {
-                        Conexiones.actualizarFila(3, codigoVenFi);
-                        System.out.println("VENDEDOR ACTUALIZADO");
-                    } else {
-                        System.out.println("NO EXISTE EL CODIGO INGRESADO");
-                    }
+                        break;
 
-                    break;
+                    case 2:
 
-                case 3:
-                    System.out.println("INSERTAR CODIGO PARA ELIMINAR UN VENDEDOR");
-                    int codigoVenEF = teclado.nextInt();
-                    teclado.nextLine();
-                    boolean existeEF = Conexiones.verificarExistenciaCodigo(3, codigoVenEF);
-                    if (existeEF == true) {
-                        Conexiones.eliminarFila(3, codigoVenEF);
-                        System.out.println("VENDEDOR ELIMINADO");
-                    } else {
-                        System.out.println("NO EXISTE EL CODIGO INGRESADO");
-                    }
+                        System.out.println("INSERTAR CODIGO PARA ACTUALIZAR UN VENDEDOR");
+                        int codigoVenFi = teclado.nextInt();
+                        teclado.nextLine();
 
-                    break;
+                        if (Conexiones.verificarExistenciaCodigo(3, codigoVenFi)) {
+                            Conexiones.actualizarFila(3, codigoVenFi);
+                            System.out.println("VENDEDOR ACTUALIZADO");
+                        } else {
+                            System.out.println("NO EXISTE EL CODIGO INGRESADO");
+                        }
 
-                case 4:
-                    System.out.println("INSERTAR CODIGO PARA CONSULTAR UN VENDEDOR");
-                    int codigoVenCF = teclado.nextInt();
-                    teclado.nextLine();
-                    boolean existeCF = Conexiones.verificarExistenciaCodigo(3, codigoVenCF);
-                    if ( existeCF == true) {
-                        Conexiones.consultarFila(3, codigoVenCF);
-                    } else {
-                        System.out.println("NO EXISTE EL CODIGO INGRESADO");
-                    }
+                        break;
 
-                    break;
+                    case 3:
 
-                case 5:
-                    System.out.println("DATOS DE LOS VENDEDORES:");
-                    Conexiones.consultarTodasFila(3);
+                        System.out.println("INSERTAR CODIGO PARA ELIMINAR UN VENDEDOR");
+                        int codigoVenEF = teclado.nextInt();
+                        teclado.nextLine();
 
-                    break;
+                        if (Conexiones.verificarExistenciaCodigo(3, codigoVenEF)) {
+                            Conexiones.eliminarFila(3, codigoVenEF);
+                            System.out.println("VENDEDOR ELIMINADO");
+                        } else {
+                            System.out.println("NO EXISTE EL CODIGO INGRESADO");
+                        }
 
-                case 6:
+                        break;
 
-                    break;
+                    case 4:
 
-                case 7:
+                        System.out.println("INSERTAR CODIGO PARA CONSULTAR UN VENDEDOR");
+                        int codigoVenCF = teclado.nextInt();
+                        teclado.nextLine();
 
-                    break;
+                        if (Conexiones.verificarExistenciaCodigo(3, codigoVenCF)) {
+                            Conexiones.consultarFila(3, codigoVenCF);
+                        } else {
+                            System.out.println("NO EXISTE EL CODIGO INGRESADO");
+                        }
 
-                case 8:
+                        break;
 
-                    break;
+                    case 5:
+                        System.out.println("DATOS DE LOS VENDEDORES:");
+                        Conexiones.consultarTodasFila(3);
 
-                case 9:
+                        break;
 
-                    break;
+                    case 6:
 
-                case 10:
+                        break;
 
-                    break;
+                    case 7:
 
-                case 11:
+                        break;
 
-                    break;
+                    case 8:
 
-                case 12:
+                        break;
 
-                    break;
+                    case 9:
 
-                case 13:
+                        break;
 
-                    break;
+                    case 10:
 
-                case 14:
-                    salir = true;
-                    System.out.println("Saliendo del programa ...");
-                    break;
+                        break;
 
-                default:
-                    throw new AssertionError("Opcion incorrecta");
+                    case 11:
+
+                        break;
+
+                    case 12:
+
+                        break;
+
+                    case 13:
+
+                        break;
+
+                    case 14:
+                        salir = true;
+                        System.out.println("Saliendo del programa ...");
+                        break;
+
+                    default:
+                        System.out.println("OPCION INVALIDA");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("ERROR ENTRADA INVALIDA,DEBE CONTENER SOLO NUMEROS");
+                teclado.nextLine();
+
             }
+
         }
 
     }
@@ -476,122 +515,136 @@ public class Menu {
         while (!salir) {
             System.out.println("INICIANDO SESION EN PRODUCTO...");
             Menu.historialSubMenus();
+            try {
+                int opcion = teclado.nextInt();
 
-            int opcion = teclado.nextInt();
+                switch (opcion) {
 
-            switch (opcion) {
+                    case 1:
 
-                case 1:
+                        System.out.println("INSERTA EL CODIGO DEL PRODUCTO");
+                        int codigoPro = teclado.nextInt();
+                        teclado.nextLine();
+                        if (Conexiones.verificarExistenciaCodigo(2, codigoPro)) {
+                            System.out.println("EL CODIGO INGRESADO YA EXISTE");
+                        } else {
+                            System.out.println("INSERTA EL CODIGO DEL FABRICANTE");
+                            int codidoFab = teclado.nextInt();
+                            teclado.nextLine();
+                            if (Conexiones.verificarExistenciaCodigo(1, codidoFab)) {
+                                System.out.println("INSERTA EL NOMBRE DEL PRODUCTO");
+                                String nombre = teclado.nextLine();
+                                System.out.println("INSERTA LA CATEGORIA DEL PRODUCTO");
+                                String categoria = teclado.nextLine();
+                                System.out.println("INSERTA LA DISPONIBILIDAD DEL PRODUCTO");
+                                String disponibilidad = teclado.nextLine();
+                                //Verificar
+                                System.out.println("INSERTA EL PRECIO DE VENTA DEL PRODUCTO");
+                                double precioVenta = teclado.nextDouble();
+                                teclado.nextLine();
 
-                    System.out.println("INSERTA EL CODIGO DEL PRODUCTO");
-                    int codigoPro = teclado.nextInt();
-                    teclado.nextLine();
-                    System.out.println("INSERTA EL CODIGO DEL FABRICANTE");
-                    int codidoFab = teclado.nextInt();
-                    teclado.nextLine();
-                    // Verificar codigo 
-                    System.out.println("INSERTA EL NOMBRE DEL PRODUCTO");
-                    String nombre = teclado.nextLine();
-                    System.out.println("INSERTA LA CATEGORIA DEL PRODUCTO");
-                    String categoria = teclado.nextLine();
-                    System.out.println("INSERTA LA DISPONIBILIDAD DEL PRODUCTO");
-                    String disponibilidad = teclado.nextLine();
-                    //Verificar
-                    System.out.println("INSERTA EL PRECIO DE VENTA DEL PRODUCTO");
-                    double precioVenta = teclado.nextDouble();
-                    teclado.nextLine();
+                                Producto p1 = new Producto(codigoPro, codidoFab, nombre, categoria, disponibilidad, precioVenta);
 
-                    Producto p1 = new Producto(codigoPro, codidoFab, nombre, categoria, disponibilidad, precioVenta);
+                                Conexiones.insertarDatos(p1);
+                            } else {
+                                System.out.println("EL CODIGO DEL FABRICANTE NO EXISTE");
+                            }
 
-                    Conexiones.insertarDatos(p1);
-                    break;
+                        }
 
-                case 2:
-                    System.out.println("INSERTAR CODIGO PARA ACTUALIZAR PRODUCTO");
-                    int codigoProFi = teclado.nextInt();
-                    boolean existe = Conexiones.verificarExistenciaCodigo(2, codigoProFi);
-                    if (existe == true) {
-                        Conexiones.actualizarFila(2, codigoProFi);
-                    } else {
-                        System.out.println("NO EXISTE EL CODIGO INGRESADO");
-                    }
+                        break;
 
-                    break;
+                    case 2:
+                        System.out.println("INSERTAR CODIGO PARA ACTUALIZAR PRODUCTO");
+                        int codigoProFi = teclado.nextInt();
 
-                case 3:
-                     System.out.println("INSERTAR CODIGO PARA ELIMINAR UN PRODUCTO");
-                    int codigoProEF = teclado.nextInt();
-                    teclado.nextLine();
-                    boolean existeEF = Conexiones.verificarExistenciaCodigo(2, codigoProEF);
-                    if (existeEF == true) {
-                        Conexiones.eliminarFila(2, codigoProEF);
-                        System.out.println("PRODUCTO ELIMINADO");
-                    } else {
-                        System.out.println("NO EXISTE EL CODIGO INGRESADO");
-                    }
-                    
+                        if (Conexiones.verificarExistenciaCodigo(2, codigoProFi)) {
+                            Conexiones.actualizarFila(2, codigoProFi);
+                        } else {
+                            System.out.println("NO EXISTE EL CODIGO INGRESADO");
+                        }
 
-                    break;
+                        break;
 
-                case 4:
-                    System.out.println("INSERTAR CODIGO PARA CONSULTAR UN PRODUCTO");
-                    int codigoProCF = teclado.nextInt();
-                    teclado.nextLine();
-                    boolean existeCF = Conexiones.verificarExistenciaCodigo(2, codigoProCF);
-                    if (existeCF == true) {
-                        Conexiones.consultarFila(2, codigoProCF);
-                    } else {
-                        System.out.println("NO EXISTE EL CODIGO INGRESADO");
-                    }
+                    case 3:
+                        System.out.println("INSERTAR CODIGO PARA ELIMINAR UN PRODUCTO");
+                        int codigoProEF = teclado.nextInt();
+                        teclado.nextLine();
 
-                    break;
+                        if (Conexiones.verificarExistenciaCodigo(2, codigoProEF)) {
+                            Conexiones.eliminarFila(2, codigoProEF);
+                            System.out.println("PRODUCTO ELIMINADO");
+                        } else {
+                            System.out.println("NO EXISTE EL CODIGO INGRESADO");
+                        }
 
-                case 5:
-                    System.out.println("DATOS DE LOS PRODUCTOS:");
-                    Conexiones.consultarTodasFila(2);
+                        break;
 
-                    break;
+                    case 4:
+                        System.out.println("INSERTAR CODIGO PARA CONSULTAR UN PRODUCTO");
+                        int codigoProCF = teclado.nextInt();
+                        teclado.nextLine();
 
-                case 6:
+                        if (Conexiones.verificarExistenciaCodigo(2, codigoProCF)) {
+                            Conexiones.consultarFila(2, codigoProCF);
+                        } else {
+                            System.out.println("NO EXISTE EL CODIGO INGRESADO");
+                        }
 
-                    break;
+                        break;
 
-                case 7:
+                    case 5:
+                        System.out.println("DATOS DE LOS PRODUCTOS:");
+                        Conexiones.consultarTodasFila(2);
 
-                    break;
+                        break;
 
-                case 8:
+                    case 6:
 
-                    break;
+                        break;
 
-                case 9:
+                    case 7:
 
-                    break;
+                        break;
 
-                case 10:
+                    case 8:
 
-                    break;
+                        break;
 
-                case 11:
+                    case 9:
 
-                    break;
+                        break;
 
-                case 12:
+                    case 10:
 
-                    break;
+                        break;
 
-                case 13:
+                    case 11:
 
-                    break;
+                        break;
 
-                case 14:
-                    salir = true;
-                    System.out.println("Saliendo del programa ...");
-                    break;
+                    case 12:
 
-                default:
-                    throw new AssertionError("Opcion incorrecta");
+                        break;
+
+                    case 13:
+
+                        break;
+
+                    case 14:
+                        salir = true;
+                        System.out.println("Saliendo del programa ...");
+                        break;
+
+                    default:
+                        System.out.println("OPCION INVALIDA");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("ERROR ENTRADA INVALIDA,DEBE CONTENER SOLO NUMEROS");
+                teclado.nextLine();
+
             }
+
         }
 
     }
@@ -601,120 +654,130 @@ public class Menu {
         while (!salir) {
             System.out.println("INICIANDO SESION EN PEDIDO...");
             Menu.historialSubMenus();
+            try {
+                int opcion = teclado.nextInt();
 
-            int opcion = teclado.nextInt();
+                switch (opcion) {
 
-            switch (opcion) {
+                    case 1:
 
-                case 1:
+                        System.out.println("INSERTA EL CODIGO DEL PEDIDO");
+                        int codigoPed = teclado.nextInt();
+                        teclado.nextLine();
+                        if (Conexiones.verificarExistenciaCodigo(5, codigoPed)) {
+                            System.out.println("EL CODIGO INGRESADO YA EXISTE");
+                        } else {
+                            System.out.println("INSERTA EL CODIGO DEL VENDEDOR");
+                            int codigoVen = teclado.nextInt();
+                            teclado.nextLine();//Verificar
+                            System.out.println("INSERTA EL CODIGO DEL CLIENTE");
+                            int codigoCli = teclado.nextInt();
+                            teclado.nextLine();//Verificar
+                            System.out.println("INSERTA LA FECHA DE REALIZACION DEL PEDIDO");
+                            String fechaRea = teclado.next();
+                            teclado.nextLine();
+                            System.out.println("INSERTA LA FECHA DE ENTREGA DEL PEDIDO");
+                            String fechaEnt = teclado.next();
+                            System.out.println("INSERTA EL ESTADO DEL PEDIDO");
+                            String estado = teclado.next();
 
-                    System.out.println("INSERTA EL CODIGO DEL PEDIDO");
-                    int codigoPed = teclado.nextInt();
-                    teclado.nextLine();
-                    System.out.println("INSERTA EL CODIGO DEL VENDEDOR");
-                    int codigoVen = teclado.nextInt();
-                    teclado.nextLine();//Verificar
-                    System.out.println("INSERTA EL CODIGO DEL CLIENTE");
-                    int codigoCli = teclado.nextInt();
-                    teclado.nextLine();//Verificar
-                    System.out.println("INSERTA LA FECHA DE REALIZACION DEL PEDIDO");
-                    String fechaRea = teclado.next();
-                    teclado.nextLine();
-                    System.out.println("INSERTA LA FECHA DE ENTREGA DEL PEDIDO");
-                    String fechaEnt = teclado.next();
-                    System.out.println("INSERTA EL ESTADO DEL PEDIDO");
-                    String estado = teclado.next();
-                    
+                            Pedido ped = new Pedido(codigoCli, codigoVen, codigoCli, fechaRea, fechaEnt, estado);
 
-                    Pedido ped = new Pedido(codigoCli, codigoVen, codigoCli, fechaRea, fechaEnt, estado);
+                            Conexiones.insertarDatos(ped);
+                        }
 
-                    Conexiones.insertarDatos(ped);
-                    break;
+                        break;
 
-                case 2:
-                    System.out.println("INSERTAR CODIGO PARA ACTUALIZAR UN PEDIDO");
-                    int codigoPedFi = teclado.nextInt();
-                    teclado.nextLine();
-                    boolean existe = Conexiones.verificarExistenciaCodigo(5, codigoPedFi);
-                    if (existe == true) {
-                        Conexiones.actualizarFila(5, codigoPedFi);
-                    } else {
-                        System.out.println("NO EXISTE EL CODIGO INGRESADO");
-                    }
+                    case 2:
+                        System.out.println("INSERTAR CODIGO PARA ACTUALIZAR UN PEDIDO");
+                        int codigoPedFi = teclado.nextInt();
+                        teclado.nextLine();
 
-                    break;
+                        if (Conexiones.verificarExistenciaCodigo(5, codigoPedFi)) {
+                            Conexiones.actualizarFila(5, codigoPedFi);
+                        } else {
+                            System.out.println("NO EXISTE EL CODIGO INGRESADO");
+                        }
 
-                case 3:
-                    System.out.println("INSERTAR CODIGO PARA ELIMINAR UN PEDIDO");
-                    int codigoPedEF = teclado.nextInt();
-                    teclado.nextLine();
-                    boolean existeEF = Conexiones.verificarExistenciaCodigo(5, codigoPedEF);
-                    if (existeEF == true) {
-                        Conexiones.actualizarFila(5, codigoPedEF);
-                        System.out.println("PEDIDO ELIMINADO");
-                    } else {
-                        System.out.println("NO EXISTE EL CODIGO INGRESADO");
-                    }
-                    break;
+                        break;
 
-                case 4:
-                 System.out.println("INSERTAR CODIGO PARA CONSULTAR UN PEDIDO");
-                    int codigoPedCP = teclado.nextInt();
-                    teclado.nextLine();
-                    boolean existeCP = Conexiones.verificarExistenciaCodigo(5, codigoPedCP);
-                    if (existeCP == true) {
-                        Conexiones.actualizarFila(5, codigoPedCP);
-                        
-                    } else {
-                        System.out.println("NO EXISTE EL CODIGO INGRESADO");
-                    }
-                    break;
+                    case 3:
+                        System.out.println("INSERTAR CODIGO PARA ELIMINAR UN PEDIDO");
+                        int codigoPedEF = teclado.nextInt();
+                        teclado.nextLine();
 
-                case 5:
-                    System.out.println("DATOS DE TODOS LOS PEDIDOS");
-                    Conexiones.consultarTodasFila(5);
-                    break;
+                        if (Conexiones.verificarExistenciaCodigo(5, codigoPedEF)) {
+                            Conexiones.actualizarFila(5, codigoPedEF);
+                            System.out.println("PEDIDO ELIMINADO");
+                        } else {
+                            System.out.println("NO EXISTE EL CODIGO INGRESADO");
+                        }
+                        break;
 
-                case 6:
+                    case 4:
+                        System.out.println("INSERTAR CODIGO PARA CONSULTAR UN PEDIDO");
+                        int codigoPedCP = teclado.nextInt();
+                        teclado.nextLine();
 
-                    break;
+                        if (Conexiones.verificarExistenciaCodigo(5, codigoPedCP)) {
+                            Conexiones.actualizarFila(5, codigoPedCP);
 
-                case 7:
+                        } else {
+                            System.out.println("NO EXISTE EL CODIGO INGRESADO");
+                        }
+                        break;
 
-                    break;
+                    case 5:
+                        System.out.println("DATOS DE TODOS LOS PEDIDOS");
+                        Conexiones.consultarTodasFila(5);
+                        break;
 
-                case 8:
+                    case 6:
 
-                    break;
+                        break;
 
-                case 9:
+                    case 7:
 
-                    break;
+                        break;
 
-                case 10:
+                    case 8:
 
-                    break;
+                        break;
 
-                case 11:
+                    case 9:
 
-                    break;
+                        break;
 
-                case 12:
+                    case 10:
 
-                    break;
+                        break;
 
-                case 13:
+                    case 11:
 
-                    break;
+                        break;
 
-                case 14:
-                    salir = true;
-                    System.out.println("Saliendo del programa ...");
-                    break;
+                    case 12:
 
-                default:
-                    throw new AssertionError("Opcion incorrecta");
+                        break;
+
+                    case 13:
+
+                        break;
+
+                    case 14:
+                        salir = true;
+                        System.out.println("Saliendo del programa ...");
+                        break;
+
+                    default:
+                        System.out.println("OPCION INVALIDA");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("ERROR ENTRADA INVALIDA,DEBE CONTENER SOLO NUMEROS");
+                teclado.nextLine();
+
             }
+
         }
 
     }
@@ -725,128 +788,144 @@ public class Menu {
             System.out.println("INICIANDO SESION EN LINEA DE PEDIDO...");
             Menu.historialSubMenus();
 
-            int opcion = teclado.nextInt();
+            try {
+                int opcion = teclado.nextInt();
 
-            switch (opcion) {
+                switch (opcion) {
 
-                case 1:
+                    case 1:
 
-                    System.out.println("INSERTA EL CODIGO DEL PEDIDO");
-                    int codigoPed = teclado.nextInt();
-                    teclado.nextLine();
-                    System.out.println("INSERTA EL CODIGO DEL PRODUCTO");
-                    int codigoPro = teclado.nextInt();
-                    teclado.nextLine();
-                    System.out.println("INSERTA LAS UNIDADES COMPRADAS");
-                    int unidadesCompradas = teclado.nextInt();
-                    teclado.nextLine();
-                    
+                        System.out.println("INSERTA EL CODIGO DEL PEDIDO");
+                        int codigoPed = teclado.nextInt();
+                        teclado.nextLine();
 
-                    LineaPedido lp = new LineaPedido(codigoPed, codigoPro, unidadesCompradas);
+                        System.out.println("INSERTA EL CODIGO DEL PRODUCTO");
+                        int codigoPro = teclado.nextInt();
+                        teclado.nextLine();
+                        if (Conexiones.verificarExistenciaCodigo(5, codigoPed) && Conexiones.verificarExistenciaCodigo(2, codigoPro)) {
+                            if (Conexiones.verificarExistenciaLineaPedido(codigoPed, codigoPro)) {
+                                System.out.println("EL CODIGO INGRESADO YA EXISTE");
+                            } else {
+                                System.out.println("INSERTA LAS UNIDADES COMPRADAS");
+                                int unidadesCompradas = teclado.nextInt();
+                                teclado.nextLine();
 
-                    Conexiones.insertarDatos(lp);
+                                LineaPedido lp = new LineaPedido(codigoPed, codigoPro, unidadesCompradas);
 
-                    break;
+                                Conexiones.insertarDatos(lp);
+                            }
 
-                case 2:
-                    System.out.println("INSERTAR CODIGO DE PEDIDO Y CODIGO DE PRODUCTO PARA ACTUALIZAR");
-                    System.out.print("PEDIDO:"); 
-                    int codigoPedFi = teclado.nextInt();
-                    teclado.nextLine();
-                    
-                    System.out.print("PRODUCTO:");
-                    int codigoProFi = teclado.nextInt();
-                    teclado.nextLine();
-                    
-                    boolean existe = Conexiones.verificarExistenciaLineaPedido(codigoPedFi, codigoPedFi);
-                    if (existe == true) {
-                        Conexiones.actualizarLineaPedido(codigoPedFi, codigoProFi);
-                    } else {
-                        System.out.println("NO EXISTE LA LINEA DE PEDIDO INGRESADA");
-                    }
+                        } else {
+                            System.out.println("EL CODIGO INGRESADO NO EXISTE");
+                        }
 
-                    break;
+                        break;
 
-                case 3:
-                    System.out.println("INSERTAR CODIGO DE PEDIDO Y CODIGO DE PRODUCTO PARA ELIMINAR LINEA DE PEDIDO");
-                    System.out.print("PEDIDO:");
-                    int codigoPedE = teclado.nextInt();
-                    teclado.nextLine();
-                    System.out.print("PRODUCTO:");
-                    int codigoProE = teclado.nextInt();
-                    teclado.nextLine();
-                    boolean existeE = Conexiones.verificarExistenciaLineaPedido(codigoPedE, codigoProE);
-                    if (existeE == true) {
-                        Conexiones.eliminarLineaPedido(codigoPedE, codigoProE);
-                        System.out.println("LINEA DE PEDIDO ELIMINADA");
-                    } else {
-                        System.out.println("NO EXISTE LA LINEA DE PEDIDO INGRESADA");
-                    }
+                    case 2:
+                        System.out.println("INSERTAR CODIGO DE PEDIDO Y CODIGO DE PRODUCTO PARA ACTUALIZAR");
+                        System.out.print("PEDIDO:");
+                        int codigoPedFi = teclado.nextInt();
+                        teclado.nextLine();
 
-                    break;
+                        System.out.print("PRODUCTO:");
+                        int codigoProFi = teclado.nextInt();
+                        teclado.nextLine();
 
-                case 4:
-                   System.out.println("INSERTAR CODIGO DE PEDIDO Y CODIGO DE PRODUCTO PARA CONSULTAR UNA LINEA DE PEDIDO");
-                    System.out.print("PEDIDO:");
-                    int codigoPedCC = teclado.nextInt();
-                    teclado.nextLine();
-                    System.out.print("PRODUCTO:");
-                    int codigoProECC = teclado.nextInt();
-                    teclado.nextLine();
-                    boolean existeECC = Conexiones.verificarExistenciaLineaPedido(codigoPedCC, codigoProECC);
-                    if (existeECC == true) {
-                        Conexiones.eliminarLineaPedido(codigoPedCC, codigoProECC);
-                    } else {
-                        System.out.println("NO EXISTE LA LINEA DE PEDIDO INGRESADA");
-                    }
-                    break;
+                        
+                        if (Conexiones.verificarExistenciaLineaPedido(codigoPedFi, codigoPedFi)) {
+                            Conexiones.actualizarLineaPedido(codigoPedFi, codigoProFi);
+                        } else {
+                            System.out.println("NO EXISTE LA LINEA DE PEDIDO INGRESADA");
+                        }
 
-                case 5:
-                    System.out.println("DATOS DE LINEAS DE PEDIDO");
-                    Conexiones.consultarTodasFila(6);
+                        break;
 
-                    break;
+                    case 3:
+                        System.out.println("INSERTAR CODIGO DE PEDIDO Y CODIGO DE PRODUCTO PARA ELIMINAR LINEA DE PEDIDO");
+                        System.out.print("PEDIDO:");
+                        int codigoPedE = teclado.nextInt();
+                        teclado.nextLine();
+                        System.out.print("PRODUCTO:");
+                        int codigoProE = teclado.nextInt();
+                        teclado.nextLine();
+                        boolean existeE = Conexiones.verificarExistenciaLineaPedido(codigoPedE, codigoProE);
+                        if (existeE == true) {
+                            Conexiones.eliminarLineaPedido(codigoPedE, codigoProE);
+                            System.out.println("LINEA DE PEDIDO ELIMINADA");
+                        } else {
+                            System.out.println("NO EXISTE LA LINEA DE PEDIDO INGRESADA");
+                        }
 
-                case 6:
+                        break;
 
-                    break;
+                    case 4:
+                        System.out.println("INSERTAR CODIGO DE PEDIDO Y CODIGO DE PRODUCTO PARA CONSULTAR UNA LINEA DE PEDIDO");
+                        System.out.print("PEDIDO:");
+                        int codigoPedCC = teclado.nextInt();
+                        teclado.nextLine();
+                        System.out.print("PRODUCTO:");
+                        int codigoProECC = teclado.nextInt();
+                        teclado.nextLine();
+                        boolean existeECC = Conexiones.verificarExistenciaLineaPedido(codigoPedCC, codigoProECC);
+                        if (existeECC == true) {
+                            Conexiones.eliminarLineaPedido(codigoPedCC, codigoProECC);
+                        } else {
+                            System.out.println("NO EXISTE LA LINEA DE PEDIDO INGRESADA");
+                        }
+                        break;
 
-                case 7:
+                    case 5:
+                        System.out.println("DATOS DE LINEAS DE PEDIDO");
+                        Conexiones.consultarTodasFila(6);
 
-                    break;
+                        break;
 
-                case 8:
+                    case 6:
 
-                    break;
+                        break;
 
-                case 9:
+                    case 7:
 
-                    break;
+                        break;
 
-                case 10:
+                    case 8:
 
-                    break;
+                        break;
 
-                case 11:
+                    case 9:
 
-                    break;
+                        break;
 
-                case 12:
+                    case 10:
 
-                    break;
+                        break;
 
-                case 13:
+                    case 11:
 
-                    break;
+                        break;
 
-                case 14:
-                    salir = true;
-                    System.out.println("Saliendo del programa ...");
-                    break;
+                    case 12:
 
-                default:
-                    throw new AssertionError("Opcion incorrecta");
+                        break;
+
+                    case 13:
+
+                        break;
+
+                    case 14:
+                        salir = true;
+                        System.out.println("Saliendo del programa ...");
+                        break;
+
+                    default:
+                        System.out.println("OPCION INVALIDA");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("ERROR ENTRADA INVALIDA,DEBE CONTENER SOLO NUMEROS");
+                teclado.nextLine();
+
             }
+
         }
 
     }

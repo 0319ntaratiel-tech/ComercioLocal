@@ -600,7 +600,7 @@ public class Conexiones {
             conexionEstablecida();
             if (clase == 1) {
 
-                PreparedStatement pst = con.prepareStatement("SELECT * FROM fabricante");
+                PreparedStatement pst = con.prepareStatement("SELECT * FROM fabricante ORDER BY codigo ASC");
                 ResultSet rs = pst.executeQuery();
                 while (rs.next()) {
                     System.out.println(
@@ -618,7 +618,7 @@ public class Conexiones {
 
                 
             } else if (clase == 2) {
-                PreparedStatement pst = con.prepareStatement("select * from producto ");
+                PreparedStatement pst = con.prepareStatement("SELECT * FROM producto ORDER BY codigo ASC");
                 ResultSet rs = pst.executeQuery();
                 while (rs.next()) {
                     System.out.println(
@@ -634,7 +634,7 @@ public class Conexiones {
                 rs.close();
                 pst.close();
             } else if (clase == 3) {
-                PreparedStatement pst = con.prepareStatement("select * from vendedor ");
+                PreparedStatement pst = con.prepareStatement("SELECT * FROM vendedor ORDER BY codigo ASC ");
                 ResultSet rs = pst.executeQuery();
                 while (rs.next()) {    
                   System.out.println(
@@ -650,7 +650,7 @@ public class Conexiones {
                 rs.close();
                 pst.close();
             } else if (clase == 4) {
-                PreparedStatement pst = con.prepareStatement("select * from cliente ");
+                PreparedStatement pst = con.prepareStatement("SELECT * FROM cliente ORDER BY codigo ASC ");
                 ResultSet rs = pst.executeQuery();
                 while (rs.next()) {
                     System.out.println(
@@ -666,7 +666,7 @@ public class Conexiones {
                 rs.close();
                 pst.close();
             } else if (clase == 5) {
-                PreparedStatement pst = con.prepareStatement("select * from pedido ");
+                PreparedStatement pst = con.prepareStatement("SELECT * FROM pedido ORDER BY codigo ASC");
 
                 ResultSet rs = pst.executeQuery();
                 while (rs.next()) {
@@ -684,7 +684,7 @@ public class Conexiones {
                 rs.close();
                 pst.close();
             } else if (clase == 6) {
-                PreparedStatement pst = con.prepareStatement("select * from lineaPedido ");
+                PreparedStatement pst = con.prepareStatement("SELECT * FROM lineaPedido ORDER BY codigoPedido ASC");
 
                 ResultSet rs = pst.executeQuery();
                 while (rs.next()) {
