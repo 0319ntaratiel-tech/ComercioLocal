@@ -21,7 +21,7 @@ public class Pedido implements Lectora{
     private String fechaRealizacion;
     private String fechaEntrega;
     private String estado;
-    //private double importe;
+    
     
     //constructor
 
@@ -115,7 +115,10 @@ public class Pedido implements Lectora{
     }
 
     
-    
+    public double calcularImporte(){
+        double importe = 0;
+        return importe;
+    }
     
     //metodos
    
