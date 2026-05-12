@@ -26,7 +26,7 @@ public class FabricanteFicheros {
     public static void exportarFicheroDeTextoFabri(ContenedorFabricante contFabri) {
 
         try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(Configuracion.nombreFicheroTexto, true));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(Configuracion.nombreFicheroTextoFabri, true));
 
             for (Fabricante f : contFabri.getFabricantes()) {
 
@@ -48,7 +48,7 @@ public class FabricanteFicheros {
         }
 
         try {
-            BufferedReader br = new BufferedReader(new FileReader(Configuracion.nombreFicheroTexto));
+            BufferedReader br = new BufferedReader(new FileReader(Configuracion.nombreFicheroTextoFabri));
             String linea = br.readLine();
 
             while (linea != null) {
@@ -82,7 +82,7 @@ public class FabricanteFicheros {
         ObjectWriter wr = mp.writerWithDefaultPrettyPrinter();
         
         try {
-            wr.writeValue(new File(Configuracion.nombreFicheroJSON), contFabri);
+            wr.writeValue(new File(Configuracion.nombreFicheroJSONFabri), contFabri);
         } catch (IOException ex) {
             System.err.println("Ha ocurrido un error");
             System.err.println(ex);
@@ -102,7 +102,7 @@ public class FabricanteFicheros {
         try {
             //leememos el fichero, lo interpreta, lo convierte a objetod de Fabricante y los mete en un ArrayList
             //el TypeReference sirve para mantener el tipo generico , sin esto java no sabe que es una lista de Fabricante 
-            ArrayList<Fabricante> fabricantes = om.readValue(new File(Configuracion.nombreFicheroJSON), new TypeReference<ArrayList<Fabricante>>(){});
+            ArrayList<Fabricante> fabricantes = om.readValue(new File(Configuracion.nombreFicheroJSONFabri), new TypeReference<ArrayList<Fabricante>>(){});
             //Aqui toma los datos leidos del json y los añade al contenedor de Fabricantes
             contFabri.getFabricantes().addAll(fabricantes);
         } catch (IOException ex) {
@@ -113,7 +113,7 @@ public class FabricanteFicheros {
 
     public static void exportarFicheroCSVFabri(ContenedorFabricante contFabri) {
         try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(Configuracion.nombreFicheroCSV, true));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(Configuracion.nombreFicheroCSVFabri, true));
 
             for (Fabricante f : contFabri.getFabricantes()) {
 
@@ -134,7 +134,7 @@ public class FabricanteFicheros {
         }
 
         try {
-            BufferedReader br = new BufferedReader(new FileReader(Configuracion.nombreFicheroCSV));
+            BufferedReader br = new BufferedReader(new FileReader(Configuracion.nombreFicheroCSVFabri));
             String linea = br.readLine();
 
             while (linea != null) {
@@ -164,7 +164,7 @@ public class FabricanteFicheros {
     public static void exportarFicheroBinarioFabri(ContenedorFabricante contFabri) {
 
         try {
-            ObjectOutputStream oss = new ObjectOutputStream(new FileOutputStream(Configuracion.nombreFicheroBinario, true));
+            ObjectOutputStream oss = new ObjectOutputStream(new FileOutputStream(Configuracion.nombreFicheroBinarioFabri, true));
             oss.writeObject(contFabri.getFabricantes());
 
             oss.close();
@@ -185,7 +185,7 @@ public class FabricanteFicheros {
         try {
             //java abre le fichero binario y empieza a leer bytes de 0 y 1
             //interpreta esos bytes como objetos  java
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(Configuracion.nombreFicheroBinario));
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(Configuracion.nombreFicheroBinarioFabri));
             
             //lee todo el contenido del fichero y lo devuelve como un object generico
             Object ob = ois.readObject();
