@@ -5,6 +5,8 @@
 package contenedores;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import modelos.Producto;
 
 /**
@@ -12,54 +14,56 @@ import modelos.Producto;
  * @author isard
  */
 public class ContenedorProducto {
+
     //creamos una lista para almecenar los datos insertados durante la ejecución
-    private ArrayList<Producto> almacenProductos;
+    private static Set<Producto> almacenProductos;
+    private static Set<Producto> almacenProductosNuevo;
 
     //constructor
     public ContenedorProducto() {
-        this.almacenProductos = new ArrayList<>();
+        this.almacenProductos = new HashSet<>();
     }
-    
+
     //metodos
-    
     /**
      * metodo que permite agregar un producto a la lista
-     * @param pro 
+     *
+     * @param pro
      */
-    public void agregarProducto(Producto pro){
+    public static void agregarProducto(Producto pro) {
         almacenProductos.add(pro);
     }
-    
+
     /**
      * metodo que muestra la informacion del almacen
      */
-    public void mostrarDatosProductos(){
+    public void mostrarDatosProductos() {
         for (Producto pro : almacenProductos) {
             System.out.println(pro);
-            
+
         }
     }
-    
+
     /**
      * metodo que muestra el precio de venta del producto
      */
-    public double mostrarPrecioVenta(){
+    public double mostrarPrecioVenta() {
         double precioVenta = 0;
         for (Producto pro : almacenProductos) {
-           precioVenta =  pro.getPrecioVenta();
+            precioVenta = pro.getPrecioVenta();
         }
-        
+
         return precioVenta;
     }
     //getter
 
     /**
      * metodo que devuelve la lista de productos
+     *
      * @return almacenProductos
      */
-    public ArrayList<Producto> getAlmacenProductos() {
+    public static Set<Producto> getAlmacenProductos() {
         return almacenProductos;
     }
-    
-    
+
 }

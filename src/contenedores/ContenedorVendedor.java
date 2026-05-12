@@ -4,6 +4,7 @@
  */
 package contenedores;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import modelos.Vendedor;
 
@@ -13,12 +14,13 @@ import modelos.Vendedor;
  */
 public class ContenedorVendedor {
     //creamos una lista para almecenar los datos insertados durante la ejecución
-    private LinkedList<Vendedor> almacenVendedor;
+    private static ArrayList<Vendedor> almacenVendedor;
+    private static ArrayList<Vendedor> almacenVendedorNuevos;
     
     //constructor
 
     public ContenedorVendedor() {
-        this.almacenVendedor = new LinkedList<>();
+        this.almacenVendedor = new ArrayList<>();
     }
     
     //metodos
@@ -27,7 +29,7 @@ public class ContenedorVendedor {
      * metodo que agrega un vendedor a la lista
      * @param v 
      */
-    public void agregarVendedor(Vendedor v){
+    public static void agregarVendedor(Vendedor v){
         almacenVendedor.add(v);
     }
     
@@ -46,7 +48,7 @@ public class ContenedorVendedor {
      * metodo que devuleve la lista de vendedor
      * @return almacenVendedor
      */
-    public LinkedList<Vendedor> getAlmacenVendedor() {
+    public static ArrayList<Vendedor> getAlmacenVendedor() {
         return almacenVendedor;
     }
     

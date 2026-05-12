@@ -4,6 +4,7 @@
  */
 package servicios;
 
+import contenedores.ContenedorFabricante;
 import java.sql.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -41,7 +42,7 @@ public class Conexiones {
     }
 
     /**
-     * Metodo para cerrar la conexion con la base de datos 
+     * Metodo para cerrar la conexion con la base de datos
      */
     public static void cierreDeConexion() {
         try {
@@ -53,21 +54,22 @@ public class Conexiones {
     }
 
     /**
-     * Metodo para insertar datos en la base de datos dependiendo 
-     * del tipo de objeto que se recibe por parametro se insertan los datos en cada tabla correspondiente
+     * Metodo para insertar datos en la base de datos dependiendo del tipo de
+     * objeto que se recibe por parametro se insertan los datos en cada tabla
+     * correspondiente
+     *
      * @param o objeto que se inserta en la BD
      */
     public static void insertarDatos(Object o) {
         try {
-            
+
             //Establece la conexion con la base de datos
             conexionEstablecida();
-            
-             /*Se verifica que el tipo de objeto que recibe  y dependiendo del  objeto se realiaza una 
+
+            /*Se verifica que el tipo de objeto que recibe  y dependiendo del  objeto se realiaza una 
              sentencia diferente para la BD*/
-             
             if (o.getClass() == Fabricante.class) {
-                
+
                 //Si el objeto es de tipo fabricante, se inserta en la tabla fabricante
                 PreparedStatement pst = con.prepareStatement("insert into fabricante values (?,?,?,?,?,?)");
                 //Se asignan los valores a la sentencia
@@ -80,7 +82,7 @@ public class Conexiones {
                 //Se ejecuta la insercion en la BD 
                 pst.executeUpdate();
                 pst.close();
-                
+
             } else if (o.getClass() == Producto.class) {
                 //Si el objeto es de tipo producto, se inserta en la tabla producto
                 PreparedStatement pst = con.prepareStatement("insert into producto values (?,?,?,?,?,?)");
@@ -91,10 +93,10 @@ public class Conexiones {
                 pst.setString(4, ((Producto) o).getCategoria());
                 pst.setString(5, ((Producto) o).getDisponibilidad());
                 pst.setDouble(6, ((Producto) o).getPrecioVenta());
-               //Se ejecuta la insercion en la BD 
+                //Se ejecuta la insercion en la BD 
                 pst.executeUpdate();
                 pst.close();
-                
+
             } else if (o.getClass() == Vendedor.class) {
                 //Si el objeto es de tipo vendedor, se inserta en la tabla vendedor
                 PreparedStatement pst = con.prepareStatement("insert into vendedor values (?,?,?,?,?,?)");
@@ -108,7 +110,7 @@ public class Conexiones {
 
                 pst.executeUpdate();//Se ejecuta la insercion en la BD 
                 pst.close();
-                
+
             } else if (o.getClass() == Cliente.class) {
                 //Si el objeto es de tipo cliente, se inserta en la tabla cliente
                 PreparedStatement pst = con.prepareStatement("insert into cliente values (?,?,?,?,?,?)");
@@ -122,7 +124,7 @@ public class Conexiones {
 
                 pst.executeUpdate();//Se ejecuta la insercion en la BD 
                 pst.close();
-                
+
             } else if (o.getClass() == Pedido.class) {
                 //Si el objeto es de tipo pedido, se inserta en la tabla pedido
                 PreparedStatement pst = con.prepareStatement("insert into pedido values (?,?,?,?,?,?)");
@@ -133,11 +135,10 @@ public class Conexiones {
                 pst.setString(4, ((Pedido) o).getFechaRealizacion());
                 pst.setString(5, ((Pedido) o).getFechaEntrega());
                 pst.setString(6, ((Pedido) o).getEstado());
-               
 
                 pst.executeUpdate();//Se ejecuta la insercion en la BD 
                 pst.close();
-                
+
             } else if (o.getClass() == LineaPedido.class) {
                 //Si el objeto es de tipo LineaPedido, se inserta en la tabla LineaPedido
                 PreparedStatement pst = con.prepareStatement("insert into lineaPedido values (?,?,?,?)");
@@ -161,8 +162,10 @@ public class Conexiones {
     }
 
     /**
-     * Metodo para verifica si un código existe en la base de datos según la clase indicada, estableciendo la conexión y
-     * consultando la tabla correspondiente
+     * Metodo para verifica si un código existe en la base de datos según la
+     * clase indicada, estableciendo la conexión y consultando la tabla
+     * correspondiente
+     *
      * @param clase tipo de clase que le indico
      * @param codigo codigo por el cual se va buscar en la BD
      * @return true si el codigo existe, false si no existe
@@ -173,9 +176,9 @@ public class Conexiones {
         try {
             //Se establece la conexion con la base de datos
             conexionEstablecida();
-            
+
             if (clase == 1) { //Si la clase es 1, se trata de un fabricante
-                
+
                 //Consulta para comparar el codigo recibido por parametro, se encuentra en la BD 
                 PreparedStatement pst = con.prepareStatement("select codigo from fabricante where codigo=? ");
                 //Asignamos valores a la consulta
@@ -402,8 +405,8 @@ public class Conexiones {
             System.out.println("INSERTA EL SUBTOTAL");
             teclado.nextLine();
             double subTotal = teclado.nextDouble();
-            PreparedStatement pst = con.prepareStatement( "update lineaPedido set unidadesCompradas=?, subTotal=? " +
-            "where codigoPedido=? and codigoProducto=?");
+            PreparedStatement pst = con.prepareStatement("update lineaPedido set unidadesCompradas=?, subTotal=? "
+                    + "where codigoPedido=? and codigoProducto=?");
 
             pst.setInt(1, unidadesCompradas);
             pst.setDouble(2, subTotal);
@@ -481,15 +484,15 @@ public class Conexiones {
                 PreparedStatement pst = con.prepareStatement("select * from fabricante where codigo=?");
                 pst.setInt(1, codigo);
                 ResultSet rs = pst.executeQuery();
-                while(rs.next()){
-                  System.out.println(
+                while (rs.next()) {
+                    System.out.println(
                             "Codigo: " + rs.getInt("codigo")
                             + " | Nombre: " + rs.getString("nombre")
                             + " | Anyo fundacion: " + rs.getInt("anyoFundacion")
                             + " | Lugar sede: " + rs.getString("lugarSede")
                             + " | Empleados: " + rs.getInt("empleados")
                             + " | Siti web: " + rs.getString("sitioWeb")
-                    );  
+                    );
                 }
                 rs.close();
                 pst.close();
@@ -497,15 +500,15 @@ public class Conexiones {
                 PreparedStatement pst = con.prepareStatement("select * from producto  where codigo=? ");
                 pst.setInt(1, codigo);
                 ResultSet rs = pst.executeQuery();
-                while(rs.next()){
-                System.out.println(
+                while (rs.next()) {
+                    System.out.println(
                             "Codigo: " + rs.getInt("codigo")
                             + " | Codigo fabricante: " + rs.getInt("codigoFabricante")
                             + " | Nombre: " + rs.getString("nombre")
                             + " | Categoria: " + rs.getString("categoria")
                             + " | Disponibilidad: " + rs.getInt("disponibilidad")
                             + " | Precio venta: " + rs.getDouble("precioVenta")
-                    );    
+                    );
                 }
                 rs.close();
                 pst.close();
@@ -513,15 +516,15 @@ public class Conexiones {
                 PreparedStatement pst = con.prepareStatement("select * from vendedor where codigo=? ");
                 pst.setInt(1, codigo);
                 ResultSet rs = pst.executeQuery();
-                while(rs.next()){
-                  System.out.println(
+                while (rs.next()) {
+                    System.out.println(
                             "Codigo: " + rs.getInt("codigo")
                             + " | Nombre: " + rs.getString("nombre")
                             + " | Fecha alta: " + rs.getString("fechaAlta")
                             + " | Domicilio: " + rs.getString("domicilio")
                             + " | Salario: " + rs.getDouble("salario")
                             + " | Porcentaje: " + rs.getDouble("porcentaje")
-                    ); 
+                    );
                 }
                 rs.close();
                 pst.close();
@@ -529,15 +532,15 @@ public class Conexiones {
                 PreparedStatement pst = con.prepareStatement("select * from cliente where codigo=? ");
                 pst.setInt(1, codigo);
                 ResultSet rs = pst.executeQuery();
-                while(rs.next()){
-                 System.out.println(
+                while (rs.next()) {
+                    System.out.println(
                             "Codigo: " + rs.getInt("codigo")
                             + " | Nombre: " + rs.getString("nombre")
                             + " | Fecha nacimiento: " + rs.getString("fechaNacimiento")
                             + " | Direccion de envio: " + rs.getString("direccionEnvio")
                             + " | Telefono: " + rs.getString("telefono")
-                            + " | Correo: " + rs.getString("correo")   
-                    );   
+                            + " | Correo: " + rs.getString("correo")
+                    );
                 }
                 rs.close();
                 pst.close();
@@ -545,7 +548,7 @@ public class Conexiones {
                 PreparedStatement pst = con.prepareStatement("select * from pedido where codigo=? ");
                 pst.setInt(1, codigo);
                 ResultSet rs = pst.executeQuery();
-                while(rs.next()){
+                while (rs.next()) {
                     System.out.println(
                             "Codigo: " + rs.getInt("codigo")
                             + " | Codigo vendedor: " + rs.getInt("codigoVendedor")
@@ -555,7 +558,7 @@ public class Conexiones {
                             + " | Estado: " + rs.getString("estado")
                             + " | Importe: " + rs.getDouble("importe")
                     );
-                    
+
                 }
                 rs.close();
                 pst.close();
@@ -577,15 +580,15 @@ public class Conexiones {
             pst.setInt(1, codPed);
             pst.setInt(1, codPro);
             ResultSet rs = pst.executeQuery();
-                while(rs.next()){
-                  System.out.println(
-                            "Codigo de pedido: " + rs.getInt("codigoPedido")
-                            + " | Codigo de producto: " + rs.getInt("codigoProducto")
-                            + " | Unidades compradas: " + rs.getInt("unidadesCompradas")
-                            + " | Subtotal: " + rs.getDouble("subTotal")
-                    );  
-                }
-                rs.close();
+            while (rs.next()) {
+                System.out.println(
+                        "Codigo de pedido: " + rs.getInt("codigoPedido")
+                        + " | Codigo de producto: " + rs.getInt("codigoProducto")
+                        + " | Unidades compradas: " + rs.getInt("unidadesCompradas")
+                        + " | Subtotal: " + rs.getDouble("subTotal")
+                );
+            }
+            rs.close();
             pst.close();
             cierreDeConexion();
 
@@ -611,12 +614,11 @@ public class Conexiones {
                             + " | Empleados: " + rs.getInt("empleados")
                             + " | Siti web: " + rs.getString("sitioWeb")
                     );
-                    
+
                 }
                 rs.close();
                 pst.close();
 
-                
             } else if (clase == 2) {
                 PreparedStatement pst = con.prepareStatement("SELECT * FROM producto ORDER BY codigo ASC");
                 ResultSet rs = pst.executeQuery();
@@ -636,15 +638,15 @@ public class Conexiones {
             } else if (clase == 3) {
                 PreparedStatement pst = con.prepareStatement("SELECT * FROM vendedor ORDER BY codigo ASC ");
                 ResultSet rs = pst.executeQuery();
-                while (rs.next()) {    
-                  System.out.println(
+                while (rs.next()) {
+                    System.out.println(
                             "Codigo: " + rs.getInt("codigo")
                             + " | Nombre: " + rs.getString("nombre")
                             + " | Fecha alta: " + rs.getString("fechaAlta")
                             + " | Domicilio: " + rs.getString("domicilio")
                             + " | Salario: " + rs.getDouble("salario")
                             + " | Porcentaje: " + rs.getDouble("porcentaje")
-                    );  
+                    );
 
                 }
                 rs.close();
@@ -659,7 +661,7 @@ public class Conexiones {
                             + " | Fecha nacimiento: " + rs.getString("fechaNacimiento")
                             + " | Direccion de envio: " + rs.getString("direccionEnvio")
                             + " | Telefono: " + rs.getString("telefono")
-                            + " | Correo: " + rs.getString("correo")   
+                            + " | Correo: " + rs.getString("correo")
                     );
 
                 }
@@ -708,4 +710,24 @@ public class Conexiones {
         }
     }
 
+    public static void insersatDatosContenedor() {
+
+        try {
+            conexionEstablecida();
+            PreparedStatement pst = con.prepareStatement("SELECT * FROM fabricante");
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                Fabricante f1 = new Fabricante(rs.getInt("codigo"), rs.getString("nombre"), rs.getInt("anyoFundacion"), rs.getString("lugarSede"), rs.getInt("empleados"),
+                        rs.getString("sitioWeb"));
+
+                //ContenedorFabricante.agregarFabricante(f1);
+            }
+            rs.close();
+            pst.close();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 }
