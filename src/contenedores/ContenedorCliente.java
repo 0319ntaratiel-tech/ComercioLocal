@@ -13,7 +13,7 @@ import modelos.Cliente;
  */
 public class ContenedorCliente {
     //creamos una lista para almecenar los datos insertados durante la ejecución
-    private ArrayList<Cliente> almacenClientes;
+    private static ArrayList<Cliente> almacenClientes;
 
     //constructor
     public ContenedorCliente() {
@@ -25,7 +25,7 @@ public class ContenedorCliente {
      * metodo que agrega un cliente a la lista
      * @param c 
      */
-    public void agregarCliente(Cliente c){
+    public static void agregarCliente(Cliente c){
         almacenClientes.add(c);
     }
     
@@ -43,7 +43,7 @@ public class ContenedorCliente {
      * metodo que devuelve la lista de clientes
      * @return almacenClientes
      */
-    public ArrayList<Cliente> getAlmacenClientes() {
+    public static ArrayList<Cliente> getAlmacenClientes() {
         return almacenClientes;
     }
     
