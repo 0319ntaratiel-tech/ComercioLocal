@@ -4,6 +4,12 @@
  */
 package menu;
 
+import contenedores.ContenedorCliente;
+import contenedores.ContenedorFabricante;
+import contenedores.ContenedorLineaPedido;
+import contenedores.ContenedorPedido;
+import contenedores.ContenedorProducto;
+import contenedores.ContenedorVendedor;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.InputMismatchException;
@@ -36,12 +42,15 @@ public class Menu {
 
     }
 
+    /**
+     * Menu principal donde se le pregunta al usuario la tbla que desea gestionar
+     */
     public static void menuPrincipal() {
         int opcion = 0;
         boolean salir = false;
         while (!salir) {
             System.out.println("---BIENVENIDO AL MENU DE NUESTRO COMERCIO LOCAL---");
-            System.out.println("Primero, eliga la tabla que desea modificar");
+            System.out.println("Primero, eliga la tabla que desea gestionar");
             System.out.println("\t 1) FABRICANTE ");
             System.out.println("\t 2) PRODUCTO   ");
             System.out.println("\t 3) CLIENTE ");
@@ -132,6 +141,7 @@ public class Menu {
                             Fabricante f1 = new Fabricante(codigoFabri, nombreFabri, anyoFundacionFabri, lugarSedeFabri, empleadosFabri, sitioWebFabri);
 
                             Conexiones.insertarDatos(f1);
+                            ContenedorFabricante.agregarFabricanteNuevo(f1);
                         }
 
                         break;
@@ -220,6 +230,15 @@ public class Menu {
                         break;
 
                     case 14:
+                        System.out.println("Cargando datos insertados durante la ejecucion...");
+                       ContenedorFabricante.mostrarDatosFabricante();
+                        break;
+                        
+                    case 15:
+
+                        break;
+
+                    case 16:
                         salir = true;
                         System.out.println("Saliendo del programa ...");
                         break;
@@ -268,6 +287,7 @@ public class Menu {
                             Cliente c1 = new Cliente(codigoCli, nombreCli, fechaNacimiento, direccionEnvio, telCliente, correoCli);
 
                             Conexiones.insertarDatos(c1);
+                            ContenedorCliente.agregarClienteNuevo(c1);
                         }
 
                         break;
@@ -355,6 +375,15 @@ public class Menu {
                         break;
 
                     case 14:
+                        System.out.println("Cargando datos insertados durante la ejecucion...");
+                        ContenedorCliente.mostrarDatosClientes();
+                        break;
+                        
+                    case 15:
+
+                        break;
+
+                    case 16:
                         salir = true;
                         System.out.println("Saliendo del programa ...");
                         break;
@@ -406,6 +435,7 @@ public class Menu {
                             Vendedor ven = new Vendedor(codigoVen, nombreVen, fechaAltaVen, domicilioVen, salarioVen, porcentajeVen);
 
                             Conexiones.insertarDatos(ven);
+                            ContenedorVendedor.agregarVendedorNuevo(ven);
                         }
 
                         break;
@@ -493,6 +523,15 @@ public class Menu {
                         break;
 
                     case 14:
+                        System.out.println("Cargando datos insertados durante la ejecucion...");
+                        ContenedorVendedor.mostrarDatosVendedor();
+                        break;
+                        
+                    case 15:
+
+                        break;
+
+                    case 16:
                         salir = true;
                         System.out.println("Saliendo del programa ...");
                         break;
@@ -546,6 +585,7 @@ public class Menu {
                                 Producto p1 = new Producto(codigoPro, codidoFab, nombre, categoria, disponibilidad, precioVenta);
 
                                 Conexiones.insertarDatos(p1);
+                                ContenedorProducto.agregarProductoNuevo(p1);
                             } else {
                                 System.out.println("EL CODIGO DEL FABRICANTE NO EXISTE");
                             }
@@ -632,10 +672,18 @@ public class Menu {
                         break;
 
                     case 14:
+                        System.out.println("Cargando datos insertados durante la ejecucion...");
+                        ContenedorProducto.mostrarDatosProductos();
+                        break;
+                        
+                    case 15:
+
+                        break;
+
+                    case 16:
                         salir = true;
                         System.out.println("Saliendo del programa ...");
                         break;
-
                     default:
                         System.out.println("OPCION INVALIDA");
                 }
@@ -684,6 +732,7 @@ public class Menu {
                             Pedido ped = new Pedido(codigoCli, codigoVen, codigoCli, fechaRea, fechaEnt, estado);
 
                             Conexiones.insertarDatos(ped);
+                            ContenedorPedido.agregarPedidoNuevos(ped);
                         }
 
                         break;
@@ -765,6 +814,15 @@ public class Menu {
                         break;
 
                     case 14:
+                        System.out.println("Cargando datos insertados durante la ejecucion...");
+                        ContenedorPedido.mostrarDatosPedidos();
+                        break;
+                        
+                    case 15:
+
+                        break;
+
+                    case 16:
                         salir = true;
                         System.out.println("Saliendo del programa ...");
                         break;
@@ -809,10 +867,14 @@ public class Menu {
                                 System.out.println("INSERTA LAS UNIDADES COMPRADAS");
                                 int unidadesCompradas = teclado.nextInt();
                                 teclado.nextLine();
+                                
+                                
+                                
 
-                                LineaPedido lp = new LineaPedido(codigoPed, codigoPro, unidadesCompradas);
+                                LineaPedido lp = new LineaPedido(codigoPed, codigoPro, unidadesCompradas );
                                 
                                 Conexiones.insertarDatos(lp);
+                                ContenedorLineaPedido.agregarLineaPedidoNuevos(lp);
                             }
 
                         } else {
@@ -911,8 +973,17 @@ public class Menu {
                     case 13:
 
                         break;
-
+                        
                     case 14:
+                        System.out.println("Cargando datos insertados durante la ejecucion...");
+                        ContenedorLineaPedido.mostrarLineaPedido();
+                        break;
+                        
+                    case 15:
+
+                        break;
+
+                    case 16:
                         salir = true;
                         System.out.println("Saliendo del programa ...");
                         break;
@@ -947,7 +1018,11 @@ public class Menu {
         System.out.println("\t 11) IMPORTAR TABLA A FICHERO DE CSV");
         System.out.println("\t 12) IMPORTAR TABLA A FICHERO BINARIO");
         System.out.println("\t 13) IMPORTAR TABLA A FICHERO JSON");
+        System.out.println("Si desea ver los datos insertados durante la ejecucion pulse ");
+        System.out.println("\t 14) VER DATOS INSERTADOS DURANTE LA EJECUCION");
+        System.out.println("Si desea ver los informe multitabla pulse ");
+        System.out.println("\t 15) VER INFORMES MULTITABLA");
         System.out.println("Si no quiere realizar ninguna operacion de gestion pulse ");
-        System.out.println("\t 14) SALIR ");
+        System.out.println("\t 16) SALIR ");
     }
 }

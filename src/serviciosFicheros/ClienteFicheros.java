@@ -9,22 +9,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import contenedores.ContenedorCliente;
 import excepciones.YaImportadoException;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import modelos.Cliente;
-import modelos.Fabricante;
 import utils.Configuracion;
 
 /**
@@ -88,7 +77,7 @@ public class ClienteFicheros {
             }
         }
 
-        public static void exportarFicheroJSONFabri() {
+        public static void exportarFicheroJSONCli() {
 
             ObjectMapper mp = new ObjectMapper();
 
@@ -103,8 +92,8 @@ public class ClienteFicheros {
 
         }
 
-        public static void importarFicheroJSONFabri() throws YaImportadoException {
-            //comprobamos que si el contenedor tiene productos dentro y si ya hay datos lanzamos la excepcion para evitar importar el fichero varias veces
+        public static void importarFicheroJSONCli() throws YaImportadoException {
+            //comprobamos que si el contenedor tiene clientes dentro y si ya hay datos lanzamos la excepcion para evitar importar el fichero varias veces
             if (!ContenedorCliente.getAlmacenClientes().isEmpty()) {
                 throw new YaImportadoException("Los fabricantes ya fueron importados");
             }
@@ -125,7 +114,7 @@ public class ClienteFicheros {
             }
         }
 
-        public static void exportarFicheroCSVFabri() {
+        public static void exportarFicheroCSVCli() {
             try {
                 BufferedWriter bw = new BufferedWriter(new FileWriter(Configuracion.nombreFicheroCSVCli));
 
@@ -142,7 +131,7 @@ public class ClienteFicheros {
             }
         }
 
-        public static void importarFicheroCSVFabri() throws YaImportadoException {
+        public static void importarFicheroCSVCli() throws YaImportadoException {
             if (!ContenedorCliente.getAlmacenClientes().isEmpty()) {
                 throw new YaImportadoException("Los fabricantes ya fueron importados");
             }
@@ -177,7 +166,7 @@ public class ClienteFicheros {
             }
         }
 
-        public static void exportarFicheroBinarioFabri( ) {
+        public static void exportarFicheroBinarioCli( ) {
 
             try {
                 ObjectOutputStream oss = new ObjectOutputStream(new FileOutputStream(Configuracion.nombreFicheroBinarioCli, true));
@@ -185,14 +174,16 @@ public class ClienteFicheros {
 
                 oss.close();
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(FabricanteFicheros.class.getName()).log(Level.SEVERE, null, ex);
+                System.err.println("Fichero no encontrado");
+                System.err.println(ex);
             } catch (IOException ex) {
-                Logger.getLogger(FabricanteFicheros.class.getName()).log(Level.SEVERE, null, ex);
+                System.err.println("Ha ocurrido un error");
+                System.err.println(ex);
             }
 
         }
 
-        public static void importarFicheroBinarioFabri() throws YaImportadoException {
+        public static void importarFicheroBinarioCli() throws YaImportadoException {
 
             if (!ContenedorCliente.getAlmacenClientes().isEmpty()) {
                 throw new YaImportadoException("Los fabricantes ya fueron importados");

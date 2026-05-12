@@ -5,6 +5,7 @@
 package modelos;
 
 import interfaces.Lectora;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
@@ -12,7 +13,7 @@ import java.time.LocalDate;
  * cliente a la tabla de datos con sus respectivos atributos
  * @author Natalia
  */
-public class Cliente implements Lectora{
+public class Cliente implements Lectora, Serializable{
     //atributos
     private int codigo;
     private String nombre;

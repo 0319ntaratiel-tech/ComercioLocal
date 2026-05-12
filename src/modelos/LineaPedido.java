@@ -6,6 +6,7 @@ package modelos;
 
 import contenedores.ContenedorProducto;
 import interfaces.Lectora;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -13,12 +14,12 @@ import java.util.ArrayList;
  * linea de pedido a la tabla de datos con sus respectivos atributos
  * @author Natalia
  */
-public class LineaPedido implements Lectora{
+public class LineaPedido implements Lectora, Serializable{
     //atributos
     private int codigoPedido;
     private int codigoProducto;
     private int unidadesCompradas;
-    private ArrayList<ContenedorProducto> productos ;
+    private  ArrayList<ContenedorProducto> productos ;
     
     //constructor
 
@@ -26,6 +27,7 @@ public class LineaPedido implements Lectora{
         this.codigoPedido = codigoPedido;
         this.codigoProducto = codigoProducto;
         this.unidadesCompradas = unidadesCompradas;
+      
         
     }
 
@@ -85,7 +87,7 @@ public class LineaPedido implements Lectora{
      * metodo para caalcular el precio total del pedido
      * @return subTotal
      */
-    public double calcularSubTotal(){
+    public  double calcularSubTotal(){
         double subTotal = 0;
         for (ContenedorProducto p : productos) {
             for (Producto productos : p.getAlmacenProductos()) {

@@ -4,7 +4,12 @@
  */
 package servicios;
 
+import contenedores.ContenedorCliente;
 import contenedores.ContenedorFabricante;
+import contenedores.ContenedorLineaPedido;
+import contenedores.ContenedorPedido;
+import contenedores.ContenedorProducto;
+import contenedores.ContenedorVendedor;
 import java.sql.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -506,7 +511,7 @@ public class Conexiones {
                             + " | Codigo fabricante: " + rs.getInt("codigoFabricante")
                             + " | Nombre: " + rs.getString("nombre")
                             + " | Categoria: " + rs.getString("categoria")
-                            + " | Disponibilidad: " + rs.getInt("disponibilidad")
+                            + " | Disponibilidad: " + rs.getString("disponibilidad")
                             + " | Precio venta: " + rs.getDouble("precioVenta")
                     );
                 }
@@ -628,7 +633,7 @@ public class Conexiones {
                             + " | Codigo fabricante: " + rs.getInt("codigoFabricante")
                             + " | Nombre: " + rs.getString("nombre")
                             + " | Categoria: " + rs.getString("categoria")
-                            + " | Disponibilidad: " + rs.getInt("disponibilidad")
+                            + " | Disponibilidad: " + rs.getString("disponibilidad")
                             + " | Precio venta: " + rs.getDouble("precioVenta")
                     );
 
@@ -710,7 +715,7 @@ public class Conexiones {
         }
     }
 
-    public static void insersatDatosContenedor() {
+    public static void insersarDatosContenedorFabricante() {
 
         try {
             conexionEstablecida();
@@ -720,7 +725,101 @@ public class Conexiones {
                 Fabricante f1 = new Fabricante(rs.getInt("codigo"), rs.getString("nombre"), rs.getInt("anyoFundacion"), rs.getString("lugarSede"), rs.getInt("empleados"),
                         rs.getString("sitioWeb"));
 
-                //ContenedorFabricante.agregarFabricante(f1);
+                ContenedorFabricante.agregarFabricante(f1);
+            }
+            rs.close();
+            pst.close();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public static void insertarDatosContenedorVendedor() {
+        try {
+            conexionEstablecida();
+            PreparedStatement pst = con.prepareStatement("SELECT * FROM vendedor");
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                Vendedor v1 = new Vendedor(rs.getInt("codigo"), rs.getString("nombre"), rs.getString("fechaAlta"), rs.getString("domicilio"), rs.getDouble("salario"), rs.getDouble("porcentaje"));
+
+                ContenedorVendedor.agregarVendedor(v1);
+            }
+            rs.close();
+            pst.close();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void insertarDatosContenedorClientes() {
+        try {
+            conexionEstablecida();
+            PreparedStatement pst = con.prepareStatement("SELECT * FROM cliente");
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                Cliente c1 = new Cliente(rs.getInt("codigo"), rs.getString("nombre"), rs.getString("fechaNacimiento"), rs.getString("direccionEnvio"), rs.getString("telefono"), rs.getString("correo"));
+
+                ContenedorCliente.agregarCliente(c1);
+            }
+            rs.close();
+            pst.close();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void insertarDatosContenedoresProductos() {
+        try {
+            conexionEstablecida();
+            PreparedStatement pst = con.prepareStatement("SELECT * FROM producto");
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+
+                Producto pro1 = new Producto(rs.getInt("codigo"), rs.getInt("codigoFabricante"), rs.getString("nombre"), rs.getString("categoria"), rs.getString("disponibilidad"), rs.getDouble("precioVenta"));
+
+                ContenedorProducto.agregarProducto(pro1);
+            }
+            rs.close();
+            pst.close();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void insertarDatosContenedoresPedidos() {
+        try {
+            conexionEstablecida();
+            PreparedStatement pst = con.prepareStatement("SELECT * FROM pedido");
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+
+                Pedido p1 = new Pedido( rs.getInt("codigo"), rs.getInt("codigoVendedor"), rs.getInt("codigoCliente"), rs.getString("fechaRealizacion"), rs.getString("fechaEntrega"), rs.getString("estado"));
+                
+                ContenedorPedido.agregarPedido(p1);
+            }
+            rs.close();
+            pst.close();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public static void insertarDatosContenedoresLP() {
+        try {
+            conexionEstablecida();
+            PreparedStatement pst = con.prepareStatement("SELECT * FROM lineaPedido");
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+
+               LineaPedido LP = new LineaPedido(rs.getInt("codigoPedido"), rs.getInt("codigoProducto"), rs.getInt("unidadesCompradas"));
+               
+               ContenedorLineaPedido.agregarLineaPedido(LP);
             }
             rs.close();
             pst.close();

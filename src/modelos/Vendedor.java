@@ -5,13 +5,14 @@
 package modelos;
 
 import interfaces.Lectora;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
  *
  * @author isard
  */
-public class Vendedor implements Lectora{
+public class Vendedor implements Lectora, Serializable{
     // Atributos
 
     private int codigo;

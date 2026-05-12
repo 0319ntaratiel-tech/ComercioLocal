@@ -14,10 +14,12 @@ import modelos.Cliente;
 public class ContenedorCliente {
     //creamos una lista para almecenar los datos insertados durante la ejecución
     private static ArrayList<Cliente> almacenClientes;
+    private static ArrayList<Cliente> almacenClientesNuevos;
 
     //constructor
     public ContenedorCliente() {
         this.almacenClientes = new ArrayList<>();
+        this.almacenClientesNuevos = new ArrayList<>();
     }
     
     //metodos
@@ -30,10 +32,18 @@ public class ContenedorCliente {
     }
     
     /**
+     * metodo que agrega un cliente insertado a la lista
+     * @param c 
+     */
+    public static void agregarClienteNuevo(Cliente c){
+        almacenClientesNuevos.add(c);
+    }
+    
+    /**
      * metodo que muestra la informacion del almacen
      */
-    public void mostrarDatosClientes(){
-        for (Cliente c : almacenClientes) {
+    public static void mostrarDatosClientes(){
+        for (Cliente c : almacenClientesNuevos) {
             System.out.println(c);
         }
     }

@@ -22,23 +22,31 @@ public class ContenedorProducto {
     //constructor
     public ContenedorProducto() {
         this.almacenProductos = new HashSet<>();
+        this.almacenProductosNuevo = new HashSet<>();
     }
 
     //metodos
     /**
      * metodo que permite agregar un producto a la lista
-     *
      * @param pro
      */
     public static void agregarProducto(Producto pro) {
         almacenProductos.add(pro);
     }
+    
+    /**
+     * metodo que permite agregar un producto insertado a la lista
+     * @param pro
+     */
+    public static void agregarProductoNuevo(Producto pro) {
+        almacenProductosNuevo.add(pro);
+    }
 
     /**
      * metodo que muestra la informacion del almacen
      */
-    public void mostrarDatosProductos() {
-        for (Producto pro : almacenProductos) {
+    public static void mostrarDatosProductos() {
+        for (Producto pro : almacenProductosNuevo) {
             System.out.println(pro);
 
         }
@@ -47,7 +55,7 @@ public class ContenedorProducto {
     /**
      * metodo que muestra el precio de venta del producto
      */
-    public double mostrarPrecioVenta() {
+    public static double mostrarPrecioVenta() {
         double precioVenta = 0;
         for (Producto pro : almacenProductos) {
             precioVenta = pro.getPrecioVenta();

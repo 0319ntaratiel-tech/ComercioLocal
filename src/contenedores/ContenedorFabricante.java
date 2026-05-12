@@ -13,12 +13,14 @@ import modelos.Fabricante;
  */
 public class ContenedorFabricante {
     //creamos una lista para almecenar los datos insertados durante la ejecución
-    private ArrayList<Fabricante> almacenFabricantes;
+    private static ArrayList<Fabricante> almacenFabricantes;
+    private static ArrayList<Fabricante> almacenFabricantesNuevo;
     
     //constructor
 
     public ContenedorFabricante() {
         this.almacenFabricantes = new ArrayList<>();
+        this.almacenFabricantesNuevo = new ArrayList<>();
     }
     
     //metodos
@@ -27,15 +29,23 @@ public class ContenedorFabricante {
      * metodo que agrega un fabricante a la lista
      * @param f 
      */
-    public void agregarFabricante(Fabricante f){
+    public static void agregarFabricante(Fabricante f){
         almacenFabricantes.add(f);
+    }
+    
+    /**
+     * metodo que agrega un fabricante insertado a la lista
+     * @param f 
+     */
+    public static void agregarFabricanteNuevo(Fabricante f){
+        almacenFabricantesNuevo.add(f);
     }
     
     /**
      * metodo que muestra los datos del almacen 
      */
-    public void mostrarDatosFabricante(){
-        for (Fabricante f : almacenFabricantes) {
+    public static void mostrarDatosFabricante(){
+        for (Fabricante f : almacenFabricantesNuevo) {
             System.out.println(f);
         }
     }
@@ -45,7 +55,7 @@ public class ContenedorFabricante {
      * metodo que devuelve la lista de fabricantes
      * @return almacenFabricantes
      */
-    public ArrayList<Fabricante> getFabricantes() {
+    public static ArrayList<Fabricante> getFabricantes() {
         return almacenFabricantes;
     }
     

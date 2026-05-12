@@ -5,6 +5,7 @@
 package modelos;
 
 import interfaces.Lectora;
+import java.io.Serializable;
 import utils.Configuracion;
 
 /**
@@ -12,7 +13,7 @@ import utils.Configuracion;
  *
  * @author Gabriela Gomez
  */
-public class Producto implements Lectora{
+public class Producto implements Lectora, Serializable{
     //Atributos
 
     private int codigo;

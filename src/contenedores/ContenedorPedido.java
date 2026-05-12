@@ -4,8 +4,8 @@
  */
 package contenedores;
 
-import java.util.HashSet;
-import java.util.Set;
+
+import java.util.ArrayList;
 import modelos.Pedido;
 
 /**
@@ -14,12 +14,14 @@ import modelos.Pedido;
  */
 public class ContenedorPedido {
     //creamos una lista para almecenar los datos insertados durante la ejecución
-    private Set<Pedido> almacenPedidos;
+    private static ArrayList<Pedido> almacenPedidos;
+    private static ArrayList<Pedido> almacenPedidosNuevos;
     
     //constructor
 
     public ContenedorPedido() {
-        this.almacenPedidos = new HashSet<>();
+        this.almacenPedidos = new ArrayList<>();
+        this.almacenPedidosNuevos = new ArrayList<>();
     }
     
     //metodos
@@ -27,15 +29,23 @@ public class ContenedorPedido {
      * metodo que agrega pedidos a la lista
      * @param ped 
      */
-    public void agregarPedido(Pedido ped){
+    public static  void agregarPedido(Pedido ped){
         almacenPedidos.add(ped);
+    }
+    
+    /**
+     * metodo que agrega pedidos insertados a la lista
+     * @param ped 
+     */
+    public static  void agregarPedidoNuevos(Pedido ped){
+        almacenPedidosNuevos.add(ped);
     }
     
     /**
      * metodo que muestra la informacion del almacen
      */
-    public void mostrarDatosPedidos(){
-        for (Pedido p : almacenPedidos) {
+    public static void mostrarDatosPedidos(){
+        for (Pedido p : almacenPedidosNuevos) {
             System.out.println(p);
         }
     }
@@ -46,7 +56,7 @@ public class ContenedorPedido {
      * metodo que devuelve la lista de pedidos
      * @return almacenPedidos
      */
-    public Set<Pedido> getAlmacenPedidos() {
+    public static ArrayList<Pedido> getAlmacenPedidos() {
         return almacenPedidos;
     }
     

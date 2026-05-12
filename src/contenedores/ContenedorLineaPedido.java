@@ -14,12 +14,14 @@ import modelos.LineaPedido;
  */
 public class ContenedorLineaPedido {
     //creamos una lista para almecenar los datos insertados durante la ejecución
-    private Map<Integer , LineaPedido> almacenLineasPedidos;
-    private int contador;
+    private static Map<Integer , LineaPedido> almacenLineasPedidos;
+    private static Map<Integer , LineaPedido> almacenLineasPedidosNuevos;
+    private static int contador;
     
     //constructor
     public ContenedorLineaPedido() {
         this.almacenLineasPedidos = new HashMap<>();
+        this.almacenLineasPedidosNuevos = new HashMap<>();
         contador = 1;
     }
     
@@ -29,17 +31,28 @@ public class ContenedorLineaPedido {
      * metodo que agrega una linea de pedido a la lista
      * @param lp 
      */
-    public void agregarLineaPedido(LineaPedido lp){
+    public static void agregarLineaPedido(LineaPedido lp){
         
         almacenLineasPedidos.put(contador, lp);
         contador++;
     }
     
     /**
+     * metodo que agrega las lineas de pedido insertadas a la lista
+     * @param lp 
+     */
+    public static void agregarLineaPedidoNuevos(LineaPedido lp){
+        
+        almacenLineasPedidosNuevos.put(contador, lp);
+        contador++;
+    }
+    
+    
+    /**
      * metodo que muestra la informacion del almacen
      */
-    public void mostrarLineaPedido(){
-        for (LineaPedido lp : almacenLineasPedidos.values()) {
+    public static void mostrarLineaPedido(){
+        for (LineaPedido lp : almacenLineasPedidosNuevos.values()) {
             System.out.println(lp);
         }
     }
@@ -49,7 +62,7 @@ public class ContenedorLineaPedido {
      * metodo que devuelve la lista de lineas pedidos
      * @return almacenLineasPedidos
      */
-    public Map<Integer, LineaPedido> getAlmacenLineasPedidos() {
+    public static  Map<Integer, LineaPedido> getAlmacenLineasPedidos() {
         return almacenLineasPedidos;
     }
     

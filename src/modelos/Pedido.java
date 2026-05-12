@@ -5,15 +5,17 @@
 package modelos;
 
 import interfaces.Lectora;
+import java.io.Serializable;
 import utils.Configuracion;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 /**
  * La clase funciona para insertar un 
  * pedido a la tabla de datos con sus respectivos atributos
  * @author Natalia
  */
-public class Pedido implements Lectora{
+public class Pedido implements Lectora, Serializable{
     //atributos
     private int codigo;
     private int codigoVendedor;
@@ -21,6 +23,7 @@ public class Pedido implements Lectora{
     private String fechaRealizacion;
     private String fechaEntrega;
     private String estado;
+    private ArrayList<LineaPedido> lineasPedidos= new ArrayList<>();
     
     
     //constructor
@@ -117,6 +120,12 @@ public class Pedido implements Lectora{
     
     public double calcularImporte(){
         double importe = 0;
+        
+        for (LineaPedido lp : lineasPedidos) {
+            lp.calcularSubTotal();
+        }
+        
+        
         return importe;
     }
     

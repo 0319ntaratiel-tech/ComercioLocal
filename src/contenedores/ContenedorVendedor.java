@@ -21,6 +21,7 @@ public class ContenedorVendedor {
 
     public ContenedorVendedor() {
         this.almacenVendedor = new ArrayList<>();
+        this.almacenVendedorNuevos = new ArrayList<>();
     }
     
     //metodos
@@ -34,10 +35,18 @@ public class ContenedorVendedor {
     }
     
     /**
+     * metodo que agrega un vendedor insertado a lista
+     * @param v 
+     */
+    public static void agregarVendedorNuevo(Vendedor v){
+        almacenVendedorNuevos.add(v);
+    }
+    
+    /**
      * metodo que muestra los datos del almacen
      */
-    public void mostrarDatosVendedor(){
-        for (Vendedor v : almacenVendedor) {
+    public static void mostrarDatosVendedor(){
+        for (Vendedor v : almacenVendedorNuevos) {
             System.out.println(v);
         }
     }
