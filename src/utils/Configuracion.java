@@ -21,11 +21,53 @@ public class Configuracion {
             
     public static String password = "root";
     
-    public static String nombreFicheroTexto = "fichero.txt";
+    public static String nombreFicheroTextoFabri = "ficheroFabri.txt";
     
-    public static String nombreFicheroBinario = "fichero.dat";
+    public static String nombreFicheroBinarioFabri = "ficheroFabri.dat";
     
-    public static String nombreFicheroCSV = "fichero.csv";
+    public static String nombreFicheroCSVFabri = "ficheroFabri.csv";
     
-    public static String nombreFicheroJSON = "fichero.json";
+    public static String nombreFicheroJSONFabri = "ficheroFabri.json";
+    
+    public static String nombreFicheroTextoPro = "ficheroPro.txt";
+    
+    public static String nombreFicheroBinarioPro = "ficheroPro.dat";
+    
+    public static String nombreFicheroCSVPro = "ficheroPro.csv";
+    
+    public static String nombreFicheroJSONPro = "ficheroPro.json";
+    
+    public static String nombreFicheroTextoVen = "ficheroVen.txt";
+    
+    public static String nombreFicheroBinarioVen = "ficheroVen.dat";
+    
+    public static String nombreFicheroCSVVen = "ficheroVen.csv";
+    
+    public static String nombreFicheroJSONVen = "ficheroVen.json";
+    
+    public static String nombreFicheroTextoCli = "ficheroCli.txt";
+    
+    public static String nombreFicheroBinarioCli = "ficheroCli.dat";
+    
+    public static String nombreFicheroCSVCli = "ficheroCli.csv";
+    
+    public static String nombreFicheroJSONCli = "ficheroCli.json";
+    
+    public static String nombreFicheroTextoPed = "ficheroPed.txt";
+    
+    public static String nombreFicheroBinarioPed = "ficheroPed.dat";
+    
+    public static String nombreFicheroCSVPed = "ficheroPed.csv";
+    
+    public static String nombreFicheroJSONPed = "ficheroPed.json";
+    
+    public static String nombreFicheroTextoLP = "ficheroLP.txt";
+    
+    public static String nombreFicheroBinarioLP = "ficheroLP.dat";
+    
+    public static String nombreFicheroCSVLP = "ficheroLP.csv";
+    
+    public static String nombreFicheroJSONLP = "ficheroLP.json";
+    
+    
 }
