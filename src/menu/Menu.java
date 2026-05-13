@@ -23,6 +23,9 @@ import modelos.LineaPedido;
 import modelos.Pedido;
 import modelos.Producto;
 import servicios.Conexiones;
+import serviciosFicheros.FabricanteFicheros;
+import utils.Comprobaciones;
+import utils.Configuracion;
 
 /**
  *
@@ -120,7 +123,7 @@ public class Menu {
                     case 1:
 
                         System.out.println("INSERTA EL CODIGO DEL FABRICANTE");
-                        int codigoFabri = teclado.nextInt();
+                        int codigoFabri = teclado.nextInt(); //Verificar codigo
 
                         if (Conexiones.verificarExistenciaCodigo(1, codigoFabri)) {
                             System.out.println("EL CODIGO INGRESADO YA EXISTE");
@@ -128,17 +131,28 @@ public class Menu {
                             teclado.nextLine();
                             System.out.println("INSERTA EL NOMBRE DEL FABRICANTE");
                             String nombreFabri = teclado.nextLine();
+                            if (!Comprobaciones.comprobarStringValido(nombreFabri)) {
+                                return;
+                            }
                             System.out.println("INSERTA EL AÑO DE FUNDACION DEL FABRICANTE");
                             int anyoFundacionFabri = teclado.nextInt();
                             teclado.nextLine();
+                            if (!Comprobaciones.comprobarAnyoFundacion(anyoFundacionFabri)) {
+                                return;
+                            }
                             System.out.println("INSERTA EL LUGAR SEDE DEL FABRICANTE ");
                             String lugarSedeFabri = teclado.nextLine();
+                            if (!Comprobaciones.comprobarStringValido(lugarSedeFabri)) {
+                                return;
+                            }
                             System.out.println("INSERTA EL EL NUMERO DE EMPLEADOS DEL FABRICANTE");
                             int empleadosFabri = teclado.nextInt();
                             teclado.nextLine();
                             System.out.println("INSERTA EL SITIO WEB DEL FABRICANTE");
                             String sitioWebFabri = teclado.next();
-
+                            if (!Comprobaciones.comprobarStringValido(sitioWebFabri)) {
+                                return;
+                            }
                             Fabricante f1 = new Fabricante(codigoFabri, nombreFabri, anyoFundacionFabri, lugarSedeFabri, empleadosFabri, sitioWebFabri);
 
                             Conexiones.insertarDatos(f1);
@@ -199,35 +213,43 @@ public class Menu {
                         break;
 
                     case 6:
-
+                     Conexiones.insersarDatosContenedorFabricante();
+                     FabricanteFicheros.exportarFicheroDeTextoFabri();
                         break;
 
                     case 7:
-
+                      Conexiones.insersarDatosContenedorFabricante();
+                      FabricanteFicheros.exportarFicheroCSVFabri();
                         break;
 
                     case 8:
-
+                       Conexiones.insersarDatosContenedorFabricante();
+                       FabricanteFicheros.exportarFicheroBinarioFabri();
                         break;
 
                     case 9:
-
+                       Conexiones.insersarDatosContenedorFabricante();
+                       FabricanteFicheros.exportarFicheroJSONFabri();
                         break;
 
                     case 10:
-
+                    Conexiones.insersarDatosContenedorFabricante();
+                    //FabricanteFicheros.importarFicheroDeTextoFabri();
                         break;
 
                     case 11:
-
+                     Conexiones.insersarDatosContenedorFabricante();
+                     //FabricanteFicheros.importarFicheroCSVFabri();
                         break;
 
                     case 12:
-
+                     Conexiones.insersarDatosContenedorFabricante();
+                     //FabricanteFicheros.importarFicheroBinarioFabri();
                         break;
 
                     case 13:
-
+                     Conexiones.insersarDatosContenedorFabricante();
+                     //FabricanteFicheros.importarFicheroJSONFabri();
                         break;
 
                     case 14:
@@ -236,7 +258,16 @@ public class Menu {
                         break;
 
                     case 15:
-
+                        System.out.println("consulta 1");
+                        System.out.println("consulta 2");
+                        System.out.println("consulta 3");
+                        System.out.println("consulta 4");
+                        System.out.println("consulta 5");
+                        System.out.println("consulta 6");
+                        System.out.println("consulta 7");
+                        System.out.println("consulta 8");
+                        System.out.println("consulta 9");
+                        
                         break;
 
                     case 16:
@@ -726,15 +757,35 @@ public class Menu {
                             teclado.nextLine();//Verificar
 
                             System.out.println("INSERTA LA FECHA DE REALIZACION DEL PEDIDO");
-                            String fechaRea = teclado.next();
-                            teclado.nextLine();
+                            String fechaRea = teclado.nextLine();
+                            if (Comprobaciones.comprobarFecha(fechaRea)) {
+                                System.out.println("Fecha de realización incorrecta");
+                                return;
+                            }
+
                             System.out.println("INSERTA LA FECHA DE ENTREGA DEL PEDIDO");
-                            String fechaEnt = teclado.next();
+                            String fechaEnt = teclado.nextLine();
+                            if (Comprobaciones.comprobarFecha(fechaEnt)) {
+                                System.out.println("Fecha de entrega incorrecta");
+                                return;
+                            }
+                            if (!Comprobaciones.comprobarOrdenFechas(fechaRea, fechaEnt)) {
+                                System.out.println("La fecha de entrega no puede ser anterior a la de realización");
+                                return;
+                            }
                             System.out.println("INSERTA EL ESTADO DEL PEDIDO");
-                            String estado = teclado.next();
+                            String estado = teclado.nextLine();
+                            if (!Comprobaciones.verificarEstado(estado)) {
+                                System.out.println("Estado no válido");
+                                return;
+                            }
                             System.out.println("QUE PRODUCTO DESEA PEDIR");
                             int codigoProducto = teclado.nextInt();
                             teclado.nextLine();
+                            if (!Conexiones.verificarExistenciaCodigo(2, codigoProducto)) {
+                                System.out.println("Codigo ingresado no existe");
+                                return;
+                            }
 
                             while (!cantPro) {
 
@@ -752,6 +803,10 @@ public class Menu {
                                     System.out.println("QUE PRODUCTO DESEA PEDIR");
                                     codigoProducto = teclado.nextInt();
                                     teclado.nextLine();
+                                    if (!Conexiones.verificarExistenciaCodigo(2, codigoProducto)) {
+                                        System.out.println("Codigo ingresado no existe");
+                                        return;
+                                    }
                                 }
 
                                 LineaPedido lp = new LineaPedido(codigoPed, codigoProducto, unidadesCompradas, unidadesCompradas * Conexiones.precioProducto(codigoProducto));

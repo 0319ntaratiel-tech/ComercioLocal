@@ -12,10 +12,12 @@ import java.time.LocalDate;
  */
 public class Comprobaciones {
 
-
-
     public static boolean comprobarFecha(String fecha) {
-        boolean fechaIncorrecta = false;
+
+        if (fecha == null) {
+            System.err.println("La fecha no puede ser null");
+            return true;
+        }
 
         String[] fechaSeparada = fecha.split("-");
 
@@ -29,46 +31,142 @@ public class Comprobaciones {
             int mes = Integer.parseInt(fechaSeparada[1]);
             int dia = Integer.parseInt(fechaSeparada[2]);
 
-            boolean esBisiesto = (ano % 4 == 0 && ano % 100 != 0) || (ano % 400 == 0);
+            boolean esBisiesto
+                    = (ano % 4 == 0 && ano % 100 != 0) || (ano % 400 == 0);
 
-            // validar año futuro
             if (ano > LocalDate.now().getYear()) {
-                System.err.println("El año es superior al actual");
-                fechaIncorrecta = true;
+                System.err.println("El año no puede ser superior al actual");
+                return true;
             }
 
-            if (dia < 1 || mes < 1) {
-                System.err.println("Día o mes inválido");
-                fechaIncorrecta = true;
+            if (mes < 1 || mes > 12) {
+                System.err.println("Mes inválido");
+                return true;
             }
 
-            if (mes > 12) {
-                System.err.println("El mes no puede ser superior a 12");
-                fechaIncorrecta = true;
+            if (dia < 1) {
+                System.err.println("Día inválido");
+                return true;
             }
 
-            if (dia > 31) {
-                System.err.println("No hay más de 31 días");
-                fechaIncorrecta = true;
+            int[] diasPorMes = {
+                31, 28, 31, 30, 31, 30,
+                31, 31, 30, 31, 30, 31
+            };
+
+            // ajuste febrero bisiesto
+            if (esBisiesto) {
+                diasPorMes[1] = 29;
             }
 
-            if (mes == 2) {
-                if ((esBisiesto && dia > 29) || (!esBisiesto && dia > 28)) {
-                    System.err.println("Febrero inválido");
-                    fechaIncorrecta = true;
-                }
-            }
-
-            if ((mes == 4 || mes == 6 || mes == 9 || mes == 11) && dia > 30) {
-                System.err.println("Ese mes tiene solo 30 días");
-                fechaIncorrecta = true;
+            if (dia > diasPorMes[mes - 1]) {
+                System.err.println("El día no es válido para ese mes");
+                return true;
             }
 
         } catch (NumberFormatException e) {
             System.err.println("Formato de fecha incorrecto. Debe ser YYYY-MM-DD");
-            fechaIncorrecta = true;
+            return true;
         }
 
-        return fechaIncorrecta;
+        return false;
     }
+
+    public static boolean comprobarOrdenFechas(String fechaRea, String fechaEnt) {
+
+        String[] fRea = fechaRea.split("-");
+        String[] fEnt = fechaEnt.split("-");
+
+        try {
+            int anoRea = Integer.parseInt(fRea[0]);
+            int mesRea = Integer.parseInt(fRea[1]);
+            int diaRea = Integer.parseInt(fRea[2]);
+
+            int anoEnt = Integer.parseInt(fEnt[0]);
+            int mesEnt = Integer.parseInt(fEnt[1]);
+            int diaEnt = Integer.parseInt(fEnt[2]);
+
+            if (anoEnt < anoRea) {
+                return false;
+            }
+
+            if (anoEnt == anoRea && mesEnt < mesRea) {
+                return false;
+            }
+
+            if (anoEnt == anoRea && mesEnt == mesRea && diaEnt < diaRea) {
+                return false;
+            }
+
+        } catch (NumberFormatException e) {
+            System.err.println("Error en el formato de las fechas");
+            return false;
+        }
+
+        return true;
+    }
+
+    public static boolean verificarDisponibilidad(String texto) {
+
+        for (String opcion : Configuracion.disponibilidad) {
+
+            if (opcion.equalsIgnoreCase(texto)) {
+                return true;
+            }
+        }
+
+        System.out.println("opcion no disponible");
+        return false;
+    }
+
+    public static boolean verificarEstado(String texto) {
+
+        for (String opcion : Configuracion.estado) {
+
+            if (opcion.equalsIgnoreCase(texto)) {
+                return true;
+            }
+        }
+
+        System.out.println("opcion no disponible");
+        return false;
+    }
+
+    public static boolean comprobarAnyoFundacion(int anyo) {
+
+        int anyoActual = java.time.LocalDate.now().getYear();
+
+        if (anyo < 1800) {
+            System.err.println("El año de fundación no puede ser menor de 1800");
+            return false;
+        }
+
+        if (anyo > anyoActual) {
+            System.err.println("El año de fundación no puede ser mayor que el año actual");
+            return false;
+        }
+
+        return true;
+    }
+
+    public static boolean comprobarStringValido(String texto) {
+
+        if (texto.isEmpty()) {
+            System.err.println("El valor no puede estar vacío");
+            return false;
+        }
+
+        return true;
+    }
+    
+    public static boolean comprobarIntValido(int numero) {
+
+    if (numero <= 0) {
+        System.err.println("El número debe ser mayor que 0");
+        return false;
+    }
+
+    return true;
+}
+
 }

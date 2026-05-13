@@ -113,7 +113,7 @@ public class FabricanteFicheros {
 
     public static void exportarFicheroCSVFabri() {
         try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(Configuracion.nombreFicheroCSVFabri, true));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(Configuracion.nombreFicheroCSVFabri));
 
             for (Fabricante f : ContenedorFabricante.getFabricantes()) {
 

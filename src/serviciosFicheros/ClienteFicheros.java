@@ -45,7 +45,7 @@ public class ClienteFicheros {
 
         public static void importarFicheroDeTextoCli() throws YaImportadoException {
             if (!ContenedorCliente.getAlmacenClientes().isEmpty()) {
-                throw new YaImportadoException("Los fabricantes ya fueron importados");
+                throw new YaImportadoException("Los clientes ya fueron importados");
             }
 
             try {

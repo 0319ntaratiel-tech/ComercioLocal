@@ -43,7 +43,7 @@ public class LineaPedidoFicheros {
 
     public static void importarFicheroDeTextoLP() throws YaImportadoException {
         if (!ContenedorLineaPedido.getAlmacenLineasPedidos().isEmpty()) {
-            throw new YaImportadoException("Los fabricantes ya fueron importados");
+            throw new YaImportadoException("Las lineas de pedidos ya fueron importados");
         }
 
         try {
@@ -56,7 +56,7 @@ public class LineaPedidoFicheros {
                 int codigoPro = Integer.parseInt(partes[1]);
                 int unidadesCompradas = Integer.parseInt(partes[2]);
                 double subTotal = Double.parseDouble(partes[3]);
-                //double subTotal = Double.parseDouble(partes[3]);
+                
                 LineaPedido LP = new LineaPedido(codigo, codigoPro, unidadesCompradas, subTotal);
 
                 ContenedorLineaPedido.agregarLineaPedido(LP);
@@ -88,7 +88,7 @@ public class LineaPedidoFicheros {
     public static void importarFicheroJSONLP()throws YaImportadoException {
         //comprobamos que si el contenedor tiene productos dentro y si ya hay datos lanzamos la excepcion para evitar importar el fichero varias veces
             if (!ContenedorLineaPedido.getAlmacenLineasPedidos().isEmpty()) {
-                throw new YaImportadoException("Los fabricantes ya fueron importados");
+                throw new YaImportadoException("Las lineas de pedidos ya fueron importados");
             }
 
             //creamos el lector de json
@@ -158,7 +158,7 @@ public class LineaPedidoFicheros {
 
     public static void exportarFicheroBinarioLP() {
         try {
-                ObjectOutputStream oss = new ObjectOutputStream(new FileOutputStream(Configuracion.nombreFicheroBinarioLP));
+                ObjectOutputStream oss = new ObjectOutputStream(new FileOutputStream(Configuracion.nombreFicheroBinarioLP,true));
                 oss.writeObject(ContenedorLineaPedido.getAlmacenLineasPedidos().values());
 
                 oss.close();

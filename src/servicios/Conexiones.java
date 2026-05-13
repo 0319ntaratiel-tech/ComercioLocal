@@ -197,6 +197,7 @@ public class Conexiones {
                 pst.close();
 
             } else if (clase == 2) {//Si la clase es 2, se trata de un producto
+                //Consulta para comparar el codigo recibido por parametro, se encuentra en la BD 
                 PreparedStatement pst = con.prepareStatement("select codigo from producto where codigo=? ");
                 pst.setInt(1, codigo);
                 ResultSet rs = pst.executeQuery();
@@ -204,6 +205,7 @@ public class Conexiones {
                 rs.close();
                 pst.close();
             } else if (clase == 3) {//Si la clase es 3, se trata de un vendedor
+                //Consulta para comparar el codigo recibido por parametro, se encuentra en la BD 
                 PreparedStatement pst = con.prepareStatement("select codigo from vendedor where codigo=? ");
                 pst.setInt(1, codigo);
                 ResultSet rs = pst.executeQuery();
@@ -212,6 +214,7 @@ public class Conexiones {
                 pst.close();
 
             } else if (clase == 4) {//Si la clase es 4, se trata de un cliente
+                //Consulta para comparar el codigo recibido por parametro, se encuentra en la BD 
                 PreparedStatement pst = con.prepareStatement("select codigo from cliente where codigo=? ");
                 pst.setInt(1, codigo);
                 ResultSet rs = pst.executeQuery();
@@ -799,8 +802,8 @@ public class Conexiones {
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
 
-                Pedido p1 = new Pedido( rs.getInt("codigo"), rs.getInt("codigoVendedor"), rs.getInt("codigoCliente"), rs.getString("fechaRealizacion"), rs.getString("fechaEntrega"), rs.getString("estado"), rs.getDouble("importe"));
-                
+                Pedido p1 = new Pedido(rs.getInt("codigo"), rs.getInt("codigoVendedor"), rs.getInt("codigoCliente"), rs.getString("fechaRealizacion"), rs.getString("fechaEntrega"), rs.getString("estado"), rs.getDouble("importe"));
+
                 ContenedorPedido.agregarPedido(p1);
             }
             rs.close();
@@ -810,23 +813,22 @@ public class Conexiones {
             Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public static void insertarDatosContenedoresLP() throws YaImportadoException{
+
+    public static void insertarDatosContenedoresLP() throws YaImportadoException {
         try {
             conexionEstablecida();
             PreparedStatement pst = con.prepareStatement("SELECT * FROM lineaPedido");
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
 
-               LineaPedido LP = new LineaPedido(rs.getInt("codigoPedido"), rs.getInt("codigoProducto"), rs.getInt("unidadesCompradas"), rs.getDouble("subTotal"));
-               
-               if(!ContenedorLineaPedido.getAlmacenLineasPedidos().isEmpty()){
-                   throw new YaImportadoException("Los datos ya han sido insertados al contenedor");
-               }else {
-                   ContenedorLineaPedido.agregarLineaPedido(LP);
-               }
-                   
-               
+                LineaPedido LP = new LineaPedido(rs.getInt("codigoPedido"), rs.getInt("codigoProducto"), rs.getInt("unidadesCompradas"), rs.getDouble("subTotal"));
+
+                if (!ContenedorLineaPedido.getAlmacenLineasPedidos().isEmpty()) {
+                    throw new YaImportadoException("Los datos ya han sido insertados al contenedor");
+                } else {
+                    ContenedorLineaPedido.agregarLineaPedido(LP);
+                }
+
             }
             rs.close();
             pst.close();
@@ -836,17 +838,17 @@ public class Conexiones {
         }
 
     }
-    
-    public static double precioProducto(int codigo){
+
+    public static double precioProducto(int codigo) {
         try {
             conexionEstablecida();
             PreparedStatement pst = con.prepareStatement("SELECT precioVenta FROM producto where codigo = ?");
-            
+
             ResultSet rs = pst.executeQuery();
             pst.setInt(1, codigo);
             while (rs.next()) {
                 return rs.getDouble("precioVenta");
-                
+
             }
             rs.close();
             pst.close();
@@ -856,18 +858,18 @@ public class Conexiones {
         }
         return 0;
     }
-    
-        public static double importeFinal(int codigoPed, int codigoPro){
+
+    public static double importeFinal(int codigoPed, int codigoPro) {
         try {
             conexionEstablecida();
-            PreparedStatement pst = con.prepareStatement("SELECT sum(subTotal) FROM lineaPedido where codigoPedido=? and codigoProducto=? ");
-            
+            PreparedStatement pst = con.prepareStatement("SELECT sum(subTotal) AS total FROM lineaPedido where codigoPedido=?");
+
             ResultSet rs = pst.executeQuery();
             pst.setInt(1, codigoPed);
-            pst.setInt(2,codigoPro);
+            pst.setInt(2, codigoPro);
             while (rs.next()) {
-                return rs.getDouble("subTotal");
-                
+                return rs.getDouble("total");
+
             }
             rs.close();
             pst.close();
@@ -877,6 +879,55 @@ public class Conexiones {
         }
         return 0;
     }
-    
-    
+
+    public static void consultas(int clase) {
+        try {
+            conexionEstablecida();
+
+            switch (clase) {
+                case 1:
+                    PreparedStatement pst = con.prepareStatement("SELECT sum(subTotal) FROM lineaPedido where codigoPedido=?");
+                    ResultSet rs = pst.executeQuery();
+
+                    while (rs.next()) {
+                        // return rs.getString("");
+                        System.out.println("hola");
+                    }
+                    rs.close();
+                    pst.close();
+                    break;
+                case 2:
+
+                    break;
+                case 3:
+
+                    break;
+                case 4:
+
+                    break;
+                case 5:
+
+                    break;
+                case 6:
+
+                    break;
+                case 7:
+
+                    break;
+                case 8:
+
+                    break;
+                case 9:
+
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
+    }
+
 }
