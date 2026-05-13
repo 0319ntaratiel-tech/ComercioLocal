@@ -8,6 +8,7 @@ import contenedores.ContenedorProducto;
 import interfaces.Lectora;
 import java.io.Serializable;
 import java.util.ArrayList;
+import servicios.Conexiones;
 
 /**
  * La clase funciona para insertar una
@@ -19,15 +20,15 @@ public class LineaPedido implements Lectora, Serializable{
     private int codigoPedido;
     private int codigoProducto;
     private int unidadesCompradas;
-    private  ArrayList<ContenedorProducto> productos ;
+    private double subTotal;
     
     //constructor
 
-    public LineaPedido(int codigoPedido, int codigoProducto, int unidadesCompradas) {
+    public LineaPedido(int codigoPedido, int codigoProducto, int unidadesCompradas, double subTotal) {
         this.codigoPedido = codigoPedido;
         this.codigoProducto = codigoProducto;
         this.unidadesCompradas = unidadesCompradas;
-      
+        this.subTotal = subTotal;
         
     }
 
@@ -74,10 +75,15 @@ public class LineaPedido implements Lectora, Serializable{
         this.unidadesCompradas = unidadesCompradas;
     }
 
-    public void setProductos(ArrayList<ContenedorProducto> productos) {
-        this.productos = productos;
+    public double getSubTotal() {
+        return subTotal;
     }
 
+    public void setSubTotal(double subTotal) {
+        this.subTotal = subTotal;
+    }
+
+    
    
     
     
@@ -87,18 +93,7 @@ public class LineaPedido implements Lectora, Serializable{
      * metodo para caalcular el precio total del pedido
      * @return subTotal
      */
-    public  double calcularSubTotal(){
-        double subTotal = 0;
-        for (ContenedorProducto p : productos) {
-            for (Producto productos : p.getAlmacenProductos()) {
-                subTotal = getUnidadesCompradas() * p.mostrarPrecioVenta();
-            }
-            
-        }
-      
-        return subTotal;
-        
-    }
+    
     
     /**
      * metodo que muestra los datos de la linea pedido separada mediante punto y coma (;)
@@ -107,7 +102,7 @@ public class LineaPedido implements Lectora, Serializable{
     @Override
     public String mostrarDatosConPuntoComa(){
         return "LineaPedido" + ";" + getCodigoPedido()+ ";" + getCodigoProducto()+ ";" 
-                + getUnidadesCompradas()+ ";" + calcularSubTotal();
+                + getUnidadesCompradas() + ";" + getSubTotal();
     }
     
     /**
@@ -117,7 +112,7 @@ public class LineaPedido implements Lectora, Serializable{
     @Override
     public String mostrarDatosConDosPuntos(){
         return "LineaPedido" + ";" + getCodigoPedido()+ ";" + getCodigoProducto()+ ";" 
-                + getUnidadesCompradas()+ ";" + calcularSubTotal();
+                + getUnidadesCompradas() + ":" + getSubTotal();
     }
     
     

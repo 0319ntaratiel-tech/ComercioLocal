@@ -55,8 +55,9 @@ public class LineaPedidoFicheros {
                 int codigo = Integer.parseInt(partes[0]);
                 int codigoPro = Integer.parseInt(partes[1]);
                 int unidadesCompradas = Integer.parseInt(partes[2]);
+                double subTotal = Double.parseDouble(partes[3]);
                 //double subTotal = Double.parseDouble(partes[3]);
-                LineaPedido LP = new LineaPedido(codigo, codigo, codigo);
+                LineaPedido LP = new LineaPedido(codigo, codigoPro, unidadesCompradas, subTotal);
 
                 ContenedorLineaPedido.agregarLineaPedido(LP);
             }
@@ -137,8 +138,9 @@ public class LineaPedidoFicheros {
                 int codigo = Integer.parseInt(partes[0]);
                 int codigoPro = Integer.parseInt(partes[1]);
                 int unidadesCompradas = Integer.parseInt(partes[2]);
+                double subTotal = Double.parseDouble(partes[3]);
                 //double subTotal = Double.parseDouble(partes[3]);
-                LineaPedido LP = new LineaPedido(codigo, codigo, codigo);
+                LineaPedido LP = new LineaPedido(codigo, codigoPro, unidadesCompradas, subTotal);
 
                 ContenedorLineaPedido.agregarLineaPedido(LP);
             }

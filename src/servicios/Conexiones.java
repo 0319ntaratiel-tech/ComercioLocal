@@ -10,6 +10,7 @@ import contenedores.ContenedorLineaPedido;
 import contenedores.ContenedorPedido;
 import contenedores.ContenedorProducto;
 import contenedores.ContenedorVendedor;
+import excepciones.YaImportadoException;
 import java.sql.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -151,7 +152,7 @@ public class Conexiones {
                 pst.setInt(1, ((LineaPedido) o).getCodigoPedido());
                 pst.setInt(2, ((LineaPedido) o).getCodigoProducto());
                 pst.setInt(3, ((LineaPedido) o).getUnidadesCompradas());
-                pst.setDouble(4, ((LineaPedido) o).calcularSubTotal());
+                //pst.setDouble(4, ((LineaPedido) o).calcularSubTotal());
 
                 pst.executeUpdate();//Se ejecuta la insercion en la BD 
                 pst.close();
@@ -580,7 +581,7 @@ public class Conexiones {
     public static void consultarLineaPedido(int codPed, int codPro) {
         try {
             conexionEstablecida();
-            PreparedStatement pst = con.prepareStatement("select * from lineaPedido where where codigoPedido=? and codigoProducto ");
+            PreparedStatement pst = con.prepareStatement("select * from lineaPedido  where codigoPedido=? and codigoProducto=? ");
 
             pst.setInt(1, codPed);
             pst.setInt(1, codPro);
@@ -798,7 +799,7 @@ public class Conexiones {
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
 
-                Pedido p1 = new Pedido( rs.getInt("codigo"), rs.getInt("codigoVendedor"), rs.getInt("codigoCliente"), rs.getString("fechaRealizacion"), rs.getString("fechaEntrega"), rs.getString("estado"));
+                Pedido p1 = new Pedido( rs.getInt("codigo"), rs.getInt("codigoVendedor"), rs.getInt("codigoCliente"), rs.getString("fechaRealizacion"), rs.getString("fechaEntrega"), rs.getString("estado"), rs.getDouble("importe"));
                 
                 ContenedorPedido.agregarPedido(p1);
             }
@@ -810,16 +811,22 @@ public class Conexiones {
         }
     }
     
-    public static void insertarDatosContenedoresLP() {
+    public static void insertarDatosContenedoresLP() throws YaImportadoException{
         try {
             conexionEstablecida();
             PreparedStatement pst = con.prepareStatement("SELECT * FROM lineaPedido");
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
 
-               LineaPedido LP = new LineaPedido(rs.getInt("codigoPedido"), rs.getInt("codigoProducto"), rs.getInt("unidadesCompradas"));
+               LineaPedido LP = new LineaPedido(rs.getInt("codigoPedido"), rs.getInt("codigoProducto"), rs.getInt("unidadesCompradas"), rs.getDouble("subTotal"));
                
-               ContenedorLineaPedido.agregarLineaPedido(LP);
+               if(!ContenedorLineaPedido.getAlmacenLineasPedidos().isEmpty()){
+                   throw new YaImportadoException("Los datos ya han sido insertados al contenedor");
+               }else {
+                   ContenedorLineaPedido.agregarLineaPedido(LP);
+               }
+                   
+               
             }
             rs.close();
             pst.close();
@@ -829,4 +836,47 @@ public class Conexiones {
         }
 
     }
+    
+    public static double precioProducto(int codigo){
+        try {
+            conexionEstablecida();
+            PreparedStatement pst = con.prepareStatement("SELECT precioVenta FROM producto where codigo = ?");
+            
+            ResultSet rs = pst.executeQuery();
+            pst.setInt(1, codigo);
+            while (rs.next()) {
+                return rs.getDouble("precioVenta");
+                
+            }
+            rs.close();
+            pst.close();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+    
+        public static double importeFinal(int codigoPed, int codigoPro){
+        try {
+            conexionEstablecida();
+            PreparedStatement pst = con.prepareStatement("SELECT sum(subTotal) FROM lineaPedido where codigoPedido=? and codigoProducto=? ");
+            
+            ResultSet rs = pst.executeQuery();
+            pst.setInt(1, codigoPed);
+            pst.setInt(2,codigoPro);
+            while (rs.next()) {
+                return rs.getDouble("subTotal");
+                
+            }
+            rs.close();
+            pst.close();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+    
+    
 }

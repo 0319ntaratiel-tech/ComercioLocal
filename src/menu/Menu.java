@@ -43,7 +43,8 @@ public class Menu {
     }
 
     /**
-     * Menu principal donde se le pregunta al usuario la tbla que desea gestionar
+     * Menu principal donde se le pregunta al usuario la tbla que desea
+     * gestionar
      */
     public static void menuPrincipal() {
         int opcion = 0;
@@ -231,9 +232,9 @@ public class Menu {
 
                     case 14:
                         System.out.println("Cargando datos insertados durante la ejecucion...");
-                       ContenedorFabricante.mostrarDatosFabricante();
+                        ContenedorFabricante.mostrarDatosFabricante();
                         break;
-                        
+
                     case 15:
 
                         break;
@@ -378,7 +379,7 @@ public class Menu {
                         System.out.println("Cargando datos insertados durante la ejecucion...");
                         ContenedorCliente.mostrarDatosClientes();
                         break;
-                        
+
                     case 15:
 
                         break;
@@ -526,7 +527,7 @@ public class Menu {
                         System.out.println("Cargando datos insertados durante la ejecucion...");
                         ContenedorVendedor.mostrarDatosVendedor();
                         break;
-                        
+
                     case 15:
 
                         break;
@@ -675,7 +676,7 @@ public class Menu {
                         System.out.println("Cargando datos insertados durante la ejecucion...");
                         ContenedorProducto.mostrarDatosProductos();
                         break;
-                        
+
                     case 15:
 
                         break;
@@ -699,6 +700,7 @@ public class Menu {
 
     public static void subMenuPedido() {
         boolean salir = false;
+        boolean cantPro = false;
         while (!salir) {
             System.out.println("INICIANDO SESION EN PEDIDO...");
             Menu.historialSubMenus();
@@ -718,9 +720,11 @@ public class Menu {
                             System.out.println("INSERTA EL CODIGO DEL VENDEDOR");
                             int codigoVen = teclado.nextInt();
                             teclado.nextLine();//Verificar
+
                             System.out.println("INSERTA EL CODIGO DEL CLIENTE");
                             int codigoCli = teclado.nextInt();
                             teclado.nextLine();//Verificar
+
                             System.out.println("INSERTA LA FECHA DE REALIZACION DEL PEDIDO");
                             String fechaRea = teclado.next();
                             teclado.nextLine();
@@ -728,8 +732,33 @@ public class Menu {
                             String fechaEnt = teclado.next();
                             System.out.println("INSERTA EL ESTADO DEL PEDIDO");
                             String estado = teclado.next();
+                            System.out.println("QUE PRODUCTO DESEA PEDIR");
+                            int codigoProducto = teclado.nextInt();
+                            teclado.nextLine();
 
-                            Pedido ped = new Pedido(codigoCli, codigoVen, codigoCli, fechaRea, fechaEnt, estado);
+                            while (!cantPro) {
+
+                                //verificar
+                                System.out.println("CUANTAS UNIDADES DE ESE PRODUCTO DESEA PEDIR");
+                                int unidadesCompradas = teclado.nextInt();
+                                teclado.nextLine();
+                                System.out.println("DESEA PEDIR MAS PRODUCTOS");
+                                String respuesta = teclado.next();
+
+                                if (respuesta.equalsIgnoreCase("Si")) {
+                                    cantPro = false;
+                                } else {
+                                    cantPro = true;
+                                    System.out.println("QUE PRODUCTO DESEA PEDIR");
+                                    codigoProducto = teclado.nextInt();
+                                    teclado.nextLine();
+                                }
+
+                                LineaPedido lp = new LineaPedido(codigoPed, codigoProducto, unidadesCompradas, unidadesCompradas * Conexiones.precioProducto(codigoProducto));
+                                Conexiones.insertarDatos(lp);
+                                ContenedorLineaPedido.agregarLineaPedidoNuevos(lp);
+                            }
+                            Pedido ped = new Pedido(codigoPed, codigoVen, codigoCli, fechaRea, fechaEnt, estado, Conexiones.importeFinal(codigoPed, codigoProducto));
 
                             Conexiones.insertarDatos(ped);
                             ContenedorPedido.agregarPedidoNuevos(ped);
@@ -817,7 +846,7 @@ public class Menu {
                         System.out.println("Cargando datos insertados durante la ejecucion...");
                         ContenedorPedido.mostrarDatosPedidos();
                         break;
-                        
+
                     case 15:
 
                         break;
@@ -867,14 +896,7 @@ public class Menu {
                                 System.out.println("INSERTA LAS UNIDADES COMPRADAS");
                                 int unidadesCompradas = teclado.nextInt();
                                 teclado.nextLine();
-                                
-                                
-                                
 
-                                LineaPedido lp = new LineaPedido(codigoPed, codigoPro, unidadesCompradas );
-                                
-                                Conexiones.insertarDatos(lp);
-                                ContenedorLineaPedido.agregarLineaPedidoNuevos(lp);
                             }
 
                         } else {
@@ -893,7 +915,6 @@ public class Menu {
                         int codigoProFi = teclado.nextInt();
                         teclado.nextLine();
 
-                        
                         if (Conexiones.verificarExistenciaLineaPedido(codigoPedFi, codigoPedFi)) {
                             Conexiones.actualizarLineaPedido(codigoPedFi, codigoProFi);
                         } else {
@@ -973,12 +994,12 @@ public class Menu {
                     case 13:
 
                         break;
-                        
+
                     case 14:
                         System.out.println("Cargando datos insertados durante la ejecucion...");
                         ContenedorLineaPedido.mostrarLineaPedido();
                         break;
-                        
+
                     case 15:
 
                         break;

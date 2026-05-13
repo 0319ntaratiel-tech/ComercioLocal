@@ -9,6 +9,8 @@ import java.io.Serializable;
 import utils.Configuracion;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * La clase funciona para insertar un 
@@ -23,18 +25,20 @@ public class Pedido implements Lectora, Serializable{
     private String fechaRealizacion;
     private String fechaEntrega;
     private String estado;
-    private ArrayList<LineaPedido> lineasPedidos= new ArrayList<>();
+    private double importe;
+    
     
     
     //constructor
 
-    public Pedido(int codigo, int codigoVendedor, int codigoCliente, String fechaRealizacion, String fechaEntrega, String estado) {
+    public Pedido(int codigo, int codigoVendedor, int codigoCliente, String fechaRealizacion, String fechaEntrega, String estado, double importe) {
         this.codigo = codigo;
         this.codigoVendedor = codigoVendedor;
         this.codigoCliente = codigoCliente;
         this.fechaRealizacion = fechaRealizacion;
         this.fechaEntrega = fechaEntrega;
         this.estado = estado;
+        this.importe = importe;
         
     }
 
@@ -117,17 +121,17 @@ public class Pedido implements Lectora, Serializable{
         this.estado = estado;
     }
 
-    
-    public double calcularImporte(){
-        double importe = 0;
-        
-        for (LineaPedido lp : lineasPedidos) {
-            lp.calcularSubTotal();
-        }
-        
-        
+    public double getImporte() {
         return importe;
     }
+
+    public void setImporte(double importe) {
+        this.importe = importe;
+    }
+
+    
+    
+
     
     //metodos
    
@@ -140,7 +144,7 @@ public class Pedido implements Lectora, Serializable{
     public String mostrarDatosConPuntoComa(){
         return "Pedido" + ";" + getCodigo() + ";" + getCodigoVendedor()+ ";" 
                 + getCodigoCliente()+ ";" + getFechaRealizacion()+ ";" +
-                        getFechaEntrega()+ ";" + getEstado() ;
+                        getFechaEntrega()+ ";" + getEstado() + ";" + getImporte();
     }
     
     /**
@@ -151,6 +155,6 @@ public class Pedido implements Lectora, Serializable{
     public String mostrarDatosConDosPuntos(){
         return "Pedido" + ":" + getCodigo() + ":" + getCodigoVendedor()+ ":" 
                 + getCodigoCliente()+ ":" + getFechaRealizacion()+ ":" +
-                        getFechaEntrega()+ ":" + getEstado();
+                        getFechaEntrega()+ ":" + getEstado() + ":" + getImporte();
     }
 }
