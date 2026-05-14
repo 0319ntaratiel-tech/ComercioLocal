@@ -43,7 +43,7 @@ public class FabricanteFicheros {
     }
 
     public static void importarFicheroDeTextoFabri(String nombreFichero) throws YaImportadoException {
-        Conexiones.conexionEstablecida();
+        
 
         try {
 
@@ -107,10 +107,7 @@ public class FabricanteFicheros {
             System.err.println("Ha ocurrido un error de lectura");
             System.err.println(ex.getMessage());
 
-        } finally {
-
-            Conexiones.cierreDeConexion();
-        }
+        } 
     }
 
     public static void exportarFicheroJSONFabri() {

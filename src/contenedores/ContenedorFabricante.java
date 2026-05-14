@@ -13,16 +13,10 @@ import modelos.Fabricante;
  */
 public class ContenedorFabricante {
     //creamos una lista para almecenar los datos insertados durante la ejecución
-    private static ArrayList<Fabricante> almacenFabricantes;
-    private static ArrayList<Fabricante> almacenFabricantesNuevo;
+    private static ArrayList<Fabricante> almacenFabricantes=new ArrayList<>();;
+    private static ArrayList<Fabricante> almacenFabricantesNuevo= new ArrayList<>();
     
-    //constructor
-
-    public ContenedorFabricante() {
-        this.almacenFabricantes = new ArrayList<>();
-        this.almacenFabricantesNuevo = new ArrayList<>();
-    }
-    
+  
     //metodos
     
     /**

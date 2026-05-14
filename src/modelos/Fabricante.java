@@ -116,6 +116,11 @@ public class Fabricante implements Lectora, Serializable {
         this.codigo = codigo;
     }
 
+    @Override
+    public String toString() {
+        return "Fabricante{" + "codigo=" + codigo + ", nombre=" + nombre + ", anyoFundacion=" + anyoFundacion + ", lugarSede=" + lugarSede + ", empleados=" + empleados + ", sitioWeb=" + sitioWeb + '}';
+    }
+
     
     /**
      * Metodo que devuelve una cadena de texto con los atributos de la clase con

@@ -70,7 +70,7 @@ public class Conexiones {
         try {
 
             //Establece la conexion con la base de datos
-            conexionEstablecida();
+            
 
             /*Se verifica que el tipo de objeto que recibe  y dependiendo del  objeto se realiaza una 
              sentencia diferente para la BD*/
@@ -160,7 +160,7 @@ public class Conexiones {
                 System.out.println("Esa clase no existe");
             }
 
-            cierreDeConexion();
+            
         } catch (SQLException ex) {
             Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
         }
