@@ -123,7 +123,7 @@ public class Cliente implements Lectora, Serializable{
      */
     @Override
     public String mostrarDatosConPuntoComa() {
-        return "Cliente" + ";" + getCodigo() + ";" + getNombre() + ";" 
+        return  getCodigo() + ";" + getNombre() + ";" 
                 + getFechaNacimiento() + ";" + getDireccionEnvio() + ";" +
                         getTelefono() + ";" + getCorreo();
     }
@@ -134,7 +134,7 @@ public class Cliente implements Lectora, Serializable{
      */
     @Override
     public String mostrarDatosConDosPuntos() {
-        return "Cliente" + ":" + getCodigo() + ":" + getNombre() + ":" 
+        return  getCodigo() + ":" + getNombre() + ":" 
                 + getFechaNacimiento() + ":" + getDireccionEnvio() + ":" +
                         getTelefono() + ":" + getCorreo();
     }

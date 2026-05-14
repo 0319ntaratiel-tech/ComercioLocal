@@ -33,8 +33,8 @@ public class Pedido implements Lectora, Serializable{
     
     //constructor
 
-    public Pedido(int codigo, int codigoVendedor, int codigoCliente, String fechaRealizacion, String fechaEntrega, String estado, double importe) {
-        this.codigo = codigo;
+    public Pedido(int codigoVendedor, int codigoCliente, String fechaRealizacion, String fechaEntrega, String estado, double importe) {
+        this.codigo = (int) Math.random()*1000;
         this.codigoVendedor = codigoVendedor;
         this.codigoCliente = codigoCliente;
         this.fechaRealizacion = fechaRealizacion;
@@ -43,16 +43,7 @@ public class Pedido implements Lectora, Serializable{
         this.importe = importe;
         
     }
-  // buscar codigo en la base de datos incremental
-    public Pedido(int codigoVendedor, int codigoCliente, String fechaRealizacion, String fechaEntrega, String estado, double importe) {
-        this.codigo = (int)Math.random()*10000;
-        this.codigoVendedor = codigoVendedor;
-        this.codigoCliente = codigoCliente;
-        this.fechaRealizacion = fechaRealizacion;
-        this.fechaEntrega = fechaEntrega;
-        this.estado = estado;
-        this.importe = importe;
-    }
+
     
     
 

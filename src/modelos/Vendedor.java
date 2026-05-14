@@ -124,7 +124,7 @@ public class Vendedor implements Lectora, Serializable{
      */
     @Override
     public String mostrarDatosConPuntoComa() {
-        return "Fabricante" + ";" + getCodigo() + ";" + getNombre()
+        return  getCodigo() + ";" + getNombre()
                 +  ";" + getFechaAlta() + ";" + getDomicilio() + ";" + getSalario()  + ";" + getPorcentaje();
     }
 
@@ -136,7 +136,7 @@ public class Vendedor implements Lectora, Serializable{
      */
     @Override
     public String mostrarDatosConDosPuntos() {
-        return "Fabricante" + ":" + getCodigo() + ":" + getNombre()
+        return getCodigo() + ":" + getNombre()
                 + ":" + getFechaAlta() + ":" + getDomicilio()
                  + ":" + getSalario()  + ":" + getPorcentaje();
     }

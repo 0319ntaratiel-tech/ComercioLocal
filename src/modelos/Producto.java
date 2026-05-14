@@ -125,7 +125,7 @@ public class Producto implements Lectora, Serializable{
      */
     @Override
     public String mostrarDatosConPuntoComa() {
-        return "Fabricante" + ";" + getCodigo() + ";" + getCodigoFabricante()
+        return  getCodigo() + ";" + getCodigoFabricante()
                 +  ";" + getNombre() + ";" + getCategoria() + ";" 
                 + getDisponibilidad()  + ";" + getPrecioVenta();
     }
@@ -137,7 +137,7 @@ public class Producto implements Lectora, Serializable{
      */
     @Override
     public String mostrarDatosConDosPuntos() {
-        return "Fabricante" + ":" + getCodigo() + ":" + getCodigoFabricante()
+        return   getCodigo() + ":" + getCodigoFabricante()
                 + ":" + getNombre() + ":" + getCategoria()
                 + ":" + getDisponibilidad()  + ":" + getPrecioVenta();
     }

@@ -65,7 +65,7 @@ public class PedidoFicheros {
                 String fechaEntrega = partes[4];
                 String estado = partes[5];
                 double importe = Double.parseDouble(partes[6]);
-                Pedido p = new Pedido(codigo, codigoVendedor, codigoCliente, fechaRealizacion, fechaEntrega, estado, importe);
+                Pedido p = new Pedido( codigoVendedor, codigoCliente, fechaRealizacion, fechaEntrega, estado, importe);
                 
                 ContenedorPedido.agregarPedido(p);
             }
@@ -150,7 +150,7 @@ public class PedidoFicheros {
                 String fechaEntrega = partes[4];
                 String estado = partes[5];
                 double importe = Double.parseDouble(partes[6]);
-                Pedido p = new Pedido(codigo, codigoVendedor, codigoCliente, fechaRealizacion, fechaEntrega, estado, importe);
+                Pedido p = new Pedido( codigoVendedor, codigoCliente, fechaRealizacion, fechaEntrega, estado, importe);
                 //preguntar a nat
                 ContenedorPedido.agregarPedido(p);
             }

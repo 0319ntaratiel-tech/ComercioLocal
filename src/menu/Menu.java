@@ -13,6 +13,7 @@ import contenedores.ContenedorVendedor;
 import excepciones.YaImportadoException;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -41,7 +42,7 @@ public class Menu {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-       Conexiones.conexionEstablecida();
+        Conexiones.conexionEstablecida();
         Menu.menuPrincipal();
         Conexiones.cierreDeConexion();
 
@@ -112,7 +113,7 @@ public class Menu {
         }
     }
 
-public static void subMenuFabricante() {
+    public static void subMenuFabricante() {
 
         boolean salir = false;
         while (!salir) {
@@ -126,10 +127,10 @@ public static void subMenuFabricante() {
 
                         System.out.println("INSERTA EL CODIGO DEL FABRICANTE");
                         int codigoFabri = teclado.nextInt(); //Verificar codigo
-                        
+
                         if (Conexiones.verificarExistenciaCodigo(1, codigoFabri) || Comprobaciones.comprobarIntValido(codigoFabri)) {
                             System.out.println("EL CODIGO INGRESADO YA EXISTE O ES MENOR O IGUAL QUE CERO");
-                             
+
                         } else {
                             teclado.nextLine();
                             System.out.println("INSERTA EL NOMBRE DEL FABRICANTE");
@@ -153,7 +154,7 @@ public static void subMenuFabricante() {
                             teclado.nextLine();
                             System.out.println("INSERTA EL SITIO WEB DEL FABRICANTE");
                             String sitioWebFabri = teclado.next();
-                            
+
                             if (!Comprobaciones.comprobarStringValido(sitioWebFabri)) {
                                 return;
                             }
@@ -217,70 +218,63 @@ public static void subMenuFabricante() {
                         break;
 
                     case 6:
-                     Conexiones.insersarDatosContenedorFabricante();
-                     FabricanteFicheros.exportarFicheroDeTextoFabri();
+                        Conexiones.insersarDatosContenedorFabricante();
+                        FabricanteFicheros.exportarFicheroDeTextoFabri();
                         break;
 
                     case 7:
-                      Conexiones.insersarDatosContenedorFabricante();
-                      FabricanteFicheros.exportarFicheroCSVFabri();
+                        Conexiones.insersarDatosContenedorFabricante();
+                        FabricanteFicheros.exportarFicheroCSVFabri();
                         break;
 
                     case 8:
-                       Conexiones.insersarDatosContenedorFabricante();
-                       FabricanteFicheros.exportarFicheroBinarioFabri();
+                        Conexiones.insersarDatosContenedorFabricante();
+                        FabricanteFicheros.exportarFicheroBinarioFabri();
                         break;
 
                     case 9:
-                       Conexiones.insersarDatosContenedorFabricante();
-                       FabricanteFicheros.exportarFicheroJSONFabri();
+                        Conexiones.insersarDatosContenedorFabricante();
+                        FabricanteFicheros.exportarFicheroJSONFabri();
                         break;
 
                     case 10:
-                    Conexiones.insersarDatosContenedorFabricante();
-                    
-                        
-                    //FabricanteFicheros.importarFicheroDeTextoFabri(nombreFichero);
-                        
-                    
-                        break;
+                        Conexiones.insersarDatosContenedorFabricante();
 
+                        //FabricanteFicheros.importarFicheroDeTextoFabri(nombreFichero);
+                        break;
 
                     case 11:
-                    Conexiones.insersarDatosContenedorFabricante();
-                    {
-                        try {
-                            FabricanteFicheros.importarFicheroCSVFabri();
-                        } catch (YaImportadoException ex) {
-                            System.err.println(ex);
+                        Conexiones.insersarDatosContenedorFabricante();
+                         {
+                            try {
+                                FabricanteFicheros.importarFicheroCSVFabri();
+                            } catch (YaImportadoException ex) {
+                                System.err.println(ex);
+                            }
                         }
-                    }
                         break;
-
 
                     case 12:
-                    Conexiones.insersarDatosContenedorFabricante();
-                    {
-                        try {
-                            FabricanteFicheros.importarFicheroBinarioFabri();
-                        } catch (YaImportadoException ex) {
-                            System.err.println(ex);
+                        Conexiones.insersarDatosContenedorFabricante();
+                         {
+                            try {
+                                FabricanteFicheros.importarFicheroBinarioFabri();
+                            } catch (YaImportadoException ex) {
+                                System.err.println(ex);
+                            }
                         }
-                    }
                         break;
-
 
                     case 13:
-                    Conexiones.insersarDatosContenedorFabricante();
-                    {
-                        try {
-                            FabricanteFicheros.importarFicheroJSONFabri();
-                        } catch (YaImportadoException ex) {
-                            System.err.println(ex);
+                        Conexiones.insersarDatosContenedorFabricante();
+                         {
+                            try {
+                                FabricanteFicheros.importarFicheroJSONFabri();
+                            } catch (YaImportadoException ex) {
+                                System.err.println(ex);
+                            }
                         }
-                    }
                         break;
-
 
                     case 14:
                         System.out.println("Cargando datos insertados durante la ejecucion...");
@@ -297,7 +291,7 @@ public static void subMenuFabricante() {
                         System.out.println("consulta 7");
                         System.out.println("consulta 8");
                         System.out.println("consulta 9");
-                        
+
                         break;
 
                     case 16:
@@ -771,63 +765,59 @@ public static void subMenuFabricante() {
                 switch (opcion) {
 
                     case 1:
-
-                        System.out.println("INSERTA EL CODIGO DEL PEDIDO");
-                        int codigoPed = teclado.nextInt();
-                        teclado.nextLine();
-                        if (Conexiones.verificarExistenciaCodigo(5, codigoPed)) {
-                            System.out.println("EL CODIGO INGRESADO YA EXISTE");
-                        } else {
-                            System.out.println("INSERTA EL CODIGO DEL VENDEDOR");
-                            int codigoVen = teclado.nextInt();
-                            teclado.nextLine();//Verificar
-
-                            System.out.println("INSERTA EL CODIGO DEL CLIENTE");
-                            int codigoCli = teclado.nextInt();
-                            teclado.nextLine();//Verificar
-
-                            System.out.println("INSERTA LA FECHA DE REALIZACION DEL PEDIDO");
-                            String fechaRea = teclado.nextLine();
-                            if (Comprobaciones.comprobarFecha(fechaRea)) {
-                                System.out.println("Fecha de realización incorrecta");
-                                return;
+                        double importeFinal = 0;
+                        System.out.println("MOSTRANDO LISTA DE PRODUCTOS DISPONIBLES");
+                        Conexiones.consultarTodasFila(2);
+                        boolean pedir = false;
+                        while (!pedir) {
+                            System.out.println("DIME EL CODIGO DEL PEDIDO QUE DESEA PEDIR Y LA CANTIDAD ");
+                            int codigo = teclado.nextInt();
+                            int cantidad = teclado.nextInt();
+                            
+                            importeFinal += (Conexiones.precioProducto(codigo) * cantidad);
+                            
+                            //LineaPedido lp = new LineaPedido(cantidad, (Conexiones.precioProducto(codigo)*cantidad) );
+                            //LineaPedido.agregarLinea(lp);
+                            teclado.nextLine();
+                            System.out.println("DESEA PEDIR MAS PRODUCTOS");
+                            String opcion1 = teclado.next();
+                            if (opcion1.equalsIgnoreCase("Si")) {
+                                pedir = false;
+                                
+                            } else {
+                                pedir = true;
                             }
-
-                            System.out.println("INSERTA LA FECHA DE ENTREGA DEL PEDIDO");
-                            String fechaEnt = teclado.nextLine();
-                            if (Comprobaciones.comprobarFecha(fechaEnt)) {
-                                System.out.println("Fecha de entrega incorrecta");
-                                return;
-                            }
-                            if (!Comprobaciones.comprobarOrdenFechas(fechaRea, fechaEnt)) {
-                                System.out.println("La fecha de entrega no puede ser anterior a la de realización");
-                                return;
-                            }
-                            System.out.println("INSERTA EL ESTADO DEL PEDIDO");
-                            String estado = teclado.nextLine();
-                            if (!Comprobaciones.verificarEstado(estado)) {
-                                System.out.println("Estado no válido");
-                                return;
-                            }
-                              
-                            Pedido ped = new Pedido(codigoPed, codigoVen, codigoCli, fechaRea, fechaEnt, estado, 0);
-
-                            Conexiones.insertarDatos(ped);
-                            ContenedorPedido.agregarPedidoNuevos(ped);
-                            System.out.println("unidades");
-                            //1.inserta pedido
-                            //Que productos quieres? -->Movil, Tablet y TV
-                            //codi*precio
-                            //El usuario selecciona X Movil, z Tablet y y TV --> 
-                            //double importe = 1*10 + 1*30+2*getprECIOtv()
-                            //intreoduce codVendedor
-                            //intruduce codCliuente
-                            //Crear Pedido --> new Pedido( Match().roando(), codigoVen, codigoCli, LocalDate.now(), LocalDate.now() + 7, "REALIZADO", importe);
-                            //Insertar en BD
-                            //Calcular subtotal
-                            //Crear LineaPedido
-                            //update
+                            
+                            
                         }
+                        System.out.println("INSERTA EL CODIGO DEL VENDEDOR");
+                        int codigoVen = teclado.nextInt();
+                        teclado.nextLine();//Verificar
+
+                        System.out.println("INSERTA EL CODIGO DEL CLIENTE");
+                        int codigoCli = teclado.nextInt();
+                        teclado.nextLine();//Verificar
+                        
+                        
+
+                        Pedido ped = new Pedido( codigoVen, codigoCli, LocalDate.now().plusDays(7).toString(), LocalDate.now().toString(), "realizado", importeFinal);
+
+                        Conexiones.insertarDatos(ped);
+                        ContenedorPedido.agregarPedidoNuevos(ped);
+                        
+                        
+                        //1.inserta pedido
+                        //Que productos quieres? -->Movil, Tablet y TV
+                        //codi*precio
+                        //El usuario selecciona X Movil, z Tablet y y TV --> 
+                        //double importe = 1*10 + 1*30+2*getprECIOtv()
+                        //intreoduce codVendedor
+                        //intruduce codCliuente
+                        //Crear Pedido --> new Pedido( Match().roando(), codigoVen, codigoCli, LocalDate.now(), LocalDate.now() + 7, "REALIZADO", importe);
+                        //Insertar en BD
+                        //Calcular subtotal
+                        //Crear LineaPedido
+                        
 
                         break;
 
@@ -950,7 +940,7 @@ public static void subMenuFabricante() {
                         System.out.println("INSERTA EL CODIGO DEL PEDIDO");
                         int codigoPed = teclado.nextInt();
                         teclado.nextLine();
-                        
+
                         System.out.println("INSERTA EL CODIGO DEL PRODUCTO");
                         int codigoPro = teclado.nextInt();
                         teclado.nextLine();
@@ -961,7 +951,7 @@ public static void subMenuFabricante() {
                                 System.out.println("INSERTA LAS UNIDADES COMPRADAS");
                                 int unidadesCompradas = teclado.nextInt();
                                 teclado.nextLine();
-                                
+
                                 LineaPedido lp = new LineaPedido(codigoPed, codigoPro, unidadesCompradas, (Conexiones.precioProducto(codigoPro) * unidadesCompradas));
 
                             }

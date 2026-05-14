@@ -21,6 +21,7 @@ public class LineaPedido implements Lectora, Serializable{
     private int codigoProducto;
     private int unidadesCompradas;
     private double subTotal;
+    private static ArrayList<LineaPedido> lineas = new ArrayList<>();
     
     //constructor
 
@@ -34,6 +35,12 @@ public class LineaPedido implements Lectora, Serializable{
 
     public LineaPedido() {
     }
+
+    public LineaPedido(int unidadesCompradas, double subTotal) {
+        this.unidadesCompradas = unidadesCompradas;
+        this.subTotal = subTotal;
+    }
+    
     
     
     
@@ -84,19 +91,14 @@ public class LineaPedido implements Lectora, Serializable{
     }
 
     
-   public  double calcularSubtotal (Producto p){
-       double subTotal=0;
-       return subTotal= p.getPrecioVenta() * getUnidadesCompradas() ;
-       
-   }
+    public static void agregarLinea(LineaPedido lp){
+        lineas.add(lp);
+    }
     
     
     //metodos
     
-    /**
-     * metodo para caalcular el precio total del pedido
-     * @return subTotal
-     */
+    
     
     
     /**
@@ -118,6 +120,11 @@ public class LineaPedido implements Lectora, Serializable{
         return  getCodigoPedido()+ ":" + getCodigoProducto()+ ":" 
                 + getUnidadesCompradas() + ":" + getSubTotal();
     }
+
+    public static ArrayList<LineaPedido> getLineas() {
+        return lineas;
+    }
+    
     
     
 }

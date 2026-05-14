@@ -800,7 +800,7 @@ public class Conexiones {
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
 
-                Pedido p1 = new Pedido(rs.getInt("codigo"), rs.getInt("codigoVendedor"), rs.getInt("codigoCliente"), rs.getString("fechaRealizacion"), rs.getString("fechaEntrega"), rs.getString("estado"), rs.getDouble("importe"));
+                Pedido p1 = new Pedido( rs.getInt("codigoVendedor"), rs.getInt("codigoCliente"), rs.getString("fechaRealizacion"), rs.getString("fechaEntrega"), rs.getString("estado"), rs.getDouble("importe"));
 
                 ContenedorPedido.agregarPedido(p1);
             }
