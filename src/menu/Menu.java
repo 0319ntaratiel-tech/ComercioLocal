@@ -10,6 +10,7 @@ import contenedores.ContenedorLineaPedido;
 import contenedores.ContenedorPedido;
 import contenedores.ContenedorProducto;
 import contenedores.ContenedorVendedor;
+import excepciones.YaImportadoException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.InputMismatchException;
@@ -234,23 +235,49 @@ public class Menu {
 
                     case 10:
                     Conexiones.insersarDatosContenedorFabricante();
-                    //FabricanteFicheros.importarFicheroDeTextoFabri();
+                    
+                        
+                    //FabricanteFicheros.importarFicheroDeTextoFabri(nombreFichero);
+                        
+                    
                         break;
+
 
                     case 11:
-                     Conexiones.insersarDatosContenedorFabricante();
-                     //FabricanteFicheros.importarFicheroCSVFabri();
+                    Conexiones.insersarDatosContenedorFabricante();
+                    {
+                        try {
+                            FabricanteFicheros.importarFicheroCSVFabri();
+                        } catch (YaImportadoException ex) {
+                            System.err.println(ex);
+                        }
+                    }
                         break;
+
 
                     case 12:
-                     Conexiones.insersarDatosContenedorFabricante();
-                     //FabricanteFicheros.importarFicheroBinarioFabri();
+                    Conexiones.insersarDatosContenedorFabricante();
+                    {
+                        try {
+                            FabricanteFicheros.importarFicheroBinarioFabri();
+                        } catch (YaImportadoException ex) {
+                            System.err.println(ex);
+                        }
+                    }
                         break;
 
+
                     case 13:
-                     Conexiones.insersarDatosContenedorFabricante();
-                     //FabricanteFicheros.importarFicheroJSONFabri();
+                    Conexiones.insersarDatosContenedorFabricante();
+                    {
+                        try {
+                            FabricanteFicheros.importarFicheroJSONFabri();
+                        } catch (YaImportadoException ex) {
+                            System.err.println(ex);
+                        }
+                    }
                         break;
+
 
                     case 14:
                         System.out.println("Cargando datos insertados durante la ejecucion...");

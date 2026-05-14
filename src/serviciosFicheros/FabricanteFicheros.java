@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import modelos.Fabricante;
+import servicios.Conexiones;
 import utils.Configuracion;
 
 /**
@@ -41,36 +42,74 @@ public class FabricanteFicheros {
 
     }
 
-    public static void importarFicheroDeTextoFabri() throws YaImportadoException {
-        if (!ContenedorFabricante.getFabricantes().isEmpty()) {
-            throw new YaImportadoException("Los fabricantes ya fueron importados");
-        }
+    public static void importarFicheroDeTextoFabri(String nombreFichero) throws YaImportadoException {
+        Conexiones.conexionEstablecida();
 
         try {
-            BufferedReader br = new BufferedReader(new FileReader(Configuracion.nombreFicheroTextoFabri));
-            String linea = br.readLine();
 
-            while (linea != null) {
-                String[] partes = linea.split(";");
-                int codigo = Integer.parseInt(partes[0]);
-                String nombre = partes[1];
-                int anyoFundacion = Integer.parseInt(partes[2]);;
-                String lugarSede = partes[3];
-                int empleado = Integer.parseInt(partes[4]);;
-                String sitioWeb = partes[5];
-
-                Fabricante f = new Fabricante(codigo, nombre, anyoFundacion, lugarSede, empleado, sitioWeb);
-
-                ContenedorFabricante.agregarFabricante(f);
+            if (!ContenedorFabricante.getFabricantes().isEmpty()) {
+                throw new YaImportadoException(
+                        "Los fabricantes ya fueron importados");
             }
 
-            br.close();
+            try ( BufferedReader br = new BufferedReader(
+                    new FileReader(nombreFichero + ".txt"))) {
+
+                String linea;
+
+                while ((linea = br.readLine()) != null) {
+
+                    String[] partes = linea.split(";");
+
+                    // Verificar que la línea tenga todos los datos
+                    if (partes.length < 6) {
+                        System.err.println("Línea inválida: " + linea);
+                        continue;
+                    }
+
+                    int codigo = Integer.parseInt(partes[0]);
+                    String nombre = partes[1];
+                    int anyoFundacion = Integer.parseInt(partes[2]);
+                    String lugarSede = partes[3];
+                    int empleados = Integer.parseInt(partes[4]);
+                    String sitioWeb = partes[5];
+
+                    if (Conexiones.verificarExistenciaCodigo(1, codigo)) {
+
+                        System.err.println(
+                                "El fabricante con código " + codigo
+                                + " ya existe en la base de datos");
+
+                    } else {
+
+                        Fabricante f = new Fabricante(codigo,nombre,anyoFundacion,lugarSede,empleados,sitioWeb);
+                                
+
+                        ContenedorFabricante.agregarFabricante(f);
+                        Conexiones.insertarDatos(f);
+
+                        System.out.println(
+                                "Fabricante " + nombre
+                                + " importado correctamente");
+                    }
+                }
+
+                System.out.println("Importación finalizada con éxito");
+            }
+
         } catch (FileNotFoundException ex) {
-            System.err.println("Error. Fichero no encontrado");
-            System.err.println(ex);
+
+            System.err.println("Error: fichero no encontrado");
+            System.err.println(ex.getMessage());
+
         } catch (IOException ex) {
-            System.err.println("Ha ocurrido un error");
-            System.err.println(ex);
+
+            System.err.println("Ha ocurrido un error de lectura");
+            System.err.println(ex.getMessage());
+
+        } finally {
+
+            Conexiones.cierreDeConexion();
         }
     }
 
