@@ -84,7 +84,11 @@ public class LineaPedido implements Lectora, Serializable{
     }
 
     
-   
+   public  double calcularSubtotal (Producto p){
+       double subTotal=0;
+       return subTotal= p.getPrecioVenta() * getUnidadesCompradas() ;
+       
+   }
     
     
     //metodos
@@ -101,7 +105,7 @@ public class LineaPedido implements Lectora, Serializable{
      */
     @Override
     public String mostrarDatosConPuntoComa(){
-        return "LineaPedido" + ";" + getCodigoPedido()+ ";" + getCodigoProducto()+ ";" 
+        return getCodigoPedido()+ ";" + getCodigoProducto()+ ";" 
                 + getUnidadesCompradas() + ";" + getSubTotal();
     }
     
@@ -111,7 +115,7 @@ public class LineaPedido implements Lectora, Serializable{
      */
     @Override
     public String mostrarDatosConDosPuntos(){
-        return "LineaPedido" + ";" + getCodigoPedido()+ ";" + getCodigoProducto()+ ";" 
+        return  getCodigoPedido()+ ":" + getCodigoProducto()+ ":" 
                 + getUnidadesCompradas() + ":" + getSubTotal();
     }
     

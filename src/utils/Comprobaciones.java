@@ -151,22 +151,25 @@ public class Comprobaciones {
 
     public static boolean comprobarStringValido(String texto) {
 
-        if (texto.isEmpty()) {
+        if (texto == null || texto.isEmpty()) {
             System.err.println("El valor no puede estar vacío");
+            return false;
+        } else if (texto.length() > 50) {
+            System.err.println("El valor no puede tener más de 50 caracteres");
             return false;
         }
 
         return true;
     }
-    
+
     public static boolean comprobarIntValido(int numero) {
 
-    if (numero <= 0) {
-        System.err.println("El número debe ser mayor que 0");
-        return false;
-    }
+        if (numero <= 0) {
 
-    return true;
-}
+            return false;
+        }
+
+        return true;
+    }
 
 }

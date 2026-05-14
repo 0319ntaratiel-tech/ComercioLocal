@@ -10,6 +10,7 @@ import utils.Configuracion;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -26,6 +27,7 @@ public class Pedido implements Lectora, Serializable{
     private String fechaEntrega;
     private String estado;
     private double importe;
+  
     
     
     
@@ -41,6 +43,18 @@ public class Pedido implements Lectora, Serializable{
         this.importe = importe;
         
     }
+  // buscar codigo en la base de datos incremental
+    public Pedido(int codigoVendedor, int codigoCliente, String fechaRealizacion, String fechaEntrega, String estado, double importe) {
+        this.codigo = (int)Math.random()*10000;
+        this.codigoVendedor = codigoVendedor;
+        this.codigoCliente = codigoCliente;
+        this.fechaRealizacion = fechaRealizacion;
+        this.fechaEntrega = fechaEntrega;
+        this.estado = estado;
+        this.importe = importe;
+    }
+    
+    
 
     public Pedido() {
     }
@@ -129,9 +143,7 @@ public class Pedido implements Lectora, Serializable{
         this.importe = importe;
     }
 
-    
-    
-
+   
     
     //metodos
    
@@ -142,7 +154,7 @@ public class Pedido implements Lectora, Serializable{
      */
     @Override
     public String mostrarDatosConPuntoComa(){
-        return "Pedido" + ";" + getCodigo() + ";" + getCodigoVendedor()+ ";" 
+        return   getCodigo() + ";" + getCodigoVendedor()+ ";" 
                 + getCodigoCliente()+ ";" + getFechaRealizacion()+ ";" +
                         getFechaEntrega()+ ";" + getEstado() + ";" + getImporte();
     }
@@ -153,8 +165,13 @@ public class Pedido implements Lectora, Serializable{
      */
     @Override
     public String mostrarDatosConDosPuntos(){
-        return "Pedido" + ":" + getCodigo() + ":" + getCodigoVendedor()+ ":" 
+        return getCodigo() + ":" + getCodigoVendedor()+ ":" 
                 + getCodigoCliente()+ ":" + getFechaRealizacion()+ ":" +
                         getFechaEntrega()+ ":" + getEstado() + ":" + getImporte();
+    }
+
+    @Override
+    public String toString() {
+        return "Pedido{" + "codigo=" + codigo + ", codigoVendedor=" + codigoVendedor + ", codigoCliente=" + codigoCliente + ", fechaRealizacion=" + fechaRealizacion + ", fechaEntrega=" + fechaEntrega + ", estado=" + estado + ", importe=" + importe + '}';
     }
 }

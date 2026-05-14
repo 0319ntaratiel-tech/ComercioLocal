@@ -34,8 +34,6 @@ public class Fabricante implements Lectora, Serializable {
 
     public Fabricante() {
     }
-    
-    
 
     // Metodos
     /**
@@ -121,7 +119,6 @@ public class Fabricante implements Lectora, Serializable {
         return "Fabricante{" + "codigo=" + codigo + ", nombre=" + nombre + ", anyoFundacion=" + anyoFundacion + ", lugarSede=" + lugarSede + ", empleados=" + empleados + ", sitioWeb=" + sitioWeb + '}';
     }
 
-    
     /**
      * Metodo que devuelve una cadena de texto con los atributos de la clase con
      * punto y coma
@@ -130,10 +127,7 @@ public class Fabricante implements Lectora, Serializable {
      */
     @Override
     public String mostrarDatosConPuntoComa() {
-        return "Fabricante" + ";" + getCodigo() + ";"
-                + getNombre() + ";" + getAnyoFundacion() + ";"
-                + getLugarSede() + ";" + getEmpleados() + ";"
-                + getSitioWeb();
+        return getCodigo() + ";"+ getNombre() + ";" + getAnyoFundacion() + ";" + getLugarSede() + ";" + getEmpleados() + ";" + getSitioWeb();
     }
 
     /**
@@ -144,9 +138,7 @@ public class Fabricante implements Lectora, Serializable {
      */
     @Override
     public String mostrarDatosConDosPuntos() {
-        return "Fabricante" + ":" + getCodigo() + ":" + getNombre()
-                + ":" + getAnyoFundacion() + ":" + getLugarSede()
-                + ":" + getEmpleados() + ":" + getSitioWeb();
+        return  getCodigo() + ":" + getNombre() + ":" + getAnyoFundacion() + ":" + getLugarSede()  + ":" + getEmpleados() + ":" + getSitioWeb();
     }
 
 }

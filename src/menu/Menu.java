@@ -41,8 +41,9 @@ public class Menu {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-
+       Conexiones.conexionEstablecida();
         Menu.menuPrincipal();
+        Conexiones.cierreDeConexion();
 
     }
 
@@ -111,7 +112,7 @@ public class Menu {
         }
     }
 
-    public static void subMenuFabricante() {
+public static void subMenuFabricante() {
 
         boolean salir = false;
         while (!salir) {
@@ -125,9 +126,10 @@ public class Menu {
 
                         System.out.println("INSERTA EL CODIGO DEL FABRICANTE");
                         int codigoFabri = teclado.nextInt(); //Verificar codigo
-
-                        if (Conexiones.verificarExistenciaCodigo(1, codigoFabri)) {
-                            System.out.println("EL CODIGO INGRESADO YA EXISTE");
+                        
+                        if (Conexiones.verificarExistenciaCodigo(1, codigoFabri) || Comprobaciones.comprobarIntValido(codigoFabri)) {
+                            System.out.println("EL CODIGO INGRESADO YA EXISTE O ES MENOR O IGUAL QUE CERO");
+                             
                         } else {
                             teclado.nextLine();
                             System.out.println("INSERTA EL NOMBRE DEL FABRICANTE");
@@ -151,6 +153,7 @@ public class Menu {
                             teclado.nextLine();
                             System.out.println("INSERTA EL SITIO WEB DEL FABRICANTE");
                             String sitioWebFabri = teclado.next();
+                            
                             if (!Comprobaciones.comprobarStringValido(sitioWebFabri)) {
                                 return;
                             }
@@ -758,7 +761,7 @@ public class Menu {
 
     public static void subMenuPedido() {
         boolean salir = false;
-        boolean cantPro = false;
+        
         while (!salir) {
             System.out.println("INICIANDO SESION EN PEDIDO...");
             Menu.historialSubMenus();
@@ -806,44 +809,24 @@ public class Menu {
                                 System.out.println("Estado no válido");
                                 return;
                             }
-                            System.out.println("QUE PRODUCTO DESEA PEDIR");
-                            int codigoProducto = teclado.nextInt();
-                            teclado.nextLine();
-                            if (!Conexiones.verificarExistenciaCodigo(2, codigoProducto)) {
-                                System.out.println("Codigo ingresado no existe");
-                                return;
-                            }
-
-                            while (!cantPro) {
-
-                                //verificar
-                                System.out.println("CUANTAS UNIDADES DE ESE PRODUCTO DESEA PEDIR");
-                                int unidadesCompradas = teclado.nextInt();
-                                teclado.nextLine();
-                                System.out.println("DESEA PEDIR MAS PRODUCTOS");
-                                String respuesta = teclado.next();
-
-                                if (respuesta.equalsIgnoreCase("Si")) {
-                                    cantPro = false;
-                                } else {
-                                    cantPro = true;
-                                    System.out.println("QUE PRODUCTO DESEA PEDIR");
-                                    codigoProducto = teclado.nextInt();
-                                    teclado.nextLine();
-                                    if (!Conexiones.verificarExistenciaCodigo(2, codigoProducto)) {
-                                        System.out.println("Codigo ingresado no existe");
-                                        return;
-                                    }
-                                }
-
-                                LineaPedido lp = new LineaPedido(codigoPed, codigoProducto, unidadesCompradas, unidadesCompradas * Conexiones.precioProducto(codigoProducto));
-                                Conexiones.insertarDatos(lp);
-                                ContenedorLineaPedido.agregarLineaPedidoNuevos(lp);
-                            }
-                            Pedido ped = new Pedido(codigoPed, codigoVen, codigoCli, fechaRea, fechaEnt, estado, Conexiones.importeFinal(codigoPed, codigoProducto));
+                              
+                            Pedido ped = new Pedido(codigoPed, codigoVen, codigoCli, fechaRea, fechaEnt, estado, 0);
 
                             Conexiones.insertarDatos(ped);
                             ContenedorPedido.agregarPedidoNuevos(ped);
+                            System.out.println("unidades");
+                            //1.inserta pedido
+                            //Que productos quieres? -->Movil, Tablet y TV
+                            //codi*precio
+                            //El usuario selecciona X Movil, z Tablet y y TV --> 
+                            //double importe = 1*10 + 1*30+2*getprECIOtv()
+                            //intreoduce codVendedor
+                            //intruduce codCliuente
+                            //Crear Pedido --> new Pedido( Match().roando(), codigoVen, codigoCli, LocalDate.now(), LocalDate.now() + 7, "REALIZADO", importe);
+                            //Insertar en BD
+                            //Calcular subtotal
+                            //Crear LineaPedido
+                            //update
                         }
 
                         break;
@@ -967,7 +950,7 @@ public class Menu {
                         System.out.println("INSERTA EL CODIGO DEL PEDIDO");
                         int codigoPed = teclado.nextInt();
                         teclado.nextLine();
-
+                        
                         System.out.println("INSERTA EL CODIGO DEL PRODUCTO");
                         int codigoPro = teclado.nextInt();
                         teclado.nextLine();
@@ -978,6 +961,8 @@ public class Menu {
                                 System.out.println("INSERTA LAS UNIDADES COMPRADAS");
                                 int unidadesCompradas = teclado.nextInt();
                                 teclado.nextLine();
+                                
+                                LineaPedido lp = new LineaPedido(codigoPed, codigoPro, unidadesCompradas, (Conexiones.precioProducto(codigoPro) * unidadesCompradas));
 
                             }
 

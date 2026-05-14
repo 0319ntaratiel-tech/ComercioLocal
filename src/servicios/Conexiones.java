@@ -180,8 +180,7 @@ public class Conexiones {
         boolean existe = false;
 
         try {
-            //Se establece la conexion con la base de datos
-            conexionEstablecida();
+            
 
             if (clase == 1) { //Si la clase es 1, se trata de un fabricante
 
@@ -232,7 +231,6 @@ public class Conexiones {
                 System.out.println("Esa clase no existe");
             }
 
-            cierreDeConexion();
         } catch (SQLException ex) {
             Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -243,7 +241,7 @@ public class Conexiones {
     public static boolean verificarExistenciaLineaPedido(int codPed, int codPro) {
         boolean existe = false;
         try {
-            conexionEstablecida();
+           
             PreparedStatement pst = con.prepareStatement("select codigoPedido, codigoProducto from lineaPedido where codigoPedido=? and codigoProducto=? ");
             pst.setInt(1, codPed);
             pst.setInt(2, codPro);
@@ -252,7 +250,7 @@ public class Conexiones {
             rs.close();
             pst.close();
 
-            cierreDeConexion();
+           
 
         } catch (SQLException ex) {
             Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
@@ -264,7 +262,7 @@ public class Conexiones {
     public static void actualizarFila(int clase, int codigo) {
 
         try {
-            conexionEstablecida();
+           
             if (clase == 1) {
                 System.out.println("INSERTA NUEVO NOMBRE DEL FABRICANTE");
                 String nombreFabri = teclado.nextLine();
@@ -399,7 +397,7 @@ public class Conexiones {
             } else {
                 System.out.println("Clase no encontrada");
             }
-            cierreDeConexion();
+            
         } catch (SQLException ex) {
             Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -407,7 +405,7 @@ public class Conexiones {
 
     public static void actualizarLineaPedido(int codigoped, int codpro) {
         try {
-            conexionEstablecida();
+           
             System.out.println("INSERTA LAS UNIDADES COMPRADAS");
             int unidadesCompradas = teclado.nextInt();
             teclado.nextLine();
@@ -423,7 +421,7 @@ public class Conexiones {
             pst.setInt(4, codpro);
             pst.executeUpdate();
             pst.close();
-            cierreDeConexion();
+            
         } catch (SQLException ex) {
             Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -432,7 +430,7 @@ public class Conexiones {
     public static void eliminarFila(int clase, int codigo) {
 
         try {
-            conexionEstablecida();
+            
             if (clase == 1) {
                 PreparedStatement pst = con.prepareStatement("delete from fabricante where codigo=?");
                 pst.setInt(1, codigo);
@@ -463,7 +461,7 @@ public class Conexiones {
             } else {
                 System.out.println("Clase no encontrada");
             }
-            cierreDeConexion();
+         
         } catch (SQLException ex) {
             Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -471,14 +469,14 @@ public class Conexiones {
 
     public static void eliminarLineaPedido(int codPed, int codPro) {
         try {
-            conexionEstablecida();
+            
             PreparedStatement pst = con.prepareStatement("delete from lineaPedido  where codigoPedido=? and codigoProducto ");
 
             pst.setInt(1, codPed);
             pst.setInt(1, codPro);
             pst.executeUpdate();
             pst.close();
-            cierreDeConexion();
+          
 
         } catch (SQLException ex) {
             Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
@@ -488,7 +486,7 @@ public class Conexiones {
     public static void consultarFila(int clase, int codigo) {
 
         try {
-            conexionEstablecida();
+           
             if (clase == 1) {
                 PreparedStatement pst = con.prepareStatement("select * from fabricante where codigo=?");
                 pst.setInt(1, codigo);
@@ -574,7 +572,7 @@ public class Conexiones {
             } else {
                 System.out.println("Clase no encontrada");
             }
-            cierreDeConexion();
+           
 
         } catch (SQLException ex) {
             Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
@@ -583,7 +581,7 @@ public class Conexiones {
 
     public static void consultarLineaPedido(int codPed, int codPro) {
         try {
-            conexionEstablecida();
+            
             PreparedStatement pst = con.prepareStatement("select * from lineaPedido  where codigoPedido=? and codigoProducto=? ");
 
             pst.setInt(1, codPed);
@@ -599,7 +597,7 @@ public class Conexiones {
             }
             rs.close();
             pst.close();
-            cierreDeConexion();
+           
 
         } catch (SQLException ex) {
             Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
@@ -609,7 +607,7 @@ public class Conexiones {
     public static void consultarTodasFila(int clase) {
 
         try {
-            conexionEstablecida();
+            
             if (clase == 1) {
 
                 PreparedStatement pst = con.prepareStatement("SELECT * FROM fabricante ORDER BY codigo ASC");
@@ -713,7 +711,7 @@ public class Conexiones {
                 System.out.println("Clase no encontrada");
             }
 
-            cierreDeConexion();
+            
         } catch (SQLException ex) {
             Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -722,7 +720,7 @@ public class Conexiones {
     public static void insersarDatosContenedorFabricante() {
 
         try {
-            conexionEstablecida();
+          
             PreparedStatement pst = con.prepareStatement("SELECT * FROM fabricante");
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
@@ -742,7 +740,7 @@ public class Conexiones {
 
     public static void insertarDatosContenedorVendedor() {
         try {
-            conexionEstablecida();
+         
             PreparedStatement pst = con.prepareStatement("SELECT * FROM vendedor");
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
@@ -760,7 +758,7 @@ public class Conexiones {
 
     public static void insertarDatosContenedorClientes() {
         try {
-            conexionEstablecida();
+           
             PreparedStatement pst = con.prepareStatement("SELECT * FROM cliente");
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
@@ -778,7 +776,7 @@ public class Conexiones {
 
     public static void insertarDatosContenedoresProductos() {
         try {
-            conexionEstablecida();
+            
             PreparedStatement pst = con.prepareStatement("SELECT * FROM producto");
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
@@ -797,7 +795,7 @@ public class Conexiones {
 
     public static void insertarDatosContenedoresPedidos() {
         try {
-            conexionEstablecida();
+            
             PreparedStatement pst = con.prepareStatement("SELECT * FROM pedido");
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
@@ -816,7 +814,7 @@ public class Conexiones {
 
     public static void insertarDatosContenedoresLP() throws YaImportadoException {
         try {
-            conexionEstablecida();
+            
             PreparedStatement pst = con.prepareStatement("SELECT * FROM lineaPedido");
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
@@ -841,7 +839,7 @@ public class Conexiones {
 
     public static double precioProducto(int codigo) {
         try {
-            conexionEstablecida();
+            
             PreparedStatement pst = con.prepareStatement("SELECT precioVenta FROM producto where codigo = ?");
 
             ResultSet rs = pst.executeQuery();
@@ -859,14 +857,14 @@ public class Conexiones {
         return 0;
     }
 
-    public static double importeFinal(int codigoPed, int codigoPro) {
+    public static double importeFinal(int codigoPed) {
         try {
-            conexionEstablecida();
+           
             PreparedStatement pst = con.prepareStatement("SELECT sum(subTotal) AS total FROM lineaPedido where codigoPedido=?");
 
             ResultSet rs = pst.executeQuery();
             pst.setInt(1, codigoPed);
-            pst.setInt(2, codigoPro);
+
             while (rs.next()) {
                 return rs.getDouble("total");
 
@@ -882,7 +880,7 @@ public class Conexiones {
 
     public static void consultas(int clase) {
         try {
-            conexionEstablecida();
+           
 
             switch (clase) {
                 case 1:
