@@ -42,9 +42,9 @@ public class Menu {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        Conexiones.conexionEstablecida();
+        
         Menu.menuPrincipal();
-        Conexiones.cierreDeConexion();
+        
 
     }
 
@@ -56,6 +56,7 @@ public class Menu {
         int opcion = 0;
         boolean salir = false;
         while (!salir) {
+            
             System.out.println("---BIENVENIDO AL MENU DE NUESTRO COMERCIO LOCAL---");
             System.out.println("Primero, eliga la tabla que desea gestionar");
             System.out.println("\t 1) FABRICANTE ");
@@ -102,6 +103,7 @@ public class Menu {
                     break;
 
                 case 7:
+                    
                     salir = true;
                     System.out.println("Saliendo del programa ...");
                     break;
@@ -114,7 +116,7 @@ public class Menu {
     }
 
     public static void subMenuFabricante() {
-
+       Conexiones.conexionEstablecida();
         boolean salir = false;
         while (!salir) {
             System.out.println("INICIANDO SESION EN FABRICANTE...");
@@ -295,6 +297,7 @@ public class Menu {
                         break;
 
                     case 16:
+                        Conexiones.cierreDeConexion();
                         salir = true;
                         System.out.println("Saliendo del programa ...");
                         break;

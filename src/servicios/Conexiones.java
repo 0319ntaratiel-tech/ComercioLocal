@@ -33,7 +33,7 @@ import utils.Configuracion;
 public class Conexiones {
 
     private static Connection con;
-
+    
     /**
      * Metodo para establecer la conexion con la base de datos
      */
@@ -46,7 +46,7 @@ public class Conexiones {
             Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
     /**
      * Metodo para cerrar la conexion con la base de datos
      */
