@@ -755,7 +755,7 @@ public class Menu {
 
     public static void subMenuPedido() {
         boolean salir = false;
-        
+
         while (!salir) {
             System.out.println("INICIANDO SESION EN PEDIDO...");
             Menu.historialSubMenus();
@@ -765,8 +765,7 @@ public class Menu {
                 switch (opcion) {
 
                     case 1:
-                        //INT CODIGO=SELEC+1
-                        
+
                         double importeFinal = 0;
                         System.out.println("MOSTRANDO LISTA DE PRODUCTOS DISPONIBLES");
                         Conexiones.consultarTodasFila(2);
@@ -775,22 +774,21 @@ public class Menu {
                             System.out.println("DIME EL CODIGO DEL PRODUCTO QUE DESEA PEDIR Y LA CANTIDAD ");
                             int codigo = teclado.nextInt();
                             int cantidad = teclado.nextInt();
-                            
+
                             importeFinal += (Conexiones.precioProducto(codigo) * cantidad);
-                            
-                            LineaPedido lp = new LineaPedido(codigo ,codigo,cantidad, (Conexiones.precioProducto(codigo)*cantidad) );
+
+                            LineaPedido lp = new LineaPedido(codigo, codigo, cantidad, (Conexiones.precioProducto(codigo) * cantidad));
                             LineaPedido.agregarLinea(lp);
                             teclado.nextLine();
                             System.out.println("DESEA PEDIR MAS PRODUCTOS");
                             String opcion1 = teclado.next();
                             if (opcion1.equalsIgnoreCase("Si")) {
                                 pedir = false;
-                                
+
                             } else {
                                 pedir = true;
                             }
-                            
-                            
+
                         }
                         System.out.println("INSERTA EL CODIGO DEL VENDEDOR");
                         int codigoVen = teclado.nextInt();
@@ -799,17 +797,15 @@ public class Menu {
                         System.out.println("INSERTA EL CODIGO DEL CLIENTE");
                         int codigoCli = teclado.nextInt();
                         teclado.nextLine();//Verificar
-                        
-                        
 
-                        Pedido ped = new Pedido( codigoVen, codigoCli, LocalDate.now().plusDays(7).toString(), LocalDate.now().toString(), "realizado", importeFinal);
+                        Pedido ped = new Pedido(codigoVen, codigoCli, LocalDate.now().plusDays(7).toString(), LocalDate.now().toString(), "realizado", importeFinal);
 
                         Conexiones.insertarDatos(ped);
                         ContenedorPedido.agregarPedidoNuevos(ped);
-                        
+
                         //insertamos lp en la base 
                         Conexiones.insertarDatos(LineaPedido.getLineas());
-                        
+
                         LineaPedido.getLineas().clear();
                         //1.inserta pedido
                         //Que productos quieres? -->Movil, Tablet y TV
@@ -822,7 +818,6 @@ public class Menu {
                         //Insertar en BD
                         //Calcular subtotal
                         //Crear LineaPedido
-                        
 
                         break;
 
@@ -933,7 +928,27 @@ public class Menu {
         boolean salir = false;
         while (!salir) {
             System.out.println("INICIANDO SESION EN LINEA DE PEDIDO...");
-            Menu.historialSubMenus();
+            System.out.println("Que operacion de gestion desea realizar ");
+            System.out.println("\t 1) ACTUALIZAR UNA FILA POR CODIGO IDENTIFICATIVO   ");
+            System.out.println("\t 2) ELIMINAR UNA FILA POR CODIGO IDENTIFICATIVO ");
+            System.out.println("\t 3) CONSULTAR UNA FILA POR CODIGO IDENTIFICATIVO ");
+            System.out.println("\t 4) CONSULTAR TODAS LAS FILAS DE LA TABLA, ORDENADAS DE FORMA ASCENDENTE ");
+            System.out.println("Si no quiere hacer ninguna modificacion eliga de que manera quiere exportar la tabla ");
+            System.out.println("\t 5) EXPORTAR TABLA A FICHERO DE TEXTO");
+            System.out.println("\t 6) EXPORTAR TABLA A FICHERO DE CSV");
+            System.out.println("\t 7) EXPORTAR TABLA A FICHERO BINARIO");
+            System.out.println("\t 8) EXPORTAR TABLA A FICHERO JSON");
+            System.out.println("Si desea importarla eliga la forma ");
+            System.out.println("\t 9) IMPORTAR TABLA A FICHERO DE TEXTO");
+            System.out.println("\t 10) IMPORTAR TABLA A FICHERO DE CSV");
+            System.out.println("\t 11) IMPORTAR TABLA A FICHERO BINARIO");
+            System.out.println("\t 12) IMPORTAR TABLA A FICHERO JSON");
+            System.out.println("Si desea ver los datos insertados durante la ejecucion pulse ");
+            System.out.println("\t 13) VER DATOS INSERTADOS DURANTE LA EJECUCION");
+            System.out.println("Si desea ver los informe multitabla pulse ");
+            System.out.println("\t 14) VER INFORMES MULTITABLA");
+            System.out.println("Si no quiere realizar ninguna operacion de gestion pulse ");
+            System.out.println("\t 15) SALIR ");
 
             try {
                 int opcion = teclado.nextInt();
@@ -941,33 +956,6 @@ public class Menu {
                 switch (opcion) {
 
                     case 1:
-
-                        System.out.println("INSERTA EL CODIGO DEL PEDIDO");
-                        int codigoPed = teclado.nextInt();
-                        teclado.nextLine();
-
-                        System.out.println("INSERTA EL CODIGO DEL PRODUCTO");
-                        int codigoPro = teclado.nextInt();
-                        teclado.nextLine();
-                        if (Conexiones.verificarExistenciaCodigo(5, codigoPed) && Conexiones.verificarExistenciaCodigo(2, codigoPro)) {
-                            if (Conexiones.verificarExistenciaLineaPedido(codigoPed, codigoPro)) {
-                                System.out.println("EL CODIGO INGRESADO YA EXISTE");
-                            } else {
-                                System.out.println("INSERTA LAS UNIDADES COMPRADAS");
-                                int unidadesCompradas = teclado.nextInt();
-                                teclado.nextLine();
-
-                                LineaPedido lp = new LineaPedido(codigoPed, codigoPro, unidadesCompradas, (Conexiones.precioProducto(codigoPro) * unidadesCompradas));
-
-                            }
-
-                        } else {
-                            System.out.println("EL CODIGO INGRESADO NO EXISTE");
-                        }
-
-                        break;
-
-                    case 2:
                         System.out.println("INSERTAR CODIGO DE PEDIDO Y CODIGO DE PRODUCTO PARA ACTUALIZAR");
                         System.out.print("PEDIDO:");
                         int codigoPedFi = teclado.nextInt();
@@ -985,7 +973,7 @@ public class Menu {
 
                         break;
 
-                    case 3:
+                    case 2:
                         System.out.println("INSERTAR CODIGO DE PEDIDO Y CODIGO DE PRODUCTO PARA ELIMINAR LINEA DE PEDIDO");
                         System.out.print("PEDIDO:");
                         int codigoPedE = teclado.nextInt();
@@ -1003,7 +991,7 @@ public class Menu {
 
                         break;
 
-                    case 4:
+                    case 3:
                         System.out.println("INSERTAR CODIGO DE PEDIDO Y CODIGO DE PRODUCTO PARA CONSULTAR UNA LINEA DE PEDIDO");
                         System.out.print("PEDIDO:");
                         int codigoPedCC = teclado.nextInt();
@@ -1019,17 +1007,13 @@ public class Menu {
                         }
                         break;
 
-                    case 5:
+                    case 4:
                         System.out.println("DATOS DE LINEAS DE PEDIDO");
                         Conexiones.consultarTodasFila(6);
 
                         break;
 
-                    case 6:
-
-                        break;
-
-                    case 7:
+                    case 5:
 
                         break;
 
@@ -1058,15 +1042,19 @@ public class Menu {
                         break;
 
                     case 14:
+
+                        break;
+
+                    case 15:
                         System.out.println("Cargando datos insertados durante la ejecucion...");
                         ContenedorLineaPedido.mostrarLineaPedido();
                         break;
 
-                    case 15:
+                    case 16:
 
                         break;
 
-                    case 16:
+                    case 17:
                         salir = true;
                         System.out.println("Saliendo del programa ...");
                         break;

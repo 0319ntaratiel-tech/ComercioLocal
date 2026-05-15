@@ -878,6 +878,29 @@ public class Conexiones {
         return 0;
     }
 
+    public static int codigoPedido (){
+        try {
+            
+            PreparedStatement pst = con.prepareStatement("SELECT  (max(codigo) + 1) as codigoPedido from pedido");
+            ResultSet rs = pst.executeQuery();
+            
+
+            while (rs.next()) {
+                return rs.getInt("codigoPedido");
+
+            }
+            rs.close();
+            pst.close();
+
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+
+           
+        
+    }
     public static void consultas(int clase) {
         try {
            

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import servicios.Conexiones;
 
 /**
  * La clase funciona para insertar un 
@@ -27,20 +28,22 @@ public class Pedido implements Lectora, Serializable{
     private String fechaEntrega;
     private String estado;
     private double importe;
-  
+ 
     
     
     
     //constructor
 
     public Pedido(int codigoVendedor, int codigoCliente, String fechaRealizacion, String fechaEntrega, String estado, double importe) {
-        this.codigo = (int) Math.random()*1000;
+        this.codigo = 1 + Conexiones.codigoPedido();
+        
         this.codigoVendedor = codigoVendedor;
         this.codigoCliente = codigoCliente;
         this.fechaRealizacion = fechaRealizacion;
         this.fechaEntrega = fechaEntrega;
         this.estado = estado;
         this.importe = importe;
+        
         
     }
 
