@@ -8,6 +8,8 @@ import contenedores.ContenedorProducto;
 import interfaces.Lectora;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import servicios.Conexiones;
 
 /**
@@ -21,7 +23,7 @@ public class LineaPedido implements Lectora, Serializable{
     private int codigoProducto;
     private int unidadesCompradas;
     private double subTotal;
-    private static ArrayList<LineaPedido> lineas = new ArrayList<>();
+    private static Map<Integer, LineaPedido> lineas = new HashMap<>();
     
     //constructor
 
@@ -36,12 +38,6 @@ public class LineaPedido implements Lectora, Serializable{
     public LineaPedido() {
     }
 
-    public LineaPedido(int unidadesCompradas, double subTotal) {
-        this.unidadesCompradas = unidadesCompradas;
-        this.subTotal = subTotal;
-    }
-    
-    
     
     
     //getter
@@ -92,7 +88,9 @@ public class LineaPedido implements Lectora, Serializable{
 
     
     public static void agregarLinea(LineaPedido lp){
-        lineas.add(lp);
+        int contador = 1;
+        lineas.put(contador, lp);
+        contador++;
     }
     
     
@@ -121,9 +119,11 @@ public class LineaPedido implements Lectora, Serializable{
                 + getUnidadesCompradas() + ":" + getSubTotal();
     }
 
-    public static ArrayList<LineaPedido> getLineas() {
+    public static Map<Integer, LineaPedido> getLineas() {
         return lineas;
     }
+
+   
     
     
     

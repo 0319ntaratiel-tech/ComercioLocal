@@ -765,19 +765,21 @@ public class Menu {
                 switch (opcion) {
 
                     case 1:
+                        //INT CODIGO=SELEC+1
+                        
                         double importeFinal = 0;
                         System.out.println("MOSTRANDO LISTA DE PRODUCTOS DISPONIBLES");
                         Conexiones.consultarTodasFila(2);
                         boolean pedir = false;
                         while (!pedir) {
-                            System.out.println("DIME EL CODIGO DEL PEDIDO QUE DESEA PEDIR Y LA CANTIDAD ");
+                            System.out.println("DIME EL CODIGO DEL PRODUCTO QUE DESEA PEDIR Y LA CANTIDAD ");
                             int codigo = teclado.nextInt();
                             int cantidad = teclado.nextInt();
                             
                             importeFinal += (Conexiones.precioProducto(codigo) * cantidad);
                             
-                            //LineaPedido lp = new LineaPedido(cantidad, (Conexiones.precioProducto(codigo)*cantidad) );
-                            //LineaPedido.agregarLinea(lp);
+                            LineaPedido lp = new LineaPedido(codigo ,codigo,cantidad, (Conexiones.precioProducto(codigo)*cantidad) );
+                            LineaPedido.agregarLinea(lp);
                             teclado.nextLine();
                             System.out.println("DESEA PEDIR MAS PRODUCTOS");
                             String opcion1 = teclado.next();
@@ -805,7 +807,10 @@ public class Menu {
                         Conexiones.insertarDatos(ped);
                         ContenedorPedido.agregarPedidoNuevos(ped);
                         
+                        //insertamos lp en la base 
+                        Conexiones.insertarDatos(LineaPedido.getLineas());
                         
+                        LineaPedido.getLineas().clear();
                         //1.inserta pedido
                         //Que productos quieres? -->Movil, Tablet y TV
                         //codi*precio
