@@ -42,14 +42,14 @@ public class Menu {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        
+        Conexiones.conexionEstablecida();
         Menu.menuPrincipal();
-        
+        Conexiones.cierreDeConexion();
 
     }
 
     /**
-     * Menu principal donde se le pregunta al usuario la tbla que desea
+     * Menu principal donde se le pregunta al usuario la tabla que desea
      * gestionar
      */
     public static void menuPrincipal() {
@@ -116,7 +116,7 @@ public class Menu {
     }
 
     public static void subMenuFabricante() {
-       Conexiones.conexionEstablecida();
+      
         boolean salir = false;
         while (!salir) {
             System.out.println("INICIANDO SESION EN FABRICANTE...");
@@ -130,7 +130,7 @@ public class Menu {
                         System.out.println("INSERTA EL CODIGO DEL FABRICANTE");
                         int codigoFabri = teclado.nextInt(); //Verificar codigo
 
-                        if (Conexiones.verificarExistenciaCodigo(1, codigoFabri) || Comprobaciones.comprobarIntValido(codigoFabri)) {
+                        if (Conexiones.verificarExistenciaCodigo(1, codigoFabri)) {
                             System.out.println("EL CODIGO INGRESADO YA EXISTE O ES MENOR O IGUAL QUE CERO");
 
                         } else {
@@ -297,7 +297,7 @@ public class Menu {
                         break;
 
                     case 16:
-                        Conexiones.cierreDeConexion();
+                 
                         salir = true;
                         System.out.println("Saliendo del programa ...");
                         break;
@@ -776,7 +776,10 @@ public class Menu {
                         while (!pedir) {
                             System.out.println("DIME EL CODIGO DEL PRODUCTO QUE DESEA PEDIR Y LA CANTIDAD ");
                             int codigo = teclado.nextInt();
+                            teclado.nextLine();
+                            System.out.println("Dime unidades");
                             int cantidad = teclado.nextInt();
+                            teclado.nextLine();
 
                             importeFinal += (Conexiones.precioProducto(codigo) * cantidad);
 

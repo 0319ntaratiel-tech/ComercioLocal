@@ -13,14 +13,10 @@ import modelos.Cliente;
  */
 public class ContenedorCliente {
     //creamos una lista para almecenar los datos insertados durante la ejecución
-    private static ArrayList<Cliente> almacenClientes;
-    private static ArrayList<Cliente> almacenClientesNuevos;
+    private static ArrayList<Cliente> almacenClientes = new ArrayList<>();
+    private static ArrayList<Cliente> almacenClientesNuevos = new ArrayList<>();
 
-    //constructor
-    public ContenedorCliente() {
-        this.almacenClientes = new ArrayList<>();
-        this.almacenClientesNuevos = new ArrayList<>();
-    }
+    
     
     //metodos
     /**

@@ -14,15 +14,11 @@ import modelos.Vendedor;
  */
 public class ContenedorVendedor {
     //creamos una lista para almecenar los datos insertados durante la ejecución
-    private static ArrayList<Vendedor> almacenVendedor;
-    private static ArrayList<Vendedor> almacenVendedorNuevos;
+    private static ArrayList<Vendedor> almacenVendedor = new ArrayList<>();
+    private static ArrayList<Vendedor> almacenVendedorNuevos = new ArrayList<>();
     
-    //constructor
-
-    public ContenedorVendedor() {
-        this.almacenVendedor = new ArrayList<>();
-        this.almacenVendedorNuevos = new ArrayList<>();
-    }
+   
+   
     
     //metodos
     

@@ -14,17 +14,11 @@ import modelos.LineaPedido;
  */
 public class ContenedorLineaPedido {
     //creamos una lista para almecenar los datos insertados durante la ejecución
-    private static Map<Integer , LineaPedido> almacenLineasPedidos;
-    private static Map<Integer , LineaPedido> almacenLineasPedidosNuevos;
-    private static int contador;
+    private static Map<Integer , LineaPedido> almacenLineasPedidos =  new HashMap<>();
+    private static Map<Integer , LineaPedido> almacenLineasPedidosNuevos = new HashMap<>();
+    private static int contador = 1;
     
-    //constructor
-    public ContenedorLineaPedido() {
-        this.almacenLineasPedidos = new HashMap<>();
-        this.almacenLineasPedidosNuevos = new HashMap<>();
-        contador = 1;
-    }
-    
+   
     //metodos
     
     /**

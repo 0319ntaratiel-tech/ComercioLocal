@@ -16,15 +16,10 @@ import modelos.Producto;
 public class ContenedorProducto {
 
     //creamos una lista para almecenar los datos insertados durante la ejecución
-    private static Set<Producto> almacenProductos;
-    private static Set<Producto> almacenProductosNuevo;
+    private static Set<Producto> almacenProductos = new HashSet<>();
+    private static Set<Producto> almacenProductosNuevo = new HashSet<>();
 
-    //constructor
-    public ContenedorProducto() {
-        this.almacenProductos = new HashSet<>();
-        this.almacenProductosNuevo = new HashSet<>();
-    }
-
+   
     //metodos
     /**
      * metodo que permite agregar un producto a la lista

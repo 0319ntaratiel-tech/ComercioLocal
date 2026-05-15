@@ -14,15 +14,12 @@ import modelos.Pedido;
  */
 public class ContenedorPedido {
     //creamos una lista para almecenar los datos insertados durante la ejecución
-    private static ArrayList<Pedido> almacenPedidos;
-    private static ArrayList<Pedido> almacenPedidosNuevos;
+    private static ArrayList<Pedido> almacenPedidos = new ArrayList<>();
+    private static ArrayList<Pedido> almacenPedidosNuevos = new ArrayList<>();
     
     //constructor
 
-    public ContenedorPedido() {
-        this.almacenPedidos = new ArrayList<>();
-        this.almacenPedidosNuevos = new ArrayList<>();
-    }
+   
     
     //metodos
     /**
