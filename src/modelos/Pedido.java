@@ -35,7 +35,7 @@ public class Pedido implements Lectora, Serializable{
     //constructor
 
     public Pedido(int codigoVendedor, int codigoCliente, String fechaRealizacion, String fechaEntrega, String estado, double importe) {
-        this.codigo = 1 + Conexiones.codigoPedido();
+        this.codigo = Conexiones.codigoPedido();
         
         this.codigoVendedor = codigoVendedor;
         this.codigoCliente = codigoCliente;

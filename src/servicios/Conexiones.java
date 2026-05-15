@@ -28,7 +28,7 @@ import utils.Configuracion;
 
 /**
  *
- * @author isard
+ * @author Natalia y Gabriela
  */
 public class Conexiones {
 
@@ -139,7 +139,7 @@ public class Conexiones {
                 pst.setString(4, ((Pedido) o).getFechaRealizacion());
                 pst.setString(5, ((Pedido) o).getFechaEntrega());
                 pst.setString(6, ((Pedido) o).getEstado());
-                pst.setDouble(7,((Pedido) o).getImporte());
+                pst.setDouble(7, ((Pedido) o).getImporte());
 
                 pst.executeUpdate();//Se ejecuta la insercion en la BD 
                 pst.close();
@@ -151,7 +151,7 @@ public class Conexiones {
                 pst.setInt(1, ((LineaPedido) o).getCodigoPedido());
                 pst.setInt(2, ((LineaPedido) o).getCodigoProducto());
                 pst.setInt(3, ((LineaPedido) o).getUnidadesCompradas());
-                //pst.setDouble(4, ((LineaPedido) o).calcularSubTotal());
+                pst.setDouble(4, ((LineaPedido) o).getSubTotal());
 
                 pst.executeUpdate();//Se ejecuta la insercion en la BD 
                 pst.close();
@@ -163,6 +163,40 @@ public class Conexiones {
             Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+
+    public static int insertarPedido(Pedido p) { //devuelve el ID generado INSERTA DATOS PEDIDO POR SEPARADO
+
+        int idGenerado = -1;
+
+        try {
+
+            PreparedStatement pst = con.prepareStatement(("insert into pedido values (?,?,?,?,?,?,?)"),  Statement.RETURN_GENERATED_KEYS);
+
+           
+            
+            //Se asignan los valores a la sentencia
+            pst.setInt(1, p.getCodigo());
+            pst.setInt(2, p.getCodigoVendedor());
+            pst.setInt(3, p.getCodigoCliente());
+            pst.setString(4, p.getFechaRealizacion());
+            pst.setString(5, p.getFechaEntrega());
+            pst.setString(6, p.getEstado());
+            pst.setDouble(7, p.getImporte());
+
+            pst.executeUpdate();
+
+            ResultSet rs = pst.getGeneratedKeys();
+
+            if (rs.next()) {
+                idGenerado = rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return idGenerado;
     }
 
     /**
@@ -367,10 +401,10 @@ public class Conexiones {
                 System.out.println("INSERTA NUEVO CODIGO DEL CLIENTE");
                 int codigoCli = teclado.nextInt();
                 teclado.nextLine();
-                System.out.println("INSERTA NUEVA FECHA DE REALIZACION DEL PEDIDO");
-                String fechaRea = teclado.nextLine();
-                System.out.println("INSERTA NUEVA FECHA DE ENTREGA DEL PEDIDO");
-                String fechaEnt = teclado.nextLine();
+                //System.out.println("INSERTA NUEVA FECHA DE REALIZACION DEL PEDIDO");
+                //String fechaRea = teclado.nextLine();
+                //System.out.println("INSERTA NUEVA FECHA DE ENTREGA DEL PEDIDO");
+                //String fechaEnt = teclado.nextLine();
                 System.out.println("INSERTA NUEVO ESTADO DEL PEDIDO");
                 String estado = teclado.nextLine();
                 System.out.println("INSERTA NUEVO IMPORTE DEL PEDIDO");
@@ -378,15 +412,16 @@ public class Conexiones {
                 teclado.nextLine();
 
                 PreparedStatement pst = con.prepareStatement("update pedido set codigoVendedor=?,codigoCliente=?,"
-                        + "fechaRealizacion=?,fechaEntrega=?,estado=?,importe=? where codigo=? ");
+                        + "estado=?,importe=? where codigo=? ");
 
                 pst.setInt(1, codigoVen);//Verificar codigo vendedor
                 pst.setInt(2, codigoCli);//Verificar codigo cliente
-                pst.setString(3, fechaRea);//Verificar fecha
-                pst.setString(4, fechaEnt);//Verificar fecha
-                pst.setString(5, estado);//Verificar estado
-                pst.setDouble(6, importe);
-                pst.setInt(7, codigo);
+                //pst.setString(3, fechaRea);//Verificar fecha
+                //pst.setString(4, fechaEnt);//Verificar fecha
+                // "fechaRealizacion=?,fechaEntrega=?,
+                pst.setString(4, estado);//Verificar estado
+                pst.setDouble(5, importe);
+                pst.setInt(6, codigo);
                 pst.executeUpdate();
                 pst.close();
             } else {
@@ -468,7 +503,7 @@ public class Conexiones {
             PreparedStatement pst = con.prepareStatement("delete from lineaPedido  where codigoPedido=? and codigoProducto ");
 
             pst.setInt(1, codPed);
-            pst.setInt(1, codPro);
+            pst.setInt(2, codPro);
             pst.executeUpdate();
             pst.close();
 
@@ -830,15 +865,13 @@ public class Conexiones {
 
     public static double precioProducto(int codigo) {
         try {
-            PreparedStatement pst = con.prepareStatement(
-                    "SELECT precioVenta FROM producto WHERE codigo = ?"
-            );
+            PreparedStatement pst = con.prepareStatement("SELECT precioVenta FROM producto WHERE codigo = ?");
 
-            pst.setInt(1, codigo); // ✅ PRIMERO se asigna el parámetro
+            pst.setInt(1, codigo);
 
-            ResultSet rs = pst.executeQuery(); // ✅ DESPUÉS se ejecuta
+            ResultSet rs = pst.executeQuery();
 
-            if (rs.next()) { // mejor que while si solo esperas 1 fila
+            if (rs.next()) {
                 double precio = rs.getDouble("precioVenta");
                 rs.close();
                 pst.close();
@@ -856,37 +889,42 @@ public class Conexiones {
     }
 
     public static double importeFinal(int codigoPed) {
-        double importeFinal = 0;
         try {
-
             PreparedStatement pst = con.prepareStatement("SELECT sum(subTotal) AS total FROM lineaPedido where codigoPedido=?");
 
-            ResultSet rs = pst.executeQuery();
             pst.setInt(1, codigoPed);
 
-            while (rs.next()) {
-                importeFinal = rs.getDouble("total");
+            ResultSet rs = pst.executeQuery();
 
+            if (rs.next()) {
+                double importeFinal = rs.getDouble("total");
+                rs.close();
+                pst.close();
+                return importeFinal;
             }
+
             rs.close();
             pst.close();
 
         } catch (SQLException ex) {
             Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return importeFinal;
+        return 0;
+
     }
 
     public static int codigoPedido() {
-        int codigoPedido = 0;
+
         try {
 
             PreparedStatement pst = con.prepareStatement("SELECT  (max(codigo) + 1) as codigoPedido from pedido");
             ResultSet rs = pst.executeQuery();
 
-            while (rs.next()) {
-                codigoPedido = rs.getInt("codigoPedido");
-
+            if (rs.next()) {
+                int codigoPedido = rs.getInt("codigoPedido");
+                rs.close();
+                pst.close();
+                return codigoPedido;
             }
             rs.close();
             pst.close();
@@ -894,7 +932,7 @@ public class Conexiones {
         } catch (SQLException ex) {
             Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return codigoPedido;
+        return 0;
 
     }
 

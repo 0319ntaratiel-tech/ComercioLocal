@@ -23,7 +23,7 @@ public class LineaPedido implements Lectora, Serializable{
     private int codigoProducto;
     private int unidadesCompradas;
     private double subTotal;
-    private static Map<Integer, LineaPedido> lineas = new HashMap<>();
+   
     
     //constructor
 
@@ -87,11 +87,7 @@ public class LineaPedido implements Lectora, Serializable{
     }
 
     
-    public static void agregarLinea(LineaPedido lp){
-        int contador = 1;
-        lineas.put(contador, lp);
-        contador++;
-    }
+    
     
     
     //metodos
@@ -119,9 +115,7 @@ public class LineaPedido implements Lectora, Serializable{
                 + getUnidadesCompradas() + ":" + getSubTotal();
     }
 
-    public static Map<Integer, LineaPedido> getLineas() {
-        return lineas;
-    }
+   
 
    
     

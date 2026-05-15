@@ -56,7 +56,7 @@ public class Menu {
         int opcion = 0;
         boolean salir = false;
         while (!salir) {
-            
+
             System.out.println("---BIENVENIDO AL MENU DE NUESTRO COMERCIO LOCAL---");
             System.out.println("Primero, eliga la tabla que desea gestionar");
             System.out.println("\t 1) FABRICANTE ");
@@ -103,7 +103,7 @@ public class Menu {
                     break;
 
                 case 7:
-                    
+
                     salir = true;
                     System.out.println("Saliendo del programa ...");
                     break;
@@ -116,7 +116,7 @@ public class Menu {
     }
 
     public static void subMenuFabricante() {
-      
+
         boolean salir = false;
         while (!salir) {
             System.out.println("INICIANDO SESION EN FABRICANTE...");
@@ -297,7 +297,7 @@ public class Menu {
                         break;
 
                     case 16:
-                 
+
                         salir = true;
                         System.out.println("Saliendo del programa ...");
                         break;
@@ -373,7 +373,7 @@ public class Menu {
                         teclado.nextLine();
 
                         if (Conexiones.verificarExistenciaCodigo(4, codigoCliEF)) {
-                            Conexiones.actualizarFila(4, codigoCliEF);
+                            Conexiones.eliminarFila(4, codigoCliEF);
                             System.out.println("CLIENTE ELIMINADO");
                         } else {
                             System.out.println("NO EXISTE EL CODIGO INGRESADO");
@@ -768,23 +768,24 @@ public class Menu {
                 switch (opcion) {
 
                     case 1:
-
+                        ArrayList<LineaPedido> lineas = new ArrayList<>();
                         double importeFinal = 0;
                         System.out.println("MOSTRANDO LISTA DE PRODUCTOS DISPONIBLES");
                         Conexiones.consultarTodasFila(2);
                         boolean pedir = false;
                         while (!pedir) {
-                            System.out.println("DIME EL CODIGO DEL PRODUCTO QUE DESEA PEDIR Y LA CANTIDAD ");
-                            int codigo = teclado.nextInt();
-                            teclado.nextLine();
-                            System.out.println("Dime unidades");
+                            System.out.println("DIME EL CODIGO DEL PRODUCTO QUE DESEA PEDIR");
+                            int codigoPro = teclado.nextInt();
+
+                            System.out.println("DIME LAS UNIDADES");
                             int cantidad = teclado.nextInt();
-                            teclado.nextLine();
 
-                            importeFinal += (Conexiones.precioProducto(codigo) * cantidad);
+                            double subTotal = (Conexiones.precioProducto(codigoPro) * cantidad);
+                            importeFinal += subTotal;
 
-                            LineaPedido lp = new LineaPedido(codigo, codigo, cantidad, (Conexiones.precioProducto(codigo) * cantidad));
-                            LineaPedido.agregarLinea(lp);
+                            LineaPedido lp = new LineaPedido(0, codigoPro, cantidad, subTotal);
+
+                            lineas.add(lp);
                             teclado.nextLine();
                             System.out.println("DESEA PEDIR MAS PRODUCTOS");
                             String opcion1 = teclado.next();
@@ -804,15 +805,21 @@ public class Menu {
                         int codigoCli = teclado.nextInt();
                         teclado.nextLine();//Verificar
 
-                        Pedido ped = new Pedido(codigoVen, codigoCli, LocalDate.now().plusDays(7).toString(), LocalDate.now().toString(), "realizado", importeFinal);
+                        Pedido ped = new Pedido(codigoVen, codigoCli, LocalDate.now().toString(), LocalDate.now().plusDays(7).toString(), "realizado", importeFinal);
 
-                        Conexiones.insertarDatos(ped);
+                        int codPedido = Conexiones.insertarPedido(ped);
                         ContenedorPedido.agregarPedidoNuevos(ped);
 
                         //insertamos lp en la base 
-                        Conexiones.insertarDatos(LineaPedido.getLineas());
+                        
+                        for (LineaPedido l : lineas) {
+                            l.setCodigoPedido(codPedido);
+                            Conexiones.insertarDatos(l);
+                        }
 
-                        LineaPedido.getLineas().clear();
+                            
+                        
+
                         //1.inserta pedido
                         //Que productos quieres? -->Movil, Tablet y TV
                         //codi*precio
@@ -824,7 +831,6 @@ public class Menu {
                         //Insertar en BD
                         //Calcular subtotal
                         //Crear LineaPedido
-
                         break;
 
                     case 2:
@@ -846,7 +852,7 @@ public class Menu {
                         teclado.nextLine();
 
                         if (Conexiones.verificarExistenciaCodigo(5, codigoPedEF)) {
-                            Conexiones.actualizarFila(5, codigoPedEF);
+                            Conexiones.eliminarFila(5, codigoPedEF);
                             System.out.println("PEDIDO ELIMINADO");
                         } else {
                             System.out.println("NO EXISTE EL CODIGO INGRESADO");
@@ -859,7 +865,7 @@ public class Menu {
                         teclado.nextLine();
 
                         if (Conexiones.verificarExistenciaCodigo(5, codigoPedCP)) {
-                            Conexiones.actualizarFila(5, codigoPedCP);
+                            Conexiones.consultarFila(5, codigoPedCP);
 
                         } else {
                             System.out.println("NO EXISTE EL CODIGO INGRESADO");
