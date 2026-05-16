@@ -768,25 +768,29 @@ public class Menu {
                 switch (opcion) {
 
                     case 1:
-                        ArrayList<LineaPedido> lineas = new ArrayList<>();
+                       
+                        ArrayList<Integer> productos=new ArrayList<>();
+                        ArrayList<Integer>cantidades= new ArrayList<>();
+                        ArrayList<Double> subtotaltesli=new ArrayList<>();
                         double importeFinal = 0;
+                        int codigopedidogeneral = Conexiones.codigoPedido();;
+                        
+                     
                         System.out.println("MOSTRANDO LISTA DE PRODUCTOS DISPONIBLES");
                         Conexiones.consultarTodasFila(2);
                         boolean pedir = false;
                         while (!pedir) {
                             System.out.println("DIME EL CODIGO DEL PRODUCTO QUE DESEA PEDIR");
                             int codigoPro = teclado.nextInt();
-
+                            
                             System.out.println("DIME LAS UNIDADES");
                             int cantidad = teclado.nextInt();
-
+                            
                             double subTotal = (Conexiones.precioProducto(codigoPro) * cantidad);
                             importeFinal += subTotal;
-
-                            LineaPedido lp = new LineaPedido(0, codigoPro, cantidad, subTotal);
-
-                            lineas.add(lp);
-                            teclado.nextLine();
+                            productos.add(codigoPro);
+                            cantidades.add(cantidad);
+                            subtotaltesli.add(subTotal);
                             System.out.println("DESEA PEDIR MAS PRODUCTOS");
                             String opcion1 = teclado.next();
                             if (opcion1.equalsIgnoreCase("Si")) {
@@ -795,6 +799,13 @@ public class Menu {
                             } else {
                                 pedir = true;
                             }
+                          
+                            
+                            
+                            
+                            //LineaPedido lp = new LineaPedido(0, codigoPro, cantidad, subTotal);
+
+                            //lineas.add(lp);
 
                         }
                         System.out.println("INSERTA EL CODIGO DEL VENDEDOR");
@@ -807,16 +818,30 @@ public class Menu {
 
                         Pedido ped = new Pedido(codigoVen, codigoCli, LocalDate.now().toString(), LocalDate.now().plusDays(7).toString(), "realizado", importeFinal);
 
-                        int codPedido = Conexiones.insertarPedido(ped);
-                        ContenedorPedido.agregarPedidoNuevos(ped);
+                       Conexiones.insertarDatos(ped);
+                       
+                        for (int i = 0; i < productos.size(); i++) {
+                            int fb = productos.get(i);
+                            int ca = cantidades.get(i);
+                            double sb= subtotaltesli.get(i);
+                            
+                            LineaPedido lp = new LineaPedido(codigopedidogeneral, fb, ca,sb );
+                            Conexiones.insertarDatos(lp);
+                        }
+                        
 
-                        //insertamos lp en la base 
+
+
+                          //int codPedido = Conexiones.insertarPedido(ped);
+                        //ContenedorPedido.agregarPedidoNuevos(ped);
+
+                         /*       //insertamos lp en la base 
                         
                         for (LineaPedido l : lineas) {
                             l.setCodigoPedido(codPedido);
                             Conexiones.insertarDatos(l);
                         }
-
+                      */
                             
                         
 
@@ -968,6 +993,7 @@ public class Menu {
                 switch (opcion) {
 
                     case 1:
+                        
                         System.out.println("INSERTAR CODIGO DE PEDIDO Y CODIGO DE PRODUCTO PARA ACTUALIZAR");
                         System.out.print("PEDIDO:");
                         int codigoPedFi = teclado.nextInt();
@@ -982,7 +1008,9 @@ public class Menu {
                         } else {
                             System.out.println("NO EXISTE LA LINEA DE PEDIDO INGRESADA");
                         }
-
+                        
+                            
+                        
                         break;
 
                     case 2:
