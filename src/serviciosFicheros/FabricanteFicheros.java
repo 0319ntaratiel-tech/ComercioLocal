@@ -42,8 +42,7 @@ public class FabricanteFicheros {
 
     }
 
-    public static void importarFicheroDeTextoFabri(String nombreFichero) throws YaImportadoException {
-        
+    public static void importarFicheroDeTextoFabri(String ficheroTXT) throws YaImportadoException {
 
         try {
 
@@ -52,8 +51,7 @@ public class FabricanteFicheros {
                         "Los fabricantes ya fueron importados");
             }
 
-            try ( BufferedReader br = new BufferedReader(
-                    new FileReader(nombreFichero + ".txt"))) {
+            try ( BufferedReader br = new BufferedReader(new FileReader(ficheroTXT))) {
 
                 String linea;
 
@@ -76,38 +74,34 @@ public class FabricanteFicheros {
 
                     if (Conexiones.verificarExistenciaCodigo(1, codigo)) {
 
-                        System.err.println(
-                                "El fabricante con código " + codigo
-                                + " ya existe en la base de datos");
+                        System.err.println("El fabricante con código " + codigo + " ya existe en la base de datos");
 
                     } else {
 
-                        Fabricante f = new Fabricante(codigo,nombre,anyoFundacion,lugarSede,empleados,sitioWeb);
-                                
+                        Fabricante f = new Fabricante(codigo, nombre, anyoFundacion, lugarSede, empleados, sitioWeb);
 
-                        ContenedorFabricante.agregarFabricante(f);
+                        //ContenedorFabricante.agregarFabricante(f);
                         Conexiones.insertarDatos(f);
 
-                        System.out.println(
-                                "Fabricante " + nombre
-                                + " importado correctamente");
+                        System.out.println("Fabricante " + nombre + " importado correctamente");
                     }
                 }
 
                 System.out.println("Importación finalizada con éxito");
+                br.close();
             }
 
         } catch (FileNotFoundException ex) {
 
             System.err.println("Error: fichero no encontrado");
-            System.err.println(ex.getMessage());
+            System.err.println(ex);
 
         } catch (IOException ex) {
 
-            System.err.println("Ha ocurrido un error de lectura");
-            System.err.println(ex.getMessage());
+            System.err.println("Ha ocurrido un error");
+            System.err.println(ex);
 
-        } 
+        }
     }
 
     public static void exportarFicheroJSONFabri() {
@@ -125,7 +119,7 @@ public class FabricanteFicheros {
 
     }
 
-    public static void importarFicheroJSONFabri() throws YaImportadoException {
+    public static void importarFicheroJSONFabri(String nombreFicheroJson) throws YaImportadoException {
         //comprobamos que si el contenedor tiene fabricantes dentro y si ya hay datos lanzamos la excepcion para evitar importar el fichero varias veces
         if (!ContenedorFabricante.getFabricantes().isEmpty()) {
             throw new YaImportadoException("Los fabricantes ya fueron importados");
@@ -137,10 +131,25 @@ public class FabricanteFicheros {
         try {
             //leememos el fichero, lo interpreta, lo convierte a objetod de Fabricante y los mete en un ArrayList
             //el TypeReference sirve para mantener el tipo generico , sin esto java no sabe que es una lista de Fabricante 
-            ArrayList<Fabricante> fabricantes = om.readValue(new File(Configuracion.nombreFicheroJSONFabri), new TypeReference<ArrayList<Fabricante>>() {
+            ArrayList<Fabricante> fabricantes = om.readValue(new File(nombreFicheroJson), new TypeReference<ArrayList<Fabricante>>() {
             });
             //Aqui toma los datos leidos del json y los añade al contenedor de Fabricantes
-            ContenedorFabricante.getFabricantes().addAll(fabricantes);
+            //ContenedorFabricante.getFabricantes().addAll(fabricantes);
+            while (!fabricantes.isEmpty()) {
+                for (Fabricante f : fabricantes) {
+                    Fabricante f1 = new Fabricante(f.getCodigo(), f.getNombre(), f.getAnyoFundacion(), f.getLugarSede(), f.getEmpleados(), f.getSitioWeb());
+                    if (Conexiones.verificarExistenciaCodigo(1, f.getCodigo())) {
+
+                        System.err.println("El fabricante con código " + f.getCodigo() + " ya existe en la base de datos");
+
+                    } else {
+                        Conexiones.insertarDatos(f1);
+                        
+                    }
+
+                }
+            }
+            System.out.println("Importación finalizada con éxito");
         } catch (IOException ex) {
             System.err.println("Ha ocurrido un error");
             System.err.println(ex);
@@ -164,36 +173,64 @@ public class FabricanteFicheros {
         }
     }
 
-    public static void importarFicheroCSVFabri() throws YaImportadoException {
-        if (!ContenedorFabricante.getFabricantes().isEmpty()) {
-            throw new YaImportadoException("Los fabricantes ya fueron importados");
-        }
-
+    public static void importarFicheroCSVFabri(String ficheroCSV) throws YaImportadoException {
         try {
-            BufferedReader br = new BufferedReader(new FileReader(Configuracion.nombreFicheroCSVFabri));
-            String linea = br.readLine();
 
-            while (linea != null) {
-                String[] partes = linea.split(":");
-                int codigo = Integer.parseInt(partes[0]);
-                String nombre = partes[1];
-                int anyoFundacion = Integer.parseInt(partes[2]);;
-                String lugarSede = partes[3];
-                int empleado = Integer.parseInt(partes[4]);;
-                String sitioWeb = partes[5];
-
-                Fabricante f = new Fabricante(codigo, nombre, anyoFundacion, lugarSede, empleado, sitioWeb);
-
-                ContenedorFabricante.agregarFabricante(f);
+            if (!ContenedorFabricante.getFabricantes().isEmpty()) {
+                throw new YaImportadoException(
+                        "Los fabricantes ya fueron importados");
             }
 
-            br.close();
+            try ( BufferedReader br = new BufferedReader(new FileReader(ficheroCSV))) {
+
+                String linea;
+
+                while ((linea = br.readLine()) != null) {
+
+                    String[] partes = linea.split(":");
+
+                    // Verificar que la línea tenga todos los datos
+                    if (partes.length < 6) {
+                        System.err.println("Línea inválida: " + linea);
+                        continue;
+                    }
+
+                    int codigo = Integer.parseInt(partes[0]);
+                    String nombre = partes[1];
+                    int anyoFundacion = Integer.parseInt(partes[2]);
+                    String lugarSede = partes[3];
+                    int empleados = Integer.parseInt(partes[4]);
+                    String sitioWeb = partes[5];
+
+                    if (Conexiones.verificarExistenciaCodigo(1, codigo)) {
+
+                        System.err.println("El fabricante con código " + codigo + " ya existe en la base de datos");
+
+                    } else {
+
+                        Fabricante f = new Fabricante(codigo, nombre, anyoFundacion, lugarSede, empleados, sitioWeb);
+
+                        //ContenedorFabricante.agregarFabricante(f);
+                        Conexiones.insertarDatos(f);
+
+                        System.out.println("Fabricante " + nombre + " importado correctamente");
+                    }
+                }
+
+                System.out.println("Importación finalizada con éxito");
+                br.close();
+            }
+
         } catch (FileNotFoundException ex) {
-            System.err.println("Error. Fichero no encontrado");
+
+            System.err.println("Error: fichero no encontrado");
             System.err.println(ex);
+
         } catch (IOException ex) {
+
             System.err.println("Ha ocurrido un error");
             System.err.println(ex);
+
         }
     }
 
@@ -214,7 +251,7 @@ public class FabricanteFicheros {
 
     }
 
-    public static void importarFicheroBinarioFabri() throws YaImportadoException {
+    public static void importarFicheroBinarioFabri(String ficheroBinario) throws YaImportadoException {
 
         if (!ContenedorFabricante.getFabricantes().isEmpty()) {
             throw new YaImportadoException("Los fabricantes ya fueron importados");
@@ -223,17 +260,30 @@ public class FabricanteFicheros {
         try {
             //java abre le fichero binario y empieza a leer bytes de 0 y 1
             //interpreta esos bytes como objetos  java
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(Configuracion.nombreFicheroBinarioFabri));
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(ficheroBinario));
 
             //lee todo el contenido del fichero y lo devuelve como un object generico
             Object ob = ois.readObject();
-            //aqui convertimos el objeto en al tipo correcto (se llama casting)
+            //aqui convertimos el objeto  al tipo correcto (se llama casting)
             ArrayList<Fabricante> fabricantes = (ArrayList<Fabricante>) ob;
             //cerramos el fichero
             ois.close();
             //mete todos los datos al contenedor
-            ContenedorFabricante.getFabricantes().addAll(fabricantes);
+            //ContenedorFabricante.getFabricantes().addAll(fabricantes);
+            while (!fabricantes.isEmpty()) {
+                for (Fabricante f : fabricantes) {
+                    Fabricante f1 = new Fabricante(f.getCodigo(), f.getNombre(), f.getAnyoFundacion(), f.getLugarSede(), f.getEmpleados(), f.getSitioWeb());
+                    if (Conexiones.verificarExistenciaCodigo(1, f.getCodigo())) {
 
+                        System.err.println("El fabricante con código " + f.getCodigo() + " ya existe en la base de datos");
+
+                    } else {
+                        Conexiones.insertarDatos(f1);
+                    }
+
+                }
+            }
+            System.out.println("Importación finalizada con éxito");
         } catch (FileNotFoundException ex) {
             System.err.println("Error. Fichero no encontrado");
             System.err.println(ex);

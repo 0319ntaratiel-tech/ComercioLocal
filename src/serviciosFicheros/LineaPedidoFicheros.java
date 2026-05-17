@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import modelos.LineaPedido;
+import servicios.Conexiones;
 import utils.Configuracion;
 
 /**
@@ -41,28 +42,47 @@ public class LineaPedidoFicheros {
 
     }
 
-    public static void importarFicheroDeTextoLP() throws YaImportadoException {
-        if (!ContenedorLineaPedido.getAlmacenLineasPedidos().isEmpty()) {
-            throw new YaImportadoException("Las lineas de pedidos ya fueron importados");
-        }
-
+    public static void importarFicheroDeTextoLP(String ficheroTXT) throws YaImportadoException {
         try {
-            BufferedReader br = new BufferedReader(new FileReader(Configuracion.nombreFicheroTextoLP));
-            String linea = br.readLine();
 
-            while (linea != null) {
-                String[] partes = linea.split(";");
-                int codigo = Integer.parseInt(partes[0]);
-                int codigoPro = Integer.parseInt(partes[1]);
-                int unidadesCompradas = Integer.parseInt(partes[2]);
-                double subTotal = Double.parseDouble(partes[3]);
-                
-                LineaPedido LP = new LineaPedido(codigo, codigoPro, unidadesCompradas, subTotal);
-
-                ContenedorLineaPedido.agregarLineaPedido(LP);
+            if (!ContenedorLineaPedido.getAlmacenLineasPedidos().isEmpty()) {
+                throw new YaImportadoException(
+                        "Las lineas de pedido ya fueron importados");
             }
 
-            br.close();
+            try ( BufferedReader br = new BufferedReader(new FileReader(ficheroTXT))) {
+
+                String linea;
+
+                while ((linea = br.readLine()) != null) {
+
+                    String[] partes = linea.split(";");
+
+                    // Verificar que la línea tenga todos los datos
+                    if (partes.length < 4) {
+                        System.err.println("Línea inválida: " + linea);
+                        continue;
+                    }
+                    int codigo = Integer.parseInt(partes[0]);
+                    int codigoPro = Integer.parseInt(partes[1]);
+                    int unidadesCompradas = Integer.parseInt(partes[2]);
+                    double subTotal = Double.parseDouble(partes[3]);
+
+                    if (Conexiones.verificarExistenciaLineaPedido(codigo, codigoPro)) {
+
+                        System.err.println("La LineaPedido con códigos " + codigo + " , " + codigoPro + " ya existe en la base de datos");
+
+                    } else {
+                        LineaPedido LP = new LineaPedido(codigo, codigoPro, unidadesCompradas, subTotal);
+                        Conexiones.insertarDatos(LP);
+                        System.out.println("LineaPedido importada correctamente");
+                    }
+
+                }
+
+                System.out.println("Importación finalizada con éxito");
+                br.close();
+            }
         } catch (FileNotFoundException ex) {
             System.err.println("Error. Fichero no encontrado");
             System.err.println(ex);
@@ -85,67 +105,101 @@ public class LineaPedidoFicheros {
         }
     }
 
-    public static void importarFicheroJSONLP()throws YaImportadoException {
+    public static void importarFicheroJSONLP(String ficheroJSON) throws YaImportadoException {
         //comprobamos que si el contenedor tiene productos dentro y si ya hay datos lanzamos la excepcion para evitar importar el fichero varias veces
-            if (!ContenedorLineaPedido.getAlmacenLineasPedidos().isEmpty()) {
-                throw new YaImportadoException("Las lineas de pedidos ya fueron importados");
-            }
+        if (!ContenedorLineaPedido.getAlmacenLineasPedidos().isEmpty()) {
+            throw new YaImportadoException("Las lineas de pedidos ya fueron importados");
+        }
 
-            //creamos el lector de json
-            ObjectMapper om = new ObjectMapper();
+        //creamos el lector de json
+        ObjectMapper om = new ObjectMapper();
 
-            try {
-                //leememos el fichero, lo interpreta, lo convierte a objetod de Fabricante y los mete en un ArrayList
-                //el TypeReference sirve para mantener el tipo generico , sin esto java no sabe que es una lista de Fabricante 
-                ArrayList<LineaPedido> LineasPedidos = om.readValue(new File(Configuracion.nombreFicheroJSONLP), new TypeReference<ArrayList<LineaPedido>>() {
-                });
-                //Aqui toma los datos leidos del json y los añade al contenedor de Fabricantes
-                ContenedorLineaPedido.getAlmacenLineasPedidos().values().addAll(LineasPedidos);
-            } catch (IOException ex) {
-                System.err.println("Ha ocurrido un error");
-                System.err.println(ex);
+        try {
+            //leememos el fichero, lo interpreta, lo convierte a objetod de Fabricante y los mete en un ArrayList
+            //el TypeReference sirve para mantener el tipo generico , sin esto java no sabe que es una lista de Fabricante 
+            ArrayList<LineaPedido> lineasPedidos = om.readValue(new File(ficheroJSON), new TypeReference<ArrayList<LineaPedido>>() {
+            });
+            //Aqui toma los datos leidos del json y los añade al contenedor de Fabricantes
+            //ContenedorLineaPedido.getAlmacenLineasPedidos().values().addAll(LineasPedidos);
+            while (!lineasPedidos.isEmpty()) {
+                for (LineaPedido l : lineasPedidos) {
+                    LineaPedido l1 = new LineaPedido(l.getCodigoPedido(), l.getCodigoProducto(), l.getUnidadesCompradas(), l.getSubTotal());
+                    if (Conexiones.verificarExistenciaLineaPedido(l.getCodigoPedido(), l.getCodigoProducto())) {
+
+                        System.err.println("La LineaPedido con códigos " + l.getCodigoPedido() + " , " + l.getCodigoProducto() + " ya existe en la base de datos");
+
+                    } else {
+                        Conexiones.insertarDatos(l1);
+
+                    }
+
+                }
             }
+            System.out.println("Importación finalizada con éxito");
+        } catch (IOException ex) {
+            System.err.println("Ha ocurrido un error");
+            System.err.println(ex);
+        }
     }
 
     public static void exportarFicheroCSVLP() {
         try {
-                BufferedWriter bw = new BufferedWriter(new FileWriter(Configuracion.nombreFicheroCSVLP));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(Configuracion.nombreFicheroCSVLP));
 
-                for (LineaPedido lp : ContenedorLineaPedido.getAlmacenLineasPedidos().values()) {
+            for (LineaPedido lp : ContenedorLineaPedido.getAlmacenLineasPedidos().values()) {
 
-                    bw.write(lp.mostrarDatosConDosPuntos());
-                    bw.newLine();
-                }
-
-                bw.close();
-            } catch (IOException ex) {
-                System.err.println("Ha ocurrido un error");
-                System.err.println(ex);
+                bw.write(lp.mostrarDatosConDosPuntos());
+                bw.newLine();
             }
+
+            bw.close();
+        } catch (IOException ex) {
+            System.err.println("Ha ocurrido un error");
+            System.err.println(ex);
+        }
     }
 
-    public static void importarFicheroCSVLP() throws YaImportadoException{
-        if (!ContenedorLineaPedido.getAlmacenLineasPedidos().isEmpty()) {
-            throw new YaImportadoException("Los fabricantes ya fueron importados");
-        }
-
+    public static void importarFicheroCSVLP(String ficheroCSV) throws YaImportadoException {
         try {
-            BufferedReader br = new BufferedReader(new FileReader(Configuracion.nombreFicheroTextoLP));
-            String linea = br.readLine();
 
-            while (linea != null) {
-                String[] partes = linea.split(":");
-                int codigo = Integer.parseInt(partes[0]);
-                int codigoPro = Integer.parseInt(partes[1]);
-                int unidadesCompradas = Integer.parseInt(partes[2]);
-                double subTotal = Double.parseDouble(partes[3]);
-                //double subTotal = Double.parseDouble(partes[3]);
-                LineaPedido LP = new LineaPedido(codigo, codigoPro, unidadesCompradas, subTotal);
-
-                ContenedorLineaPedido.agregarLineaPedido(LP);
+            if (!ContenedorLineaPedido.getAlmacenLineasPedidos().isEmpty()) {
+                throw new YaImportadoException(
+                        "Las lineas de pedido ya fueron importados");
             }
 
-            br.close();
+            try ( BufferedReader br = new BufferedReader(new FileReader(ficheroCSV))) {
+
+                String linea;
+
+                while ((linea = br.readLine()) != null) {
+
+                    String[] partes = linea.split(":");
+
+                    // Verificar que la línea tenga todos los datos
+                    if (partes.length < 4) {
+                        System.err.println("Línea inválida: " + linea);
+                        continue;
+                    }
+                    int codigo = Integer.parseInt(partes[0]);
+                    int codigoPro = Integer.parseInt(partes[1]);
+                    int unidadesCompradas = Integer.parseInt(partes[2]);
+                    double subTotal = Double.parseDouble(partes[3]);
+
+                    if (Conexiones.verificarExistenciaLineaPedido(codigo, codigoPro)) {
+
+                        System.err.println("La LineaPedido con códigos " + codigo + " , " + codigoPro + " ya existe en la base de datos");
+
+                    } else {
+                        LineaPedido LP = new LineaPedido(codigo, codigoPro, unidadesCompradas, subTotal);
+                        Conexiones.insertarDatos(LP);
+                        System.out.println("LineaPedido importada correctamente");
+                    }
+
+                }
+
+                System.out.println("Importación finalizada con éxito");
+                br.close();
+            }
         } catch (FileNotFoundException ex) {
             System.err.println("Error. Fichero no encontrado");
             System.err.println(ex);
@@ -153,53 +207,66 @@ public class LineaPedidoFicheros {
             System.err.println("Ha ocurrido un error");
             System.err.println(ex);
         }
-    
     }
 
     public static void exportarFicheroBinarioLP() {
         try {
-                ObjectOutputStream oss = new ObjectOutputStream(new FileOutputStream(Configuracion.nombreFicheroBinarioLP,true));
-                oss.writeObject(ContenedorLineaPedido.getAlmacenLineasPedidos().values());
+            ObjectOutputStream oss = new ObjectOutputStream(new FileOutputStream(Configuracion.nombreFicheroBinarioLP, true));
+            oss.writeObject(ContenedorLineaPedido.getAlmacenLineasPedidos().values());
 
-                oss.close();
-            } catch (FileNotFoundException ex) {
-                System.err.println("Fichero no encontrado");
-                System.err.println(ex);
-            } catch (IOException ex) {
-                System.err.println("Ha ocurrido un error");
-                System.err.println(ex);
-            }
+            oss.close();
+        } catch (FileNotFoundException ex) {
+            System.err.println("Fichero no encontrado");
+            System.err.println(ex);
+        } catch (IOException ex) {
+            System.err.println("Ha ocurrido un error");
+            System.err.println(ex);
+        }
     }
 
-    public static void importarFicheroBinarioLP() throws YaImportadoException {
+    public static void importarFicheroBinarioLP(String ficheroBinario) throws YaImportadoException {
         if (!ContenedorLineaPedido.getAlmacenLineasPedidos().isEmpty()) {
-                throw new YaImportadoException("Los fabricantes ya fueron importados");
+            throw new YaImportadoException("Las lineas de pedido ya fueron importados");
+        }
+
+        try {
+            //java abre le fichero binario y empieza a leer bytes de 0 y 1
+            //interpreta esos bytes como objetos  java
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(ficheroBinario));
+
+            //lee todo el contenido del fichero y lo devuelve como un object generico
+            Object ob = ois.readObject();
+            //aqui convertimos el objeto en al tipo correcto (se llama casting)
+            ArrayList<LineaPedido> lineasPedidos = (ArrayList<LineaPedido>) ob;
+            //cerramos el fichero
+            ois.close();
+            //mete todos los datos al contenedor
+            //ContenedorLineaPedido.getAlmacenLineasPedidos().values().addAll(LineasPedidos);
+            while (!lineasPedidos.isEmpty()) {
+                for (LineaPedido l : lineasPedidos) {
+                    LineaPedido l1 = new LineaPedido(l.getCodigoPedido(), l.getCodigoProducto(), l.getUnidadesCompradas(), l.getSubTotal());
+                    if (Conexiones.verificarExistenciaLineaPedido(l.getCodigoPedido(), l.getCodigoProducto())) {
+
+                        System.err.println("La LineaPedido con códigos " + l.getCodigoPedido() + " , " + l.getCodigoProducto() + " ya existe en la base de datos");
+
+                    } else {
+                        Conexiones.insertarDatos(l1);
+
+                    }
+
+                }
             }
-
-            try {
-                //java abre le fichero binario y empieza a leer bytes de 0 y 1
-                //interpreta esos bytes como objetos  java
-                ObjectInputStream ois = new ObjectInputStream(new FileInputStream(Configuracion.nombreFicheroBinarioLP));
-
-                //lee todo el contenido del fichero y lo devuelve como un object generico
-                Object ob = ois.readObject();
-                //aqui convertimos el objeto en al tipo correcto (se llama casting)
-                ArrayList<LineaPedido> LineasPedidos = (ArrayList<LineaPedido>) ob;
-                //cerramos el fichero
-                ois.close();
-                //mete todos los datos al contenedor
-                ContenedorLineaPedido.getAlmacenLineasPedidos().values().addAll(LineasPedidos);
-
-            } catch (FileNotFoundException ex) {
-                System.err.println("Error. Fichero no encontrado");
-                System.err.println(ex);
-            } catch (IOException ex) {
-                System.err.println("Ha ocurrido un error");
-                System.err.println(ex);
-            } catch (ClassNotFoundException ex) {
-                System.err.println("Error. Clase no encontrada");
-                System.err.println(ex);
-            }
+            System.out.println("Importación finalizada con éxito");
+        } catch (FileNotFoundException ex) {
+            System.err.println("Error. Fichero no encontrado");
+            System.err.println(ex);
+        } catch (IOException ex) {
+            System.err.println("Ha ocurrido un error");
+            System.err.println(ex);
+        } catch (ClassNotFoundException ex) {
+            System.err.println("Error. Clase no encontrada");
+            System.err.println(ex);
+        }
 
     }
 }

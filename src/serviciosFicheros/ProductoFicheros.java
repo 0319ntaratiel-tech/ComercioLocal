@@ -9,19 +9,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import contenedores.ContenedorProducto;
 import excepciones.YaImportadoException;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.ArrayList;
 import modelos.Producto;
+import servicios.Conexiones;
 import utils.Configuracion;
 
 /**
@@ -47,36 +38,59 @@ public class ProductoFicheros {
         }
     }
 
-    public static void importarFicheroDeTextoPro() throws YaImportadoException {
-        if (!ContenedorProducto.getAlmacenProductos().isEmpty()) {
-            throw new YaImportadoException("Los productos ya fueron importados");
-        }
-
+    public static void importarFicheroDeTextoPro(String nombreTXT) throws YaImportadoException {
         try {
-            BufferedReader br = new BufferedReader(new FileReader(Configuracion.nombreFicheroTextoPro));
-            String linea = br.readLine();
 
-            while (linea != null) {
-                String[] partes = linea.split(";");
-                int codigo = Integer.parseInt(partes[0]);
-                int codigoFabricante = Integer.parseInt(partes[1]);
-                String nombre = partes[2];
-                String categoria = partes[3];
-                String disponibilidad = partes[4];
-                double precioVenta = Double.parseDouble(partes[5]);
-
-                Producto p = new Producto(codigo, codigoFabricante, nombre, categoria, disponibilidad, precioVenta);
-
-                ContenedorProducto.agregarProducto(p);
+            if (!ContenedorProducto.getAlmacenProductos().isEmpty()) {
+                throw new YaImportadoException("Los productos ya fueron importados");
             }
 
-            br.close();
+            try ( BufferedReader br = new BufferedReader(new FileReader(nombreTXT))) {
+
+                String linea;
+
+                while ((linea = br.readLine()) != null) {
+                    String[] partes = linea.split(";");
+                    // Verificar que la línea tenga todos los datos
+                    if (partes.length < 6) {
+                        System.err.println("Línea inválida: " + linea);
+                        continue;
+                    }
+                    int codigo = Integer.parseInt(partes[0]);
+                    int codigoFabricante = Integer.parseInt(partes[1]);
+                    String nombre = partes[2];
+                    String categoria = partes[3];
+                    String disponibilidad = partes[4];
+                    double precioVenta = Double.parseDouble(partes[5]);
+
+                    if (Conexiones.verificarExistenciaCodigo(2, codigo)) {
+
+                        System.err.println("El producto con código " + codigo + " ya existe en la base de datos");
+
+                    } else {
+                        Producto p = new Producto(codigo, codigoFabricante, nombre, categoria, disponibilidad, precioVenta);
+
+                        Conexiones.insertarDatos(p);
+
+                        System.out.println("Producto " + nombre + " importado correctamente");
+                    }
+
+                }
+                System.out.println("Importación finalizada con éxito");
+                br.close();
+
+            }
+
         } catch (FileNotFoundException ex) {
-            System.err.println("Error. Fichero no encontrado");
+
+            System.err.println("Error: fichero no encontrado");
             System.err.println(ex);
+
         } catch (IOException ex) {
-            System.err.println("Ha ocurrido un error");
+
+            System.err.println("Ha ocurrido un error de lectura");
             System.err.println(ex);
+
         }
     }
 
@@ -94,8 +108,8 @@ public class ProductoFicheros {
 
     }
 
-    public static void importarFicheroJSONPro() throws YaImportadoException {
-    //comprobamos que si el contenedor tiene productos dentro y si ya hay datos lanzamos la excepcion para evitar importar el fichero varias veces
+    public static void importarFicheroJSONPro(String ficheroJson) throws YaImportadoException {
+        //comprobamos que si el contenedor tiene productos dentro y si ya hay datos lanzamos la excepcion para evitar importar el fichero varias veces
         if (!ContenedorProducto.getAlmacenProductos().isEmpty()) {
             throw new YaImportadoException("Los productos ya fueron importados");
         }
@@ -106,10 +120,24 @@ public class ProductoFicheros {
         try {
             //leememos el fichero, lo interpreta, lo convierte a objetod de productos y los mete en un ArrayList
             //el TypeReference sirve para mantener el tipo generico , sin esto java no sabe que es una lista de Fabricante 
-            ArrayList<Producto> productos = om.readValue(new File(Configuracion.nombreFicheroJSONPro), new TypeReference<ArrayList<Producto>>() {
+            ArrayList<Producto> productos = om.readValue(new File(ficheroJson), new TypeReference<ArrayList<Producto>>() {
             });
             //Aqui toma los datos leidos del json y los añade al contenedor de Fabricantes
-            ContenedorProducto.getAlmacenProductos().addAll(productos);
+            //ContenedorProducto.getAlmacenProductos().addAll(productos);
+            while (!productos.isEmpty()) {
+                for (Producto p : productos) {
+                    Producto p1 = new Producto(p.getCodigo(), p.getCodigoFabricante(), p.getNombre(), p.getCategoria(), p.getDisponibilidad(), p.getPrecioVenta());
+                    if (Conexiones.verificarExistenciaCodigo(2, p.getCodigo())) {
+
+                        System.err.println("El producto con código " + p.getCodigo() + " ya existe en la base de datos");
+
+                    } else {
+                        Conexiones.insertarDatos(p);
+                    }
+                }
+
+            }
+            System.out.println("Importación finalizada con éxito");
         } catch (IOException ex) {
             System.err.println("Ha ocurrido un error");
             System.err.println(ex);
@@ -134,42 +162,65 @@ public class ProductoFicheros {
 
     }
 
-    public static void importarFicheroCSVPro() throws YaImportadoException {
-    if (!ContenedorProducto.getAlmacenProductos().isEmpty()) {
-            throw new YaImportadoException("Los productos ya fueron importados");
-        }
-
+    public static void importarFicheroCSVPro(String nombreCSV) throws YaImportadoException {
         try {
-            BufferedReader br = new BufferedReader(new FileReader(Configuracion.nombreFicheroCSVPro));
-            String linea = br.readLine();
 
-            while (linea != null) {
-                String[] partes = linea.split(":");
-                int codigo = Integer.parseInt(partes[0]);
-                int codigoFabricante = Integer.parseInt(partes[1]);
-                String nombre = partes[2];
-                String categoria = partes[3];
-                String disponibilidad = partes[4];
-                double precioVenta = Double.parseDouble(partes[5]);
-
-                Producto p = new Producto(codigo, codigoFabricante, nombre, categoria, disponibilidad, precioVenta);
-
-                ContenedorProducto.agregarProducto(p);
+            if (!ContenedorProducto.getAlmacenProductos().isEmpty()) {
+                throw new YaImportadoException("Los productos ya fueron importados");
             }
 
-            br.close();
+            try ( BufferedReader br = new BufferedReader(new FileReader(nombreCSV))) {
+
+                String linea;
+
+                while ((linea = br.readLine()) != null) {
+                    String[] partes = linea.split(":");
+                    // Verificar que la línea tenga todos los datos
+                    if (partes.length < 6) {
+                        System.err.println("Línea inválida: " + linea);
+                        continue;
+                    }
+                    int codigo = Integer.parseInt(partes[0]);
+                    int codigoFabricante = Integer.parseInt(partes[1]);
+                    String nombre = partes[2];
+                    String categoria = partes[3];
+                    String disponibilidad = partes[4];
+                    double precioVenta = Double.parseDouble(partes[5]);
+
+                    if (Conexiones.verificarExistenciaCodigo(2, codigo)) {
+
+                        System.err.println("El producto con código " + codigo + " ya existe en la base de datos");
+
+                    } else {
+                        Producto p = new Producto(codigo, codigoFabricante, nombre, categoria, disponibilidad, precioVenta);
+
+                        Conexiones.insertarDatos(p);
+
+                        System.out.println("Producto " + nombre + " importado correctamente");
+                    }
+
+                }
+                System.out.println("Importación finalizada con éxito");
+                br.close();
+
+            }
+
         } catch (FileNotFoundException ex) {
-            System.err.println("Error. Fichero no encontrado");
+
+            System.err.println("Error: fichero no encontrado");
             System.err.println(ex);
+
         } catch (IOException ex) {
-            System.err.println("Ha ocurrido un error");
+
+            System.err.println("Ha ocurrido un error de lectura");
             System.err.println(ex);
+
         }
     }
 
     public static void exportarFicheroBinarioPro() {
-    try {
-            ObjectOutputStream oss = new ObjectOutputStream(new FileOutputStream(Configuracion.nombreFicheroBinarioPro,true));
+        try {
+            ObjectOutputStream oss = new ObjectOutputStream(new FileOutputStream(Configuracion.nombreFicheroBinarioPro, true));
             oss.writeObject(ContenedorProducto.getAlmacenProductos());
 
             oss.close();
@@ -182,15 +233,15 @@ public class ProductoFicheros {
         }
     }
 
-    public static void importarFicheroBinarioPro() throws YaImportadoException {
-    if (!ContenedorProducto.getAlmacenProductos().isEmpty()) {
+    public static void importarFicheroBinarioPro(String nombreBinario) throws YaImportadoException {
+        if (!ContenedorProducto.getAlmacenProductos().isEmpty()) {
             throw new YaImportadoException("Los productos ya fueron importados");
         }
 
         try {
             //java abre le fichero binario y empieza a leer bytes de 0 y 1
             //interpreta esos bytes como objetos  java
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(Configuracion.nombreFicheroBinarioPro));
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(nombreBinario));
 
             //lee todo el contenido del fichero y lo devuelve como un object generico
             Object ob = ois.readObject();
@@ -199,8 +250,22 @@ public class ProductoFicheros {
             //cerramos el fichero
             ois.close();
             //mete todos los datos al contenedor
-            ContenedorProducto.getAlmacenProductos().addAll(productos);
+            //ContenedorProducto.getAlmacenProductos().addAll(productos);
+            while (!productos.isEmpty()) {
+                for (Producto p : productos) {
+                    Producto p1 = new Producto(p.getCodigo(), p.getCodigoFabricante(), p.getNombre(), p.getCategoria(), p.getDisponibilidad(), p.getPrecioVenta());
+                    if (Conexiones.verificarExistenciaCodigo(2, p.getCodigo())) {
 
+                        System.err.println("El producto con código " + p.getCodigo() + " ya existe en la base de datos");
+
+                    } else {
+                        Conexiones.insertarDatos(p);
+                    }
+                }
+
+            }
+
+            System.out.println("Importación finalizada con éxito");
         } catch (FileNotFoundException ex) {
             System.err.println("Error. Fichero no encontrado");
             System.err.println(ex);

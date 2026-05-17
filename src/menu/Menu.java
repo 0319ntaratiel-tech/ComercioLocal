@@ -25,7 +25,12 @@ import modelos.LineaPedido;
 import modelos.Pedido;
 import modelos.Producto;
 import servicios.Conexiones;
+import serviciosFicheros.ClienteFicheros;
 import serviciosFicheros.FabricanteFicheros;
+import serviciosFicheros.LineaPedidoFicheros;
+import serviciosFicheros.PedidoFicheros;
+import serviciosFicheros.ProductoFicheros;
+import serviciosFicheros.VendedorFicheros;
 import utils.Comprobaciones;
 import utils.Configuracion;
 
@@ -220,70 +225,100 @@ public class Menu {
                         break;
 
                     case 6:
+                        boolean salir1 = false;
                         Conexiones.insersarDatosContenedorFabricante();
-                        FabricanteFicheros.exportarFicheroDeTextoFabri();
+                        while (!salir) {
+                            Menu.menuExportar();
+                            int opcion1 = teclado.nextInt();
+                            switch (opcion) {
+
+                                case 1:
+                                    FabricanteFicheros.exportarFicheroDeTextoFabri();
+                                    break;
+
+                                case 2:
+                                    FabricanteFicheros.exportarFicheroCSVFabri();
+                                    break;
+
+                                case 3:
+                                    FabricanteFicheros.exportarFicheroCSVFabri();
+                                    break;
+
+                                case 4:
+                                    FabricanteFicheros.exportarFicheroJSONFabri();
+                                    break;
+
+                                case 5:
+                                    salir = true;
+                                    break;
+
+                                default:
+                                    System.out.println("OPCION INCORRECTA");
+                            }
+                        }
+
                         break;
 
                     case 7:
-                        Conexiones.insersarDatosContenedorFabricante();
-                        FabricanteFicheros.exportarFicheroCSVFabri();
+                        System.out.println("Inserte el fichero TXT que desea importar");
+                        String ficheroTXT = teclado.nextLine();
+                        
+                    {
+                        try {
+                            FabricanteFicheros.importarFicheroDeTextoFabri(ficheroTXT);
+                        } catch (YaImportadoException ex) {
+                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
                         break;
+
 
                     case 8:
-                        Conexiones.insersarDatosContenedorFabricante();
-                        FabricanteFicheros.exportarFicheroBinarioFabri();
+                        System.out.println("Inserte el fichero CVS que desea importar");
+                        String ficheroCSV = teclado.nextLine();
+                    {
+                        try {
+                            FabricanteFicheros.importarFicheroCSVFabri(ficheroCSV);
+                        } catch (YaImportadoException ex) {
+                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
                         break;
+
 
                     case 9:
-                        Conexiones.insersarDatosContenedorFabricante();
-                        FabricanteFicheros.exportarFicheroJSONFabri();
+                        System.out.println("Inserte el fichero Binario que desea importar");
+                        String ficheroBinario = teclado.nextLine();
+                        
+                    {
+                        try {
+                            FabricanteFicheros.importarFicheroBinarioFabri(ficheroBinario);
+                        } catch (YaImportadoException ex) {
+                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
                         break;
 
-                    case 10:
-                        Conexiones.insersarDatosContenedorFabricante();
 
-                        //FabricanteFicheros.importarFicheroDeTextoFabri(nombreFichero);
+                    case 10:
+                        System.out.println("Inserte el fichero JSON que desea importar");
+                        String ficheroJSON = teclado.nextLine();
+                        
+                    {
+                        try {
+                            FabricanteFicheros.importarFicheroJSONFabri(ficheroJSON);
+                        } catch (YaImportadoException ex) {
+                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
                         break;
 
                     case 11:
-                        Conexiones.insersarDatosContenedorFabricante();
-                         {
-                            try {
-                                FabricanteFicheros.importarFicheroCSVFabri();
-                            } catch (YaImportadoException ex) {
-                                System.err.println(ex);
-                            }
-                        }
-                        break;
-
-                    case 12:
-                        Conexiones.insersarDatosContenedorFabricante();
-                         {
-                            try {
-                                FabricanteFicheros.importarFicheroBinarioFabri();
-                            } catch (YaImportadoException ex) {
-                                System.err.println(ex);
-                            }
-                        }
-                        break;
-
-                    case 13:
-                        Conexiones.insersarDatosContenedorFabricante();
-                         {
-                            try {
-                                FabricanteFicheros.importarFicheroJSONFabri();
-                            } catch (YaImportadoException ex) {
-                                System.err.println(ex);
-                            }
-                        }
-                        break;
-
-                    case 14:
                         System.out.println("Cargando datos insertados durante la ejecucion...");
                         ContenedorFabricante.mostrarDatosFabricante();
                         break;
 
-                    case 15:
+                    case 12:
                         System.out.println("consulta 1");
                         System.out.println("consulta 2");
                         System.out.println("consulta 3");
@@ -296,7 +331,7 @@ public class Menu {
 
                         break;
 
-                    case 16:
+                    case 13:
 
                         salir = true;
                         System.out.println("Saliendo del programa ...");
@@ -402,27 +437,98 @@ public class Menu {
                         break;
 
                     case 6:
+                        boolean salir1 = false;
+                        Conexiones.insertarDatosContenedorClientes();
+                        while (!salir) {
+                            Menu.menuExportar();
+                            int opcion1 = teclado.nextInt();
+                            switch (opcion) {
+
+                                case 1:
+                                    ClienteFicheros.exportarFicheroDeTextoCli();
+                                    break;
+
+                                case 2:
+                                    ClienteFicheros.exportarFicheroCSVCli();
+                                    break;
+
+                                case 3:
+                                    ClienteFicheros.exportarFicheroBinarioCli();
+                                    break;
+
+                                case 4:
+                                    ClienteFicheros.exportarFicheroJSONCli();
+                                    break;
+
+                                case 5:
+                                    salir = true;
+                                    break;
+
+                                default:
+                                    System.out.println("OPCION INCORRECTA");
+                            }
+                        }
 
                         break;
 
                     case 7:
-
+                        System.out.println("Inserte el fichero TXT que desea importar");
+                        String ficheroTXT = teclado.nextLine();
+                    {
+                        try {
+                            ClienteFicheros.importarFicheroDeTextoCli(ficheroTXT);
+                        } catch (YaImportadoException ex) {
+                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                        
                         break;
+
 
                     case 8:
-
+                        System.out.println("Inserte el fichero CVS que desea importar");
+                        String ficheroCSV = teclado.nextLine();
+                    {
+                        try {
+                            ClienteFicheros.importarFicheroCSVCli(ficheroCSV);
+                        } catch (YaImportadoException ex) {
+                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
                         break;
+
 
                     case 9:
-
+                        System.out.println("Inserte el fichero Binario que desea importar");
+                        String ficheroBinario = teclado.nextLine();
+                        
+                    {
+                        try {
+                            ClienteFicheros.importarFicheroBinarioCli(ficheroBinario);
+                        } catch (YaImportadoException ex) {
+                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
                         break;
+
 
                     case 10:
-
+                        System.out.println("Inserte el fichero JSON que desea importar");
+                        String ficheroJSON = teclado.nextLine();
+                        
+                    {
+                        try {
+                            ClienteFicheros.importarFicheroJSONCli(ficheroJSON);
+                        } catch (YaImportadoException ex) {
+                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
                         break;
 
-                    case 11:
 
+                    case 11:
+                        System.out.println("Cargando datos insertados durante la ejecucion...");
+                        ContenedorCliente.mostrarDatosClientes();
                         break;
 
                     case 12:
@@ -430,19 +536,6 @@ public class Menu {
                         break;
 
                     case 13:
-
-                        break;
-
-                    case 14:
-                        System.out.println("Cargando datos insertados durante la ejecucion...");
-                        ContenedorCliente.mostrarDatosClientes();
-                        break;
-
-                    case 15:
-
-                        break;
-
-                    case 16:
                         salir = true;
                         System.out.println("Saliendo del programa ...");
                         break;
@@ -550,27 +643,100 @@ public class Menu {
                         break;
 
                     case 6:
+                        boolean salir1 = false;
+                        Conexiones.insertarDatosContenedorVendedor();
+                        while (!salir) {
+                            Menu.menuExportar();
+                            int opcion1 = teclado.nextInt();
+                            switch (opcion) {
+
+                                case 1:
+                                    VendedorFicheros.exportarFicheroDeTextoVen();
+                                    break;
+
+                                case 2:
+                                    VendedorFicheros.exportarFicheroCSVVen();
+                                    break;
+
+                                case 3:
+                                    VendedorFicheros.exportarFicheroBinarioVen();
+                                    break;
+
+                                case 4:
+                                    VendedorFicheros.exportarFicheroJSONVen();
+                                    break;
+
+                                case 5:
+                                    salir = true;
+                                    break;
+
+                                default:
+                                    System.out.println("OPCION INCORRECTA");
+                            }
+                        }
 
                         break;
 
                     case 7:
-
+                        System.out.println("Inserte el fichero TXT que desea importar");
+                        String ficheroTXT = teclado.nextLine();
+                        
+                    {
+                        try {
+                            VendedorFicheros.importarFicheroDeTextoVen(ficheroTXT);
+                        } catch (YaImportadoException ex) {
+                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
                         break;
+
 
                     case 8:
-
+                        System.out.println("Inserte el fichero CVS que desea importar");
+                        String ficheroCSV = teclado.nextLine();
+                        
+                    {
+                        try {
+                            VendedorFicheros.importarFicheroCSVVen(ficheroCSV);
+                        } catch (YaImportadoException ex) {
+                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
                         break;
+
 
                     case 9:
+                        System.out.println("Inserte el fichero Binario que desea importar");
+                        String ficheroBinario = teclado.nextLine();
+                        
+                    {
+                        try {
+                            VendedorFicheros.importarFicheroBinarioVen(ficheroBinario);
+                        } catch (YaImportadoException ex) {
+                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
 
                         break;
+
 
                     case 10:
+                        System.out.println("Inserte el fichero JSON que desea importar");
+                        String ficheroJSON = teclado.nextLine();
+                    {
+                        try {
+                            VendedorFicheros.importarFicheroJSONVeni(ficheroJSON);
+                        } catch (YaImportadoException ex) {
+                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
 
                         break;
 
-                    case 11:
 
+                    case 11:
+                        System.out.println("Cargando datos insertados durante la ejecucion...");
+                        ContenedorVendedor.mostrarDatosVendedor();
                         break;
 
                     case 12:
@@ -578,19 +744,6 @@ public class Menu {
                         break;
 
                     case 13:
-
-                        break;
-
-                    case 14:
-                        System.out.println("Cargando datos insertados durante la ejecucion...");
-                        ContenedorVendedor.mostrarDatosVendedor();
-                        break;
-
-                    case 15:
-
-                        break;
-
-                    case 16:
                         salir = true;
                         System.out.println("Saliendo del programa ...");
                         break;
@@ -699,27 +852,98 @@ public class Menu {
                         break;
 
                     case 6:
+                        boolean salir1 = false;
+                        Conexiones.insertarDatosContenedoresProductos();
+                        while (!salir) {
+                            Menu.menuExportar();
+                            int opcion1 = teclado.nextInt();
+                            switch (opcion) {
+
+                                case 1:
+                                    ProductoFicheros.exportarFicheroDeTextoPro();
+                                    break;
+
+                                case 2:
+                                    ProductoFicheros.exportarFicheroCSVPro();
+                                    break;
+
+                                case 3:
+                                    ProductoFicheros.exportarFicheroBinarioPro();
+                                    break;
+
+                                case 4:
+                                    ProductoFicheros.exportarFicheroJSONPro();
+                                    break;
+
+                                case 5:
+                                    salir = true;
+                                    break;
+
+                                default:
+                                    System.out.println("OPCION INCORRECTA");
+                            }
+                        }
 
                         break;
 
                     case 7:
+                        System.out.println("Inserte el fichero TXT que desea importar");
+                        String ficheroTXT = teclado.nextLine();
+                    {
+                        try {
+                            ProductoFicheros.importarFicheroDeTextoPro(ficheroTXT);
+                        } catch (YaImportadoException ex) {
+                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
 
                         break;
 
                     case 8:
-
+                        System.out.println("Inserte el fichero CVS que desea importar");
+                        String ficheroCSV = teclado.nextLine();
+                        
+                    {
+                        try {
+                            ProductoFicheros.importarFicheroCSVPro(ficheroCSV);
+                        } catch (YaImportadoException ex) {
+                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
                         break;
+
 
                     case 9:
-
+                        System.out.println("Inserte el fichero Binario que desea importar");
+                        String ficheroBinario= teclado.nextLine();
+                        
+                    {
+                        try {
+                            ProductoFicheros.importarFicheroBinarioPro(ficheroBinario);
+                        } catch (YaImportadoException ex) {
+                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
                         break;
+
 
                     case 10:
-
+                        System.out.println("Inserte el fichero JSON que desea importar");
+                        String ficheroJSON = teclado.nextLine();
+                        
+                    {
+                        try {
+                            ProductoFicheros.importarFicheroJSONPro(ficheroJSON);
+                        } catch (YaImportadoException ex) {
+                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
                         break;
 
-                    case 11:
 
+                    case 11:
+                        System.out.println("Cargando datos insertados durante la ejecucion...");
+                        ContenedorProducto.mostrarDatosProductos();
                         break;
 
                     case 12:
@@ -727,19 +951,6 @@ public class Menu {
                         break;
 
                     case 13:
-
-                        break;
-
-                    case 14:
-                        System.out.println("Cargando datos insertados durante la ejecucion...");
-                        ContenedorProducto.mostrarDatosProductos();
-                        break;
-
-                    case 15:
-
-                        break;
-
-                    case 16:
                         salir = true;
                         System.out.println("Saliendo del programa ...");
                         break;
@@ -768,24 +979,24 @@ public class Menu {
                 switch (opcion) {
 
                     case 1:
-                       
-                        ArrayList<Integer> productos=new ArrayList<>();
-                        ArrayList<Integer>cantidades= new ArrayList<>();
-                        ArrayList<Double> subtotaltesli=new ArrayList<>();
+
+                        ArrayList<Integer> productos = new ArrayList<>();
+                        ArrayList<Integer> cantidades = new ArrayList<>();
+                        ArrayList<Double> subtotaltesli = new ArrayList<>();
                         double importeFinal = 0;
-                        int codigopedidogeneral = Conexiones.codigoPedido();;
-                        
-                     
+                        int codigopedidogeneral = Conexiones.codigoPedido();
+                        ;
+
                         System.out.println("MOSTRANDO LISTA DE PRODUCTOS DISPONIBLES");
                         Conexiones.consultarTodasFila(2);
                         boolean pedir = false;
                         while (!pedir) {
                             System.out.println("DIME EL CODIGO DEL PRODUCTO QUE DESEA PEDIR");
                             int codigoPro = teclado.nextInt();
-                            
+
                             System.out.println("DIME LAS UNIDADES");
                             int cantidad = teclado.nextInt();
-                            
+
                             double subTotal = (Conexiones.precioProducto(codigoPro) * cantidad);
                             importeFinal += subTotal;
                             productos.add(codigoPro);
@@ -799,14 +1010,9 @@ public class Menu {
                             } else {
                                 pedir = true;
                             }
-                          
-                            
-                            
-                            
+
                             //LineaPedido lp = new LineaPedido(0, codigoPro, cantidad, subTotal);
-
                             //lineas.add(lp);
-
                         }
                         System.out.println("INSERTA EL CODIGO DEL VENDEDOR");
                         int codigoVen = teclado.nextInt();
@@ -818,33 +1024,28 @@ public class Menu {
 
                         Pedido ped = new Pedido(codigoVen, codigoCli, LocalDate.now().toString(), LocalDate.now().plusDays(7).toString(), "realizado", importeFinal);
 
-                       Conexiones.insertarDatos(ped);
-                       
+                        Conexiones.insertarDatos(ped);
+                        ContenedorPedido.agregarPedidoNuevos(ped);
                         for (int i = 0; i < productos.size(); i++) {
                             int fb = productos.get(i);
                             int ca = cantidades.get(i);
-                            double sb= subtotaltesli.get(i);
-                            
-                            LineaPedido lp = new LineaPedido(codigopedidogeneral, fb, ca,sb );
+                            double sb = subtotaltesli.get(i);
+
+                            LineaPedido lp = new LineaPedido(codigopedidogeneral, fb, ca, sb);
                             Conexiones.insertarDatos(lp);
+                            ContenedorLineaPedido.agregarLineaPedidoNuevos(lp);
                         }
-                        
 
-
-
-                          //int codPedido = Conexiones.insertarPedido(ped);
+                        //int codPedido = Conexiones.insertarPedido(ped);
                         //ContenedorPedido.agregarPedidoNuevos(ped);
 
-                         /*       //insertamos lp en la base 
+                        /*       //insertamos lp en la base 
                         
                         for (LineaPedido l : lineas) {
                             l.setCodigoPedido(codPedido);
                             Conexiones.insertarDatos(l);
                         }
-                      */
-                            
-                        
-
+                         */
                         //1.inserta pedido
                         //Que productos quieres? -->Movil, Tablet y TV
                         //codi*precio
@@ -903,27 +1104,99 @@ public class Menu {
                         break;
 
                     case 6:
+                        boolean salir1 = false;
+                        Conexiones.insertarDatosContenedoresPedidos();
+                        while (!salir) {
+                            Menu.menuExportar();
+                            int opcion1 = teclado.nextInt();
+                            switch (opcion) {
+
+                                case 1:
+                                    PedidoFicheros.exportarFicheroDeTextoPed();
+                                    break;
+
+                                case 2:
+                                    PedidoFicheros.exportarFicheroCSVPed();
+                                    break;
+
+                                case 3:
+                                    PedidoFicheros.exportarFicheroBinarioPed();
+                                    break;
+
+                                case 4:
+                                    PedidoFicheros.exportarFicheroJSONPed();
+                                    break;
+
+                                case 5:
+                                    salir = true;
+                                    break;
+
+                                default:
+                                    System.out.println("OPCION INCORRECTA");
+                            }
+                        }
 
                         break;
 
                     case 7:
-
+                        System.out.println("Inserte el fichero de texto que desea importar");
+                        String ficheroTXT = teclado.nextLine();
+                        
+                    {
+                        try {
+                            PedidoFicheros.importarFicheroDeTextoPed(ficheroTXT);
+                        } catch (YaImportadoException ex) {
+                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
                         break;
+
 
                     case 8:
-
+                        System.out.println("Inserte el fichero CVS que desea importar");
+                        String ficheroCSV = teclado.nextLine();
+                        
+                    {
+                        try {
+                            PedidoFicheros.importarFicheroCSVPed(ficheroCSV);
+                        } catch (YaImportadoException ex) {
+                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
                         break;
+
 
                     case 9:
-
+                        System.out.println("Inserte el fichero Binario que desea importar");
+                        String ficheroBinario= teclado.nextLine();
+                        
+                    {
+                        try {
+                            PedidoFicheros.importarFicheroBinarioPed(ficheroBinario);
+                        } catch (YaImportadoException ex) {
+                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
                         break;
+
 
                     case 10:
-
+                        System.out.println("Inserte el fichero JSON que desea importar");
+                        String ficheroJSON = teclado.nextLine();
+                        
+                    {
+                        try {
+                            PedidoFicheros.importarFicheroJSONPed(ficheroJSON);
+                        } catch (YaImportadoException ex) {
+                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
                         break;
 
-                    case 11:
 
+                    case 11:
+                        System.out.println("Cargando datos insertados durante la ejecucion...");
+                        ContenedorPedido.mostrarDatosPedidos();
                         break;
 
                     case 12:
@@ -931,19 +1204,6 @@ public class Menu {
                         break;
 
                     case 13:
-
-                        break;
-
-                    case 14:
-                        System.out.println("Cargando datos insertados durante la ejecucion...");
-                        ContenedorPedido.mostrarDatosPedidos();
-                        break;
-
-                    case 15:
-
-                        break;
-
-                    case 16:
                         salir = true;
                         System.out.println("Saliendo del programa ...");
                         break;
@@ -970,22 +1230,19 @@ public class Menu {
             System.out.println("\t 2) ELIMINAR UNA FILA POR CODIGO IDENTIFICATIVO ");
             System.out.println("\t 3) CONSULTAR UNA FILA POR CODIGO IDENTIFICATIVO ");
             System.out.println("\t 4) CONSULTAR TODAS LAS FILAS DE LA TABLA, ORDENADAS DE FORMA ASCENDENTE ");
-            System.out.println("Si no quiere hacer ninguna modificacion eliga de que manera quiere exportar la tabla ");
-            System.out.println("\t 5) EXPORTAR TABLA A FICHERO DE TEXTO");
-            System.out.println("\t 6) EXPORTAR TABLA A FICHERO DE CSV");
-            System.out.println("\t 7) EXPORTAR TABLA A FICHERO BINARIO");
-            System.out.println("\t 8) EXPORTAR TABLA A FICHERO JSON");
+            System.out.println("Si no quiere hacer ninguna modificacion y desea exportar la tabla pulse");
+            System.out.println("\t 5) EXPORTAR TABLAS");
             System.out.println("Si desea importarla eliga la forma ");
-            System.out.println("\t 9) IMPORTAR TABLA A FICHERO DE TEXTO");
-            System.out.println("\t 10) IMPORTAR TABLA A FICHERO DE CSV");
-            System.out.println("\t 11) IMPORTAR TABLA A FICHERO BINARIO");
-            System.out.println("\t 12) IMPORTAR TABLA A FICHERO JSON");
+            System.out.println("\t 6) IMPORTAR TABLA A FICHERO DE TEXTO");
+            System.out.println("\t 7) IMPORTAR TABLA A FICHERO DE CSV");
+            System.out.println("\t 8) IMPORTAR TABLA A FICHERO BINARIO");
+            System.out.println("\t 9) IMPORTAR TABLA A FICHERO JSON");
             System.out.println("Si desea ver los datos insertados durante la ejecucion pulse ");
-            System.out.println("\t 13) VER DATOS INSERTADOS DURANTE LA EJECUCION");
+            System.out.println("\t 10) VER DATOS INSERTADOS DURANTE LA EJECUCION");
             System.out.println("Si desea ver los informe multitabla pulse ");
-            System.out.println("\t 14) VER INFORMES MULTITABLA");
+            System.out.println("\t 11) VER INFORMES MULTITABLA");
             System.out.println("Si no quiere realizar ninguna operacion de gestion pulse ");
-            System.out.println("\t 15) SALIR ");
+            System.out.println("\t 12) SALIR ");
 
             try {
                 int opcion = teclado.nextInt();
@@ -993,7 +1250,7 @@ public class Menu {
                 switch (opcion) {
 
                     case 1:
-                        
+
                         System.out.println("INSERTAR CODIGO DE PEDIDO Y CODIGO DE PRODUCTO PARA ACTUALIZAR");
                         System.out.print("PEDIDO:");
                         int codigoPedFi = teclado.nextInt();
@@ -1008,9 +1265,7 @@ public class Menu {
                         } else {
                             System.out.println("NO EXISTE LA LINEA DE PEDIDO INGRESADA");
                         }
-                        
-                            
-                        
+
                         break;
 
                     case 2:
@@ -1054,19 +1309,99 @@ public class Menu {
                         break;
 
                     case 5:
+                        boolean salir1 = false;
+                        Conexiones.insertarDatosContenedoresLP();
+                        while (!salir) {
+                            Menu.menuExportar();
+                            int opcion1 = teclado.nextInt();
+                            switch (opcion) {
+
+                                case 1:
+                                    LineaPedidoFicheros.exportarFicheroDeTextoLP();
+                                    break;
+
+                                case 2:
+                                    LineaPedidoFicheros.exportarFicheroCSVLP();
+                                    break;
+
+                                case 3:
+                                    LineaPedidoFicheros.exportarFicheroBinarioLP();
+                                    break;
+
+                                case 4:
+                                    LineaPedidoFicheros.exportarFicheroJSONLP();
+                                    break;
+
+                                case 5:
+                                    salir = true;
+                                    break;
+
+                                default:
+                                    System.out.println("OPCION INCORRECTA");
+                            }
+                        }
 
                         break;
 
+
+                    case 6:
+                        System.out.println("Inserte el fichero de texto que desea importar");
+                        String ficheroTXT = teclado.nextLine();
+                    {
+                        try {
+                            LineaPedidoFicheros.importarFicheroDeTextoLP(ficheroTXT);
+                        } catch (YaImportadoException ex) {
+                            System.err.println(ex);
+                        }
+                    }
+                        break;
+
+
+                    case 7:
+                        System.out.println("Inserte el fichero CSV que desea importar");
+                        String ficheroCSV = teclado.nextLine();
+                    {
+                        try {
+                            LineaPedidoFicheros.importarFicheroCSVLP(ficheroCSV);
+                        } catch (YaImportadoException ex) {
+                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                        break;
+
+                        
                     case 8:
-
+                        System.out.println("Inserte el fichero binario que desea importar");
+                        String ficheroBinario = teclado.nextLine();
+                        
+                    {
+                        try {
+                            LineaPedidoFicheros.importarFicheroBinarioLP(ficheroBinario);
+                        } catch (YaImportadoException ex) {
+                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
                         break;
 
+                        
+                        
                     case 9:
-
+                        System.out.println("Inserte el fichero json que desea importar");
+                        String ficheroJSON = teclado.nextLine();
+                        
+                    {
+                        try {
+                            LineaPedidoFicheros.importarFicheroJSONLP(ficheroJSON);
+                        } catch (YaImportadoException ex) {
+                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
                         break;
+
 
                     case 10:
-
+                        System.out.println("Cargando datos insertados durante la ejecucion...");
+                        ContenedorLineaPedido.mostrarLineaPedido();
                         break;
 
                     case 11:
@@ -1074,27 +1409,6 @@ public class Menu {
                         break;
 
                     case 12:
-
-                        break;
-
-                    case 13:
-
-                        break;
-
-                    case 14:
-
-                        break;
-
-                    case 15:
-                        System.out.println("Cargando datos insertados durante la ejecucion...");
-                        ContenedorLineaPedido.mostrarLineaPedido();
-                        break;
-
-                    case 16:
-
-                        break;
-
-                    case 17:
                         salir = true;
                         System.out.println("Saliendo del programa ...");
                         break;
@@ -1119,21 +1433,28 @@ public class Menu {
         System.out.println("\t 3) ELIMINAR UNA FILA POR CODIGO IDENTIFICATIVO ");
         System.out.println("\t 4) CONSULTAR UNA FILA POR CODIGO IDENTIFICATIVO ");
         System.out.println("\t 5) CONSULTAR TODAS LAS FILAS DE LA TABLA, ORDENADAS DE FORMA ASCENDENTE ");
-        System.out.println("Si no quiere hacer ninguna modificacion eliga de que manera quiere exportar la tabla ");
-        System.out.println("\t 6) EXPORTAR TABLA A FICHERO DE TEXTO");
-        System.out.println("\t 7) EXPORTAR TABLA A FICHERO DE CSV");
-        System.out.println("\t 8) EXPORTAR TABLA A FICHERO BINARIO");
-        System.out.println("\t 9) EXPORTAR TABLA A FICHERO JSON");
+        System.out.println("Si no quiere hacer ninguna modificacion y desea exportar la tabla pulse");
+        System.out.println("\t 6) EXPORTAR TABLAS");
         System.out.println("Si desea importarla eliga la forma ");
-        System.out.println("\t 10) IMPORTAR TABLA A FICHERO DE TEXTO");
-        System.out.println("\t 11) IMPORTAR TABLA A FICHERO DE CSV");
-        System.out.println("\t 12) IMPORTAR TABLA A FICHERO BINARIO");
-        System.out.println("\t 13) IMPORTAR TABLA A FICHERO JSON");
+        System.out.println("\t 7) IMPORTAR TABLA A FICHERO DE TEXTO");
+        System.out.println("\t 8) IMPORTAR TABLA A FICHERO DE CSV");
+        System.out.println("\t 9) IMPORTAR TABLA A FICHERO BINARIO");
+        System.out.println("\t 10) IMPORTAR TABLA A FICHERO JSON");
         System.out.println("Si desea ver los datos insertados durante la ejecucion pulse ");
-        System.out.println("\t 14) VER DATOS INSERTADOS DURANTE LA EJECUCION");
+        System.out.println("\t 11) VER DATOS INSERTADOS DURANTE LA EJECUCION");
         System.out.println("Si desea ver los informe multitabla pulse ");
-        System.out.println("\t 15) VER INFORMES MULTITABLA");
+        System.out.println("\t 12) VER INFORMES MULTITABLA");
         System.out.println("Si no quiere realizar ninguna operacion de gestion pulse ");
-        System.out.println("\t 16) SALIR ");
+        System.out.println("\t 13) SALIR ");
     }
+
+    public static void menuExportar() {
+        System.out.println("ELIGA LA MANERA EN LA QUE DESA EXPORTAR LA TABLA");
+        System.out.println("\t 1) EXPORTAR TABLA A FICHERO DE TEXTO");
+        System.out.println("\t 2) EXPORTAR TABLA A FICHERO DE CSV");
+        System.out.println("\t 3) EXPORTAR TABLA A FICHERO BINARIO");
+        System.out.println("\t 4) EXPORTAR TABLA A FICHERO JSON");
+        System.out.println("\t 5) SALIR");
+    }
+
 }

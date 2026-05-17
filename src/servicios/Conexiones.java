@@ -171,10 +171,8 @@ public class Conexiones {
 
         try {
 
-            PreparedStatement pst = con.prepareStatement(("insert into pedido values (?,?,?,?,?,?,?)"),  Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement pst = con.prepareStatement(("insert into pedido values (?,?,?,?,?,?,?)"), Statement.RETURN_GENERATED_KEYS);
 
-           
-            
             //Se asignan los valores a la sentencia
             pst.setInt(1, p.getCodigo());
             pst.setInt(2, p.getCodigoVendedor());
@@ -646,7 +644,7 @@ public class Conexiones {
                             + " | Anyo fundacion: " + rs.getInt("anyoFundacion")
                             + " | Lugar sede: " + rs.getString("lugarSede")
                             + " | Empleados: " + rs.getInt("empleados")
-                            + " | Siti web: " + rs.getString("sitioWeb")
+                            + " | Sitio web: " + rs.getString("sitioWeb")
                     );
 
                 }
@@ -838,7 +836,7 @@ public class Conexiones {
         }
     }
 
-    public static void insertarDatosContenedoresLP() throws YaImportadoException {
+    public static void insertarDatosContenedoresLP() { //lanzar aqui la excepcion
         try {
 
             PreparedStatement pst = con.prepareStatement("SELECT * FROM lineaPedido");
@@ -847,11 +845,7 @@ public class Conexiones {
 
                 LineaPedido LP = new LineaPedido(rs.getInt("codigoPedido"), rs.getInt("codigoProducto"), rs.getInt("unidadesCompradas"), rs.getDouble("subTotal"));
 
-                if (!ContenedorLineaPedido.getAlmacenLineasPedidos().isEmpty()) {
-                    throw new YaImportadoException("Los datos ya han sido insertados al contenedor");
-                } else {
-                    ContenedorLineaPedido.agregarLineaPedido(LP);
-                }
+                ContenedorLineaPedido.agregarLineaPedido(LP);
 
             }
             rs.close();
@@ -941,21 +935,46 @@ public class Conexiones {
 
             switch (clase) {
                 case 1:
-                    PreparedStatement pst = con.prepareStatement("SELECT sum(subTotal) FROM lineaPedido where codigoPedido=?");
+                    PreparedStatement pst = con.prepareStatement("SELECT f.nombre AS fabricante,  f.lugarSede, f.sitioWeb, p.nombre AS producto,"
+                            + "    p.categoria, p.disponibilidad FROM fabricante f LEFT JOIN producto p ON f.codigo = p.codigoFabricante "
+                            + "ORDER BY f.nombre ASC;");
                     ResultSet rs = pst.executeQuery();
 
                     while (rs.next()) {
                         // return rs.getString("");
-                        System.out.println("hola");
+                        System.out.println(
+                        "fabricante: " + rs.getString("f.nombre")
+                            + " | lugarSede: " + rs.getString("f.lugarSede")
+                            + " | sitioWeb: " + rs.getString("f.sitioWeb")
+                            + " | producto: " + rs.getString("p.nombre")
+                            + " | categoria: " + rs.getString("p.categoria")
+                            + " | disponibilidad: " + rs.getString("p.disponibilidad")
+                        );
                     }
                     rs.close();
                     pst.close();
                     break;
                 case 2:
+                    PreparedStatement pst1 = con.prepareStatement("SELECT sum(subTotal) FROM lineaPedido where codigoPedido=?");
+                    ResultSet rs1 = pst1.executeQuery();
 
+                    while (rs1.next()) {
+                        // return rs.getString("");
+                        System.out.println("hola");
+                    }
+                    rs1.close();
+                    pst1.close();
                     break;
                 case 3:
+                    PreparedStatement pst2 = con.prepareStatement("SELECT sum(subTotal) FROM lineaPedido where codigoPedido=?");
+                    ResultSet rs2 = pst2.executeQuery();
 
+                    while (rs2.next()) {
+                        // return rs.getString("");
+                        System.out.println("hola");
+                    }
+                    rs2.close();
+                    pst2.close();
                     break;
                 case 4:
 
