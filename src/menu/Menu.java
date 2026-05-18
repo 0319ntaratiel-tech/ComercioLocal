@@ -230,7 +230,7 @@ public class Menu {
                         while (!salir) {
                             Menu.menuExportar();
                             int opcion1 = teclado.nextInt();
-                            switch (opcion) {
+                            switch (opcion1) {
 
                                 case 1:
                                     FabricanteFicheros.exportarFicheroDeTextoFabri();
@@ -442,7 +442,7 @@ public class Menu {
                         while (!salir) {
                             Menu.menuExportar();
                             int opcion1 = teclado.nextInt();
-                            switch (opcion) {
+                            switch (opcion1) {
 
                                 case 1:
                                     ClienteFicheros.exportarFicheroDeTextoCli();
@@ -648,7 +648,7 @@ public class Menu {
                         while (!salir) {
                             Menu.menuExportar();
                             int opcion1 = teclado.nextInt();
-                            switch (opcion) {
+                            switch (opcion1) {
 
                                 case 1:
                                     VendedorFicheros.exportarFicheroDeTextoVen();
@@ -857,7 +857,7 @@ public class Menu {
                         while (!salir) {
                             Menu.menuExportar();
                             int opcion1 = teclado.nextInt();
-                            switch (opcion) {
+                            switch (opcion1) {
 
                                 case 1:
                                     ProductoFicheros.exportarFicheroDeTextoPro();
@@ -1109,7 +1109,7 @@ public class Menu {
                         while (!salir) {
                             Menu.menuExportar();
                             int opcion1 = teclado.nextInt();
-                            switch (opcion) {
+                            switch (opcion1) {
 
                                 case 1:
                                     PedidoFicheros.exportarFicheroDeTextoPed();

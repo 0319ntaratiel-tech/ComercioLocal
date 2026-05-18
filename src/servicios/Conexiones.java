@@ -24,6 +24,7 @@ import modelos.LineaPedido;
 import modelos.Pedido;
 import modelos.Producto;
 import modelos.Vendedor;
+import utils.Comprobaciones;
 import utils.Configuracion;
 
 /**
@@ -165,6 +166,7 @@ public class Conexiones {
 
     }
 
+    //ELIMINAR METODO NO IMPLEMENTADO
     public static int insertarPedido(Pedido p) { //devuelve el ID generado INSERTA DATOS PEDIDO POR SEPARADO
 
         int idGenerado = -1;
@@ -396,9 +398,11 @@ public class Conexiones {
                 System.out.println("INSERTA NUEVO CODIGO DEL VENDEDOR");
                 int codigoVen = teclado.nextInt();
                 teclado.nextLine();
+
                 System.out.println("INSERTA NUEVO CODIGO DEL CLIENTE");
                 int codigoCli = teclado.nextInt();
                 teclado.nextLine();
+
                 //System.out.println("INSERTA NUEVA FECHA DE REALIZACION DEL PEDIDO");
                 //String fechaRea = teclado.nextLine();
                 //System.out.println("INSERTA NUEVA FECHA DE ENTREGA DEL PEDIDO");
@@ -438,8 +442,8 @@ public class Conexiones {
             int unidadesCompradas = teclado.nextInt();
             teclado.nextLine();
             System.out.println("INSERTA EL SUBTOTAL");
-            teclado.nextLine();
             double subTotal = teclado.nextDouble();
+            teclado.nextLine();
             PreparedStatement pst = con.prepareStatement("update lineaPedido set unidadesCompradas=?, subTotal=? "
                     + "where codigoPedido=? and codigoProducto=?");
 
@@ -498,7 +502,7 @@ public class Conexiones {
     public static void eliminarLineaPedido(int codPed, int codPro) {
         try {
 
-            PreparedStatement pst = con.prepareStatement("delete from lineaPedido  where codigoPedido=? and codigoProducto ");
+            PreparedStatement pst = con.prepareStatement("delete from lineaPedido  where codigoPedido=? AND codigoProducto=? ");
 
             pst.setInt(1, codPed);
             pst.setInt(2, codPro);
@@ -611,7 +615,7 @@ public class Conexiones {
             PreparedStatement pst = con.prepareStatement("select * from lineaPedido  where codigoPedido=? and codigoProducto=? ");
 
             pst.setInt(1, codPed);
-            pst.setInt(1, codPro);
+            pst.setInt(2, codPro);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 System.out.println(
@@ -935,69 +939,214 @@ public class Conexiones {
 
             switch (clase) {
                 case 1:
-                    PreparedStatement pst = con.prepareStatement("SELECT f.nombre AS fabricante,  f.lugarSede, f.sitioWeb, p.nombre AS producto,"
-                            + "    p.categoria, p.disponibilidad FROM fabricante f LEFT JOIN producto p ON f.codigo = p.codigoFabricante "
-                            + "ORDER BY f.nombre ASC;");
+
+                    String consulta1 = "SELECT f.nombre AS fabricante, f.lugarSede, f.sitioWeb,p.nombre AS producto, p.categoria, p.disponibilidad "
+                            + " FROM fabricante f LEFT JOIN producto p ON f.codigo = p.codigoFabricante ORDER BY f.nombre ASC";
+                    PreparedStatement pst = con.prepareStatement(consulta1);
                     ResultSet rs = pst.executeQuery();
 
+                    String consultasF1 = "Consulta 1";
+                    Comprobaciones.guardarLinea(consulta1, consulta1);
+
                     while (rs.next()) {
-                        // return rs.getString("");
-                        System.out.println(
-                        "fabricante: " + rs.getString("f.nombre")
-                            + " | lugarSede: " + rs.getString("f.lugarSede")
-                            + " | sitioWeb: " + rs.getString("f.sitioWeb")
-                            + " | producto: " + rs.getString("p.nombre")
-                            + " | categoria: " + rs.getString("p.categoria")
-                            + " | disponibilidad: " + rs.getString("p.disponibilidad")
-                        );
+
+                        String linea = "fabricante: " + rs.getString("fabricante")
+                                + " | lugarSede: " + rs.getString("lugarSede")
+                                + " | sitioWeb: " + rs.getString("sitioWeb")
+                                + " | producto: " + rs.getString("producto")
+                                + " | categoria: " + rs.getString("categoria")
+                                + " | disponibilidad: " + rs.getString("disponibilidad");
+
+                        System.out.println(linea);
+                        Comprobaciones.guardarLinea(linea, "consultas.txt");
                     }
                     rs.close();
                     pst.close();
                     break;
                 case 2:
-                    PreparedStatement pst1 = con.prepareStatement("SELECT sum(subTotal) FROM lineaPedido where codigoPedido=?");
+                    String consulta3 = "SELECT p.nombre AS producto, p.categoria AS categoria, c.nombre AS cliente,SUM(lp.unidadesCompradas) AS unidadesTotales "
+                            + " FROM producto p JOIN lineaPedido lp ON p.codigo = lp.codigoProducto JOIN pedido pe ON lp.codigoPedido = pe.codigo "
+                            + " JOIN cliente c ON pe.codigoCliente = c.codigo GROUP BY p.nombre, p.categoria, c.nombre ORDER BY p.nombre ASC";
+                    PreparedStatement pst1 = con.prepareStatement(consulta3);
                     ResultSet rs1 = pst1.executeQuery();
 
                     while (rs1.next()) {
-                        // return rs.getString("");
-                        System.out.println("hola");
+                        String linea = "Producto: " + rs1.getString("producto")
+                                + " | categoria: " + rs1.getString("categoria")
+                                + " | cliente: " + rs1.getString("cliente")
+                                + " | unidadesTotales: " + rs1.getInt("unidadesTotales");
+
+                        System.out.println(linea);
+                        Comprobaciones.guardarLinea(linea, "consultas.txt");
                     }
                     rs1.close();
                     pst1.close();
                     break;
                 case 3:
-                    PreparedStatement pst2 = con.prepareStatement("SELECT sum(subTotal) FROM lineaPedido where codigoPedido=?");
+                    String consulta4 = "SELECT c.nombre AS cliente, c.direccionEnvio AS direccion, p.nombre AS producto,SUM(lp.unidadesCompradas) AS unidadesTotales "
+                            + " FROM cliente c JOIN pedido pe ON c.codigo = pe.codigoCliente JOIN lineaPedido lp ON pe.codigo = lp.codigoPedido "
+                            + " JOIN producto p ON lp.codigoProducto = p.codigo GROUP BY c.nombre, c.direccionEnvio, p.nombre ORDER BY c.nombre ASC";
+                    PreparedStatement pst2 = con.prepareStatement(consulta4);
                     ResultSet rs2 = pst2.executeQuery();
 
                     while (rs2.next()) {
-                        // return rs.getString("");
-                        System.out.println("hola");
+                        String linea = "cliente: " + rs2.getString("cliente")
+                                + " | direccionEnvio: " + rs2.getString("direccion")
+                                + " | producto: " + rs2.getString("producto")
+                                + " | unidadesTotales: " + rs2.getInt("unidadesTotales");
+
+                        System.out.println(linea);
+                        Comprobaciones.guardarLinea(linea, "consultas.txt");
                     }
                     rs2.close();
                     pst2.close();
                     break;
                 case 4:
+                    String consulta5 = "SELECT f.nombre AS fabricante, f.lugarSede AS lugar, f.sitioWeb AS web,c.nombre AS cliente, c.fechaNacimiento AS nacimiento,"
+                            + " COUNT(pe.codigo) AS productosComprados FROM fabricante f JOIN producto p ON f.codigo = p.codigoFabricante"
+                            + " JOIN lineaPedido lp ON p.codigo = lp.codigoProducto JOIN pedido pe ON lp.codigoPedido = pe.codigo"
+                            + " JOIN cliente c ON pe.codigoCliente = c.codigo GROUP BY f.nombre, f.lugarSede, f.sitioWeb, c.nombre, c.fechaNacimiento"
+                            + " ORDER BY f.nombre ASC";
+                    PreparedStatement pst3 = con.prepareStatement(consulta5);
+                    ResultSet rs3 = pst3.executeQuery();
+
+                    while (rs3.next()) {
+                        String linea = "fabricante: " + rs3.getString("fabricante")
+                                + " | lugarSede: " + rs3.getString("lugar")
+                                + " | sitioWeb: " + rs3.getString("web")
+                                + " | cliente: " + rs3.getString("cliente")
+                                + " | fechaNacimiento: " + rs3.getString("nacimiento")
+                                + " | productosComprados: " + rs3.getInt("productosComprados");
+
+                        System.out.println(linea);
+                        Comprobaciones.guardarLinea(linea, "consultas.txt");
+                    }
+                    rs3.close();
+                    pst3.close();
 
                     break;
                 case 5:
+                    String consulta6 = "SELECT v.nombre AS vendedor, v.fechaAlta AS fechaAlta, p.fechaRealizacion AS fechaRea, p.estado AS estado,"
+                            + " p.importe,(p.importe * v.porcentaje) AS comisionPedido FROM vendedor v INNER JOIN pedido p ON v.codigo = p.codigoVendedor "
+                            + " ORDER BY v.nombre ASC";
+                    PreparedStatement pst4 = con.prepareStatement(consulta6);
+                    ResultSet rs4 = pst4.executeQuery();
+
+                    while (rs4.next()) {
+                        String linea = "vendedor: " + rs4.getString("vendedor")
+                                + " | fechaAlta: " + rs4.getString("fechaAlta")
+                                + " | fechaRealizacion: " + rs4.getString("fechaRea")
+                                + " | estado: " + rs4.getString("estado")
+                                + " | importe: " + rs4.getDouble("importe")
+                                + " | comisionPedido: " + rs4.getDouble("comisionPedido");
+
+                        System.out.println(linea);
+                        Comprobaciones.guardarLinea(linea, "consultas.txt");
+                    }
+                    rs4.close();
+                    pst4.close();
 
                     break;
                 case 6:
+                    String consulta7 = "SELECT p.nombre AS producto, p.categoria AS categoria,SUM(lp.unidadesCompradas) AS totalUnidades,"
+                            + " SUM(lp.subTotal) AS importeTotal,COUNT(lp.codigoPedido) AS numeroPedidos FROM producto p "
+                            + " JOIN lineaPedido lp ON p.codigo = lp.codigoProducto GROUP BY p.codigo, p.nombre, p.categoria "
+                            + " HAVING COUNT(lp.codigoPedido) > 5 ORDER BY totalUnidades DESC";
+                    PreparedStatement pst5 = con.prepareStatement(consulta7);
+                    ResultSet rs5 = pst5.executeQuery();
+
+                    while (rs5.next()) {
+                        String linea = "producto: " + rs5.getString("producto")
+                                + " | categoria: " + rs5.getString("categoria")
+                                + " | totalUnidades: " + rs5.getInt("totalUnidades")
+                                + " | importeTotal: " + rs5.getDouble("importeTotal")
+                                + " | numeroPedidos: " + rs5.getInt("numeroPedidos");
+
+                        System.out.println(linea);
+                        Comprobaciones.guardarLinea(linea, "consultas.txt");
+                    }
+                    rs5.close();
+                    pst5.close();
 
                     break;
                 case 7:
+                    String consulta8 = "SELECT DISTINCT f.nombre AS nombre, f.lugarSede AS sede, f.sitioWeb AS web FROM fabricante f "
+                            + " JOIN producto p ON f.codigo = p.codigoFabricante LEFT JOIN lineaPedido lp ON p.codigo = lp.codigoProducto "
+                            + " WHERE lp.codigoProducto IS NULL ORDER BY f.nombre ASC";
+                    PreparedStatement pst6 = con.prepareStatement(consulta8);
+                    ResultSet rs6 = pst6.executeQuery();
+
+                    while (rs6.next()) {
+
+                        String linea = "Fabricante: " + rs6.getString("nombre")
+                                + " | sede: " + rs6.getString("sede")
+                                + " | web: " + rs6.getString("web");
+
+                        System.out.println(linea);
+                        Comprobaciones.guardarLinea(linea, "consultas.txt");
+
+                    }
+                    rs6.close();
+                    pst6.close();
 
                     break;
                 case 8:
+                    String consulta9 = "SELECT v.nombre AS vendedor,COUNT(p.codigo) AS totalPedidos,SUM(p.importe) AS importeTotal, "
+                            + " ROUND(AVG(p.importe),2) AS promedioImporte FROM vendedor v JOIN pedido p ON v.codigo = p.codigoVendedor "
+                            + " WHERE p.estado = 'entregado' GROUP BY v.nombre ORDER BY importeTotal DESC";
+                    PreparedStatement pst7 = con.prepareStatement(consulta9);
+                    ResultSet rs7 = pst7.executeQuery();
+
+                    while (rs7.next()) {
+                        String linea = "vendedor: " + rs7.getString("vendedor")
+                                + " | totalPedidos: " + rs7.getInt("totalPedidos")
+                                + " | importeTotal: " + rs7.getDouble("importeTotal")
+                                + " | promedioImporte: " + rs7.getDouble("promedioImporte");
+
+                        System.out.println(linea);
+                    }
+                    rs7.close();
+                    pst7.close();
 
                     break;
-                case 9:
 
-                    break;
                 default:
                     throw new AssertionError();
             }
 
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public static void consulta2(int codigoCliente) {
+        try {
+
+            String consulta1 = "  SELECT p.fechaRealización AS fechaRea, p.fechaEntrega AS fechaEntr,p.estado AS estado, p.importe AS importe,"
+                    + " pr.nombre AS producto, lp.unidadesCompradas, lp.subTotal FROM pedido p JOIN lineaPedido lp ON p.codigo = lp.codigoPedido"
+                    + " JOIN producto pr ON lp.codigoProducto = pr.codigo WHERE p.codigoCliente = ? ORDER BY p.fechaRealización ASC";
+            PreparedStatement pst = con.prepareStatement(consulta1);
+            pst.setInt(1, codigoCliente);
+            ResultSet rs = pst.executeQuery();
+
+
+            while (rs.next()) {
+
+                 String linea = rs.getDate("fechaRealización") + ";" +
+                           rs.getDate("fechaEntrega") + ";" +
+                           rs.getString("estado") + ";" +
+                           rs.getDouble("importe") + ";" +
+                           rs.getString("producto") + ";" +
+                           rs.getInt("unidadesCompradas") + ";" +
+                           rs.getDouble("subTotal");
+
+            System.out.println(linea);
+
+                Comprobaciones.guardarLinea(linea, "consultas.txt");
+            }
+            rs.close();
+            pst.close();
         } catch (SQLException ex) {
             Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
         }
