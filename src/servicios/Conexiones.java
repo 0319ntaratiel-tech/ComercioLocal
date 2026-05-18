@@ -166,39 +166,7 @@ public class Conexiones {
 
     }
 
-    //ELIMINAR METODO NO IMPLEMENTADO
-    public static int insertarPedido(Pedido p) { //devuelve el ID generado INSERTA DATOS PEDIDO POR SEPARADO
-
-        int idGenerado = -1;
-
-        try {
-
-            PreparedStatement pst = con.prepareStatement(("insert into pedido values (?,?,?,?,?,?,?)"), Statement.RETURN_GENERATED_KEYS);
-
-            //Se asignan los valores a la sentencia
-            pst.setInt(1, p.getCodigo());
-            pst.setInt(2, p.getCodigoVendedor());
-            pst.setInt(3, p.getCodigoCliente());
-            pst.setString(4, p.getFechaRealizacion());
-            pst.setString(5, p.getFechaEntrega());
-            pst.setString(6, p.getEstado());
-            pst.setDouble(7, p.getImporte());
-
-            pst.executeUpdate();
-
-            ResultSet rs = pst.getGeneratedKeys();
-
-            if (rs.next()) {
-                idGenerado = rs.getInt(1);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return idGenerado;
-    }
-
+    
     /**
      * Metodo para verifica si un código existe en la base de datos según la
      * clase indicada, estableciendo la conexión y consultando la tabla
@@ -946,7 +914,7 @@ public class Conexiones {
                     ResultSet rs = pst.executeQuery();
 
                     String consultasF1 = "Consulta 1";
-                    Comprobaciones.guardarLinea(consulta1, consulta1);
+                    Comprobaciones.guardarLinea(consultasF1, "consultas.txt");
 
                     while (rs.next()) {
 
@@ -958,7 +926,14 @@ public class Conexiones {
                                 + " | disponibilidad: " + rs.getString("disponibilidad");
 
                         System.out.println(linea);
-                        Comprobaciones.guardarLinea(linea, "consultas.txt");
+                        
+                        String linea1 =  rs.getString("fabricante") + ";" +
+                                rs.getString("lugarSede") + ";"
+                                + rs.getString("sitioWeb") + ";"
+                                +  rs.getString("producto") + ";"
+                                + rs.getString("categoria") + ";" 
+                                + rs.getString("disponibilidad");
+                        Comprobaciones.guardarLinea(linea1, "consultas.txt");
                     }
                     rs.close();
                     pst.close();
@@ -969,6 +944,8 @@ public class Conexiones {
                             + " JOIN cliente c ON pe.codigoCliente = c.codigo GROUP BY p.nombre, p.categoria, c.nombre ORDER BY p.nombre ASC";
                     PreparedStatement pst1 = con.prepareStatement(consulta3);
                     ResultSet rs1 = pst1.executeQuery();
+                    String consultasF3 = "Consulta 3";
+                    Comprobaciones.guardarLinea(consultasF3, "consultas.txt");
 
                     while (rs1.next()) {
                         String linea = "Producto: " + rs1.getString("producto")
@@ -977,7 +954,11 @@ public class Conexiones {
                                 + " | unidadesTotales: " + rs1.getInt("unidadesTotales");
 
                         System.out.println(linea);
-                        Comprobaciones.guardarLinea(linea, "consultas.txt");
+                        String linea1 = rs1.getString("producto") + ";"
+                                +  rs1.getString("categoria") + ";"
+                                 + rs1.getString("cliente") + ";"
+                                +  rs1.getInt("unidadesTotales");
+                        Comprobaciones.guardarLinea(linea1, "consultas.txt");
                     }
                     rs1.close();
                     pst1.close();
@@ -988,7 +969,8 @@ public class Conexiones {
                             + " JOIN producto p ON lp.codigoProducto = p.codigo GROUP BY c.nombre, c.direccionEnvio, p.nombre ORDER BY c.nombre ASC";
                     PreparedStatement pst2 = con.prepareStatement(consulta4);
                     ResultSet rs2 = pst2.executeQuery();
-
+                    String consultasF4 = "Consulta 4";
+                    Comprobaciones.guardarLinea(consultasF4, "consultas.txt");
                     while (rs2.next()) {
                         String linea = "cliente: " + rs2.getString("cliente")
                                 + " | direccionEnvio: " + rs2.getString("direccion")
@@ -996,7 +978,11 @@ public class Conexiones {
                                 + " | unidadesTotales: " + rs2.getInt("unidadesTotales");
 
                         System.out.println(linea);
-                        Comprobaciones.guardarLinea(linea, "consultas.txt");
+                        String linea1 =rs2.getString("cliente") + ";"
+                                + rs2.getString("direccion") + ";"
+                                + rs2.getString("producto") + ";"
+                                + rs2.getInt("unidadesTotales");
+                        Comprobaciones.guardarLinea(linea1, "consultas.txt");
                     }
                     rs2.close();
                     pst2.close();

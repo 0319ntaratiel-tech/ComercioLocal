@@ -243,15 +243,14 @@ public class VendedorFicheros {
             //java abre le fichero binario y empieza a leer bytes de 0 y 1
             //interpreta esos bytes como objetos  java
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(ficheroBinario));
-            ArrayList<Integer> codigoRepetido = new ArrayList<>();
+            
             //lee todo el contenido del fichero y lo devuelve como un object generico
             Object ob = ois.readObject();
             //aqui convertimos el objeto en al tipo correcto (se llama casting)
             ArrayList<Vendedor> vendedores = (ArrayList<Vendedor>) ob;
             //cerramos el fichero
             ois.close();
-            //mete todos los datos al contenedor
-            //ContenedorVendedor.getAlmacenVendedor().addAll(vendedores);
+            ArrayList<Integer> codigoRepetido = new ArrayList<>();
             while (!vendedores.isEmpty()) {
                 for (Vendedor v : vendedores) {
                     Vendedor v1 = new Vendedor(v.getCodigo(), v.getNombre(), v.getFechaAlta(), v.getDomicilio(), v.getSalario(), v.getPorcentaje());
@@ -270,9 +269,10 @@ public class VendedorFicheros {
                     cadena += i;
 
                 }
-                System.out.println("Importación finalizada con éxito");
+                throw new YaImportadoException("Los vendedores  con codigo " + cadena + "ya fueron importado");
 
             }
+            System.out.println("Importacion finalizada");
         } catch (FileNotFoundException ex) {
             System.err.println("Error. Fichero no encontrado");
             System.err.println(ex);

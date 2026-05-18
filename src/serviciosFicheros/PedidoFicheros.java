@@ -130,7 +130,7 @@ public class PedidoFicheros {
         }
     }
 
-    public static void importarFicheroCSVPed(String ficheroCSV) throws YaImportadoException {
+    public static void importarFicheroCSVPed(String ficheroCSV) {
 
         try {
             BufferedReader br = new BufferedReader(new FileReader(ficheroCSV));
@@ -185,7 +185,7 @@ public class PedidoFicheros {
         }
     }
 
-    public static void importarFicheroBinarioPed(String ficheroBinario) throws YaImportadoException {
+    public static void importarFicheroBinarioPed(String ficheroBinario) {
        
         try {
             //java abre le fichero binario y empieza a leer bytes de 0 y 1

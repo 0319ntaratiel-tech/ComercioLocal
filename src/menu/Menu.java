@@ -113,7 +113,6 @@ public class Menu {
                     System.out.println("Saliendo del programa ...");
                     break;
 
-                    
                 default:
                     System.out.println("OPCION INCORRECTA");
             }
@@ -242,7 +241,7 @@ public class Menu {
                                     break;
 
                                 case 3:
-                                    FabricanteFicheros.exportarFicheroCSVFabri();
+                                    FabricanteFicheros.exportarFicheroBinarioFabri();
                                     break;
 
                                 case 4:
@@ -263,55 +262,52 @@ public class Menu {
                     case 7:
                         System.out.println("Inserte el fichero TXT que desea importar");
                         String ficheroTXT = teclado.nextLine();
-                        
-                    {
-                        try {
-                            FabricanteFicheros.importarFicheroDeTextoFabri(ficheroTXT);
-                        } catch (YaImportadoException ex) {
-                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                        break;
 
+                         {
+                            try {
+                                FabricanteFicheros.importarFicheroDeTextoFabri(ficheroTXT);
+                            } catch (YaImportadoException ex) {
+                                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        break;
 
                     case 8:
                         System.out.println("Inserte el fichero CVS que desea importar");
                         String ficheroCSV = teclado.nextLine();
-                    {
-                        try {
-                            FabricanteFicheros.importarFicheroCSVFabri(ficheroCSV);
-                        } catch (YaImportadoException ex) {
-                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                         {
+                            try {
+                                FabricanteFicheros.importarFicheroCSVFabri(ficheroCSV);
+                            } catch (YaImportadoException ex) {
+                                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                         }
-                    }
                         break;
-
 
                     case 9:
                         System.out.println("Inserte el fichero Binario que desea importar");
                         String ficheroBinario = teclado.nextLine();
-                        
-                    {
-                        try {
-                            FabricanteFicheros.importarFicheroBinarioFabri(ficheroBinario);
-                        } catch (YaImportadoException ex) {
-                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                        break;
 
+                         {
+                            try {
+                                FabricanteFicheros.importarFicheroBinarioFabri(ficheroBinario);
+                            } catch (YaImportadoException ex) {
+                                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        break;
 
                     case 10:
                         System.out.println("Inserte el fichero JSON que desea importar");
                         String ficheroJSON = teclado.nextLine();
-                        
-                    {
-                        try {
-                            FabricanteFicheros.importarFicheroJSONFabri(ficheroJSON);
-                        } catch (YaImportadoException ex) {
-                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+
+                         {
+                            try {
+                                FabricanteFicheros.importarFicheroJSONFabri(ficheroJSON);
+                            } catch (YaImportadoException ex) {
+                                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                         }
-                    }
                         break;
 
                     case 11:
@@ -475,57 +471,53 @@ public class Menu {
                     case 7:
                         System.out.println("Inserte el fichero TXT que desea importar");
                         String ficheroTXT = teclado.nextLine();
-                    {
-                        try {
-                            ClienteFicheros.importarFicheroDeTextoCli(ficheroTXT);
-                        } catch (YaImportadoException ex) {
-                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                         {
+                            try {
+                                ClienteFicheros.importarFicheroDeTextoCli(ficheroTXT);
+                            } catch (YaImportadoException ex) {
+                                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                         }
-                    }
-                        
-                        break;
 
+                        break;
 
                     case 8:
                         System.out.println("Inserte el fichero CVS que desea importar");
                         String ficheroCSV = teclado.nextLine();
-                    {
-                        try {
-                            ClienteFicheros.importarFicheroCSVCli(ficheroCSV);
-                        } catch (YaImportadoException ex) {
-                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                         {
+                            try {
+                                ClienteFicheros.importarFicheroCSVCli(ficheroCSV);
+                            } catch (YaImportadoException ex) {
+                                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                         }
-                    }
                         break;
-
 
                     case 9:
                         System.out.println("Inserte el fichero Binario que desea importar");
                         String ficheroBinario = teclado.nextLine();
-                        
-                    {
-                        try {
-                            ClienteFicheros.importarFicheroBinarioCli(ficheroBinario);
-                        } catch (YaImportadoException ex) {
-                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                        break;
 
+                         {
+                            try {
+                                ClienteFicheros.importarFicheroBinarioCli(ficheroBinario);
+                            } catch (YaImportadoException ex) {
+                                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        break;
 
                     case 10:
                         System.out.println("Inserte el fichero JSON que desea importar");
                         String ficheroJSON = teclado.nextLine();
-                        
-                    {
-                        try {
-                            ClienteFicheros.importarFicheroJSONCli(ficheroJSON);
-                        } catch (YaImportadoException ex) {
-                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                        break;
 
+                         {
+                            try {
+                                ClienteFicheros.importarFicheroJSONCli(ficheroJSON);
+                            } catch (YaImportadoException ex) {
+                                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        break;
 
                     case 11:
                         System.out.println("Cargando datos insertados durante la ejecucion...");
@@ -681,59 +673,55 @@ public class Menu {
                     case 7:
                         System.out.println("Inserte el fichero TXT que desea importar");
                         String ficheroTXT = teclado.nextLine();
-                        
-                    {
-                        try {
-                            VendedorFicheros.importarFicheroDeTextoVen(ficheroTXT);
-                        } catch (YaImportadoException ex) {
-                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                        break;
 
+                         {
+                            try {
+                                VendedorFicheros.importarFicheroDeTextoVen(ficheroTXT);
+                            } catch (YaImportadoException ex) {
+                                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        break;
 
                     case 8:
                         System.out.println("Inserte el fichero CVS que desea importar");
                         String ficheroCSV = teclado.nextLine();
-                        
-                    {
-                        try {
-                            VendedorFicheros.importarFicheroCSVVen(ficheroCSV);
-                        } catch (YaImportadoException ex) {
-                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                        break;
 
+                         {
+                            try {
+                                VendedorFicheros.importarFicheroCSVVen(ficheroCSV);
+                            } catch (YaImportadoException ex) {
+                                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        break;
 
                     case 9:
                         System.out.println("Inserte el fichero Binario que desea importar");
                         String ficheroBinario = teclado.nextLine();
-                        
-                    {
-                        try {
-                            VendedorFicheros.importarFicheroBinarioVen(ficheroBinario);
-                        } catch (YaImportadoException ex) {
-                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+
+                         {
+                            try {
+                                VendedorFicheros.importarFicheroBinarioVen(ficheroBinario);
+                            } catch (YaImportadoException ex) {
+                                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                         }
-                    }
 
                         break;
-
 
                     case 10:
                         System.out.println("Inserte el fichero JSON que desea importar");
                         String ficheroJSON = teclado.nextLine();
-                    {
-                        try {
-                            VendedorFicheros.importarFicheroJSONVeni(ficheroJSON);
-                        } catch (YaImportadoException ex) {
-                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                         {
+                            try {
+                                VendedorFicheros.importarFicheroJSONVeni(ficheroJSON);
+                            } catch (YaImportadoException ex) {
+                                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                         }
-                    }
 
                         break;
-
 
                     case 11:
                         System.out.println("Cargando datos insertados durante la ejecucion...");
@@ -890,57 +878,54 @@ public class Menu {
                     case 7:
                         System.out.println("Inserte el fichero TXT que desea importar");
                         String ficheroTXT = teclado.nextLine();
-                    {
-                        try {
-                            ProductoFicheros.importarFicheroDeTextoPro(ficheroTXT);
-                        } catch (YaImportadoException ex) {
-                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                         {
+                            try {
+                                ProductoFicheros.importarFicheroDeTextoPro(ficheroTXT);
+                            } catch (YaImportadoException ex) {
+                                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                         }
-                    }
 
                         break;
 
                     case 8:
                         System.out.println("Inserte el fichero CVS que desea importar");
                         String ficheroCSV = teclado.nextLine();
-                        
-                    {
-                        try {
-                            ProductoFicheros.importarFicheroCSVPro(ficheroCSV);
-                        } catch (YaImportadoException ex) {
-                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                        break;
 
+                         {
+                            try {
+                                ProductoFicheros.importarFicheroCSVPro(ficheroCSV);
+                            } catch (YaImportadoException ex) {
+                                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        break;
 
                     case 9:
                         System.out.println("Inserte el fichero Binario que desea importar");
-                        String ficheroBinario= teclado.nextLine();
-                        
-                    {
-                        try {
-                            ProductoFicheros.importarFicheroBinarioPro(ficheroBinario);
-                        } catch (YaImportadoException ex) {
-                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                        break;
+                        String ficheroBinario = teclado.nextLine();
 
+                         {
+                            try {
+                                ProductoFicheros.importarFicheroBinarioPro(ficheroBinario);
+                            } catch (YaImportadoException ex) {
+                                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        break;
 
                     case 10:
                         System.out.println("Inserte el fichero JSON que desea importar");
                         String ficheroJSON = teclado.nextLine();
-                        
-                    {
-                        try {
-                            ProductoFicheros.importarFicheroJSONPro(ficheroJSON);
-                        } catch (YaImportadoException ex) {
-                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                        break;
 
+                         {
+                            try {
+                                ProductoFicheros.importarFicheroJSONPro(ficheroJSON);
+                            } catch (YaImportadoException ex) {
+                                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        break;
 
                     case 11:
                         System.out.println("Cargando datos insertados durante la ejecucion...");
@@ -1037,27 +1022,6 @@ public class Menu {
                             ContenedorLineaPedido.agregarLineaPedidoNuevos(lp);
                         }
 
-                        //int codPedido = Conexiones.insertarPedido(ped);
-                        //ContenedorPedido.agregarPedidoNuevos(ped);
-
-                        /*       //insertamos lp en la base 
-                        
-                        for (LineaPedido l : lineas) {
-                            l.setCodigoPedido(codPedido);
-                            Conexiones.insertarDatos(l);
-                        }
-                         */
-                        //1.inserta pedido
-                        //Que productos quieres? -->Movil, Tablet y TV
-                        //codi*precio
-                        //El usuario selecciona X Movil, z Tablet y y TV --> 
-                        //double importe = 1*10 + 1*30+2*getprECIOtv()
-                        //intreoduce codVendedor
-                        //intruduce codCliuente
-                        //Crear Pedido --> new Pedido( Match().roando(), codigoVen, codigoCli, LocalDate.now(), LocalDate.now() + 7, "REALIZADO", importe);
-                        //Insertar en BD
-                        //Calcular subtotal
-                        //Crear LineaPedido
                         break;
 
                     case 2:
@@ -1142,46 +1106,33 @@ public class Menu {
                     case 7:
                         System.out.println("Inserte el fichero de texto que desea importar");
                         String ficheroTXT = teclado.nextLine();
-                        
-                    
-                            PedidoFicheros.importarFicheroDeTextoPed(ficheroTXT);
-                       
-                        break;
 
+                        PedidoFicheros.importarFicheroDeTextoPed(ficheroTXT);
+
+                        break;
 
                     case 8:
                         System.out.println("Inserte el fichero CVS que desea importar");
                         String ficheroCSV = teclado.nextLine();
-                        
-                   
-                   //         PedidoFicheros.importarFicheroCSVPed(ficheroCSV);
-                       
-                        break;
 
+                        PedidoFicheros.importarFicheroCSVPed(ficheroCSV);
+
+                        break;
 
                     case 9:
                         System.out.println("Inserte el fichero Binario que desea importar");
-                        String ficheroBinario= teclado.nextLine();
-                        
-                    {
-                        try {
-                            PedidoFicheros.importarFicheroBinarioPed(ficheroBinario);
-                        } catch (YaImportadoException ex) {
-                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                        break;
+                        String ficheroBinario = teclado.nextLine();
+                        PedidoFicheros.importarFicheroBinarioPed(ficheroBinario);
 
+                        break;
 
                     case 10:
                         System.out.println("Inserte el fichero JSON que desea importar");
                         String ficheroJSON = teclado.nextLine();
-                     
-                            PedidoFicheros.importarFicheroJSONPed(ficheroJSON);
-                        
-                    
-                        break;
 
+                        PedidoFicheros.importarFicheroJSONPed(ficheroJSON);
+
+                        break;
 
                     case 11:
                         System.out.println("Cargando datos insertados durante la ejecucion...");
@@ -1189,10 +1140,6 @@ public class Menu {
                         break;
 
                     case 12:
-
-                        break;
-
-                    case 13:
                         salir = true;
                         System.out.println("Saliendo del programa ...");
                         break;
@@ -1228,10 +1175,8 @@ public class Menu {
             System.out.println("\t 9) IMPORTAR TABLA A FICHERO JSON");
             System.out.println("Si desea ver los datos insertados durante la ejecucion pulse ");
             System.out.println("\t 10) VER DATOS INSERTADOS DURANTE LA EJECUCION");
-            System.out.println("Si desea ver los informe multitabla pulse ");
-            System.out.println("\t 11) VER INFORMES MULTITABLA");
             System.out.println("Si no quiere realizar ninguna operacion de gestion pulse ");
-            System.out.println("\t 12) SALIR ");
+            System.out.println("\t 11) SALIR ");
 
             try {
                 int opcion = teclado.nextInt();
@@ -1332,61 +1277,55 @@ public class Menu {
 
                         break;
 
-
                     case 6:
                         System.out.println("Inserte el fichero de texto que desea importar");
                         String ficheroTXT = teclado.nextLine();
-                    {
-                        try {
-                            LineaPedidoFicheros.importarFicheroDeTextoLP(ficheroTXT);
-                        } catch (YaImportadoException ex) {
-                            System.err.println(ex);
+                         {
+                            try {
+                                LineaPedidoFicheros.importarFicheroDeTextoLP(ficheroTXT);
+                            } catch (YaImportadoException ex) {
+                                System.err.println(ex);
+                            }
                         }
-                    }
                         break;
-
 
                     case 7:
                         System.out.println("Inserte el fichero CSV que desea importar");
                         String ficheroCSV = teclado.nextLine();
-                    {
-                        try {
-                            LineaPedidoFicheros.importarFicheroCSVLP(ficheroCSV);
-                        } catch (YaImportadoException ex) {
-                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                         {
+                            try {
+                                LineaPedidoFicheros.importarFicheroCSVLP(ficheroCSV);
+                            } catch (YaImportadoException ex) {
+                                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                         }
-                    }
                         break;
 
-                        
                     case 8:
                         System.out.println("Inserte el fichero binario que desea importar");
                         String ficheroBinario = teclado.nextLine();
-                        
-                    {
-                        try {
-                            LineaPedidoFicheros.importarFicheroBinarioLP(ficheroBinario);
-                        } catch (YaImportadoException ex) {
-                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+
+                         {
+                            try {
+                                LineaPedidoFicheros.importarFicheroBinarioLP(ficheroBinario);
+                            } catch (YaImportadoException ex) {
+                                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                         }
-                    }
                         break;
 
-                        
-                        
                     case 9:
                         System.out.println("Inserte el fichero json que desea importar");
                         String ficheroJSON = teclado.nextLine();
-                        
-                    {
-                        try {
-                            LineaPedidoFicheros.importarFicheroJSONLP(ficheroJSON);
-                        } catch (YaImportadoException ex) {
-                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                        break;
 
+                         {
+                            try {
+                                LineaPedidoFicheros.importarFicheroJSONLP(ficheroJSON);
+                            } catch (YaImportadoException ex) {
+                                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        break;
 
                     case 10:
                         System.out.println("Cargando datos insertados durante la ejecucion...");
@@ -1394,10 +1333,6 @@ public class Menu {
                         break;
 
                     case 11:
-
-                        break;
-
-                    case 12:
                         salir = true;
                         System.out.println("Saliendo del programa ...");
                         break;
@@ -1431,10 +1366,8 @@ public class Menu {
         System.out.println("\t 10) IMPORTAR TABLA A FICHERO JSON");
         System.out.println("Si desea ver los datos insertados durante la ejecucion pulse ");
         System.out.println("\t 11) VER DATOS INSERTADOS DURANTE LA EJECUCION");
-        System.out.println("Si desea ver los informe multitabla pulse ");
-        System.out.println("\t 12) VER INFORMES MULTITABLA");
         System.out.println("Si no quiere realizar ninguna operacion de gestion pulse ");
-        System.out.println("\t 13) SALIR ");
+        System.out.println("\t 12) SALIR ");
     }
 
     public static void menuExportar() {
