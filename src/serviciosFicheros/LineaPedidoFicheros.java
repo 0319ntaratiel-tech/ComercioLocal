@@ -74,20 +74,18 @@ public class LineaPedidoFicheros {
 
             }
             if (!codigoRepetido.isEmpty()) {
-                String cadena ="";
-                for (int i = 0; i < codigoRepetido.size(); i++) {
-                   
-                    System.out.println("");
-                    System.out.print("Clave: ");
-                    System.out.print(codigoRepetido.keySet().toArray()[i]);
-                    System.out.print("Con valor: ");
-                    System.out.print(codigoRepetido.values().toArray()[i]);
+                int codigoPedidoRepetido = 0;
+                int codigoProductoRepetido = 0;
+                String cadena = "";
 
+                for (int i = 0; i < codigoRepetido.size(); i++) {
+
+                    codigoPedidoRepetido = (int) codigoRepetido.keySet().toArray()[i];
+                    codigoProductoRepetido = (int) codigoRepetido.values().toArray()[i];
+                    cadena += codigoPedidoRepetido + "" + codigoProductoRepetido;
                 }
 
-              
-
-                throw new YaImportadoException("Los vendedores  con codigo " + cadena + "ya fueron importado");
+                throw new YaImportadoException("La linea pedido con codigo de pedido y producto" + cadena + "ya fueron importado");
 
             }
 
@@ -117,27 +115,20 @@ public class LineaPedidoFicheros {
     }
 
     public static void importarFicheroJSONLP(String ficheroJSON) throws YaImportadoException {
-        //comprobamos que si el contenedor tiene productos dentro y si ya hay datos lanzamos la excepcion para evitar importar el fichero varias veces
-        if (!ContenedorLineaPedido.getAlmacenLineasPedidos().isEmpty()) {
-            throw new YaImportadoException("Las lineas de pedidos ya fueron importados");
-        }
-
-        //creamos el lector de json
-        ObjectMapper om = new ObjectMapper();
 
         try {
+            //creamos el lector de json
+            ObjectMapper om = new ObjectMapper();
             //leememos el fichero, lo interpreta, lo convierte a objetod de Fabricante y los mete en un ArrayList
             //el TypeReference sirve para mantener el tipo generico , sin esto java no sabe que es una lista de Fabricante 
             ArrayList<LineaPedido> lineasPedidos = om.readValue(new File(ficheroJSON), new TypeReference<ArrayList<LineaPedido>>() {
             });
-            //Aqui toma los datos leidos del json y los añade al contenedor de Fabricantes
-            //ContenedorLineaPedido.getAlmacenLineasPedidos().values().addAll(LineasPedidos);
+            Map<Integer, Integer> codigoRepetido = new HashMap<>();
             while (!lineasPedidos.isEmpty()) {
                 for (LineaPedido l : lineasPedidos) {
                     LineaPedido l1 = new LineaPedido(l.getCodigoPedido(), l.getCodigoProducto(), l.getUnidadesCompradas(), l.getSubTotal());
                     if (Conexiones.verificarExistenciaLineaPedido(l.getCodigoPedido(), l.getCodigoProducto())) {
-
-                        System.err.println("La LineaPedido con códigos " + l.getCodigoPedido() + " , " + l.getCodigoProducto() + " ya existe en la base de datos");
+                        codigoRepetido.put(l.getCodigoPedido(), l.getCodigoProducto());
 
                     } else {
                         Conexiones.insertarDatos(l1);
@@ -146,6 +137,22 @@ public class LineaPedidoFicheros {
 
                 }
             }
+            if (!codigoRepetido.isEmpty()) {
+                int codigoPedidoRepetido = 0;
+                int codigoProductoRepetido = 0;
+                String cadena = "";
+
+                for (int i = 0; i < codigoRepetido.size(); i++) {
+
+                    codigoPedidoRepetido = (int) codigoRepetido.keySet().toArray()[i];
+                    codigoProductoRepetido = (int) codigoRepetido.values().toArray()[i];
+                    cadena += codigoPedidoRepetido + "" + codigoProductoRepetido;
+                }
+
+                throw new YaImportadoException("La linea pedido con codigo de pedido y producto" + cadena + "ya fueron importado");
+
+            }
+
             System.out.println("Importación finalizada con éxito");
         } catch (IOException ex) {
             System.err.println("Ha ocurrido un error");
@@ -173,44 +180,56 @@ public class LineaPedidoFicheros {
     public static void importarFicheroCSVLP(String ficheroCSV) throws YaImportadoException {
         try {
 
-            if (!ContenedorLineaPedido.getAlmacenLineasPedidos().isEmpty()) {
-                throw new YaImportadoException(
-                        "Las lineas de pedido ya fueron importados");
+            BufferedReader br = new BufferedReader(new FileReader(ficheroCSV));
+
+            String linea;
+            Map<Integer, Integer> codigoRepetido = new HashMap<>();
+
+            while ((linea = br.readLine()) != null) {
+
+                String[] partes = linea.split(":");
+
+                // Verificar que la línea tenga todos los datos
+                if (partes.length < 4) {
+                    System.err.println("Línea inválida: " + linea);
+                    continue;
+                }
+                int codigo = Integer.parseInt(partes[0]);
+                int codigoPro = Integer.parseInt(partes[1]);
+                int unidadesCompradas = Integer.parseInt(partes[2]);
+                double subTotal = Double.parseDouble(partes[3]);
+
+                if (Conexiones.verificarExistenciaLineaPedido(codigo, codigoPro)) {
+                codigoRepetido.put(codigo, codigoPro);
+                 
+                } else {
+                    LineaPedido LP = new LineaPedido(codigo, codigoPro, unidadesCompradas, subTotal);
+                    Conexiones.insertarDatos(LP);
+                    System.out.println("LineaPedido importada correctamente");
+                }
+                
+                
+
             }
+            if (!codigoRepetido.isEmpty()) {
+                int codigoPedidoRepetido = 0;
+                int codigoProductoRepetido = 0;
+                String cadena = "";
 
-            try ( BufferedReader br = new BufferedReader(new FileReader(ficheroCSV))) {
+                for (int i = 0; i < codigoRepetido.size(); i++) {
 
-                String linea;
-
-                while ((linea = br.readLine()) != null) {
-
-                    String[] partes = linea.split(":");
-
-                    // Verificar que la línea tenga todos los datos
-                    if (partes.length < 4) {
-                        System.err.println("Línea inválida: " + linea);
-                        continue;
-                    }
-                    int codigo = Integer.parseInt(partes[0]);
-                    int codigoPro = Integer.parseInt(partes[1]);
-                    int unidadesCompradas = Integer.parseInt(partes[2]);
-                    double subTotal = Double.parseDouble(partes[3]);
-
-                    if (Conexiones.verificarExistenciaLineaPedido(codigo, codigoPro)) {
-
-                        System.err.println("La LineaPedido con códigos " + codigo + " , " + codigoPro + " ya existe en la base de datos");
-
-                    } else {
-                        LineaPedido LP = new LineaPedido(codigo, codigoPro, unidadesCompradas, subTotal);
-                        Conexiones.insertarDatos(LP);
-                        System.out.println("LineaPedido importada correctamente");
-                    }
-
+                    codigoPedidoRepetido = (int) codigoRepetido.keySet().toArray()[i];
+                    codigoProductoRepetido = (int) codigoRepetido.values().toArray()[i];
+                    cadena += codigoPedidoRepetido + "" + codigoProductoRepetido;
                 }
 
-                System.out.println("Importación finalizada con éxito");
-                br.close();
+                throw new YaImportadoException("La linea pedido con codigo de pedido y producto" + cadena + "ya fueron importado");
+
             }
+
+            System.out.println("Importación finalizada con éxito");
+            br.close();
+
         } catch (FileNotFoundException ex) {
             System.err.println("Error. Fichero no encontrado");
             System.err.println(ex);
@@ -236,10 +255,7 @@ public class LineaPedidoFicheros {
     }
 
     public static void importarFicheroBinarioLP(String ficheroBinario) throws YaImportadoException {
-        if (!ContenedorLineaPedido.getAlmacenLineasPedidos().isEmpty()) {
-            throw new YaImportadoException("Las lineas de pedido ya fueron importados");
-        }
-
+        
         try {
             //java abre le fichero binario y empieza a leer bytes de 0 y 1
             //interpreta esos bytes como objetos  java
@@ -247,6 +263,7 @@ public class LineaPedidoFicheros {
 
             //lee todo el contenido del fichero y lo devuelve como un object generico
             Object ob = ois.readObject();
+             Map<Integer, Integer> codigoRepetido = new HashMap<>();
             //aqui convertimos el objeto en al tipo correcto (se llama casting)
             ArrayList<LineaPedido> lineasPedidos = (ArrayList<LineaPedido>) ob;
             //cerramos el fichero
@@ -257,8 +274,7 @@ public class LineaPedidoFicheros {
                 for (LineaPedido l : lineasPedidos) {
                     LineaPedido l1 = new LineaPedido(l.getCodigoPedido(), l.getCodigoProducto(), l.getUnidadesCompradas(), l.getSubTotal());
                     if (Conexiones.verificarExistenciaLineaPedido(l.getCodigoPedido(), l.getCodigoProducto())) {
-
-                        System.err.println("La LineaPedido con códigos " + l.getCodigoPedido() + " , " + l.getCodigoProducto() + " ya existe en la base de datos");
+                       codigoRepetido.put(l.getCodigoPedido(), l.getCodigoProducto());
 
                     } else {
                         Conexiones.insertarDatos(l1);
@@ -267,6 +283,22 @@ public class LineaPedidoFicheros {
 
                 }
             }
+            if (!codigoRepetido.isEmpty()) {
+                int codigoPedidoRepetido = 0;
+                int codigoProductoRepetido = 0;
+                String cadena = "";
+
+                for (int i = 0; i < codigoRepetido.size(); i++) {
+
+                    codigoPedidoRepetido = (int) codigoRepetido.keySet().toArray()[i];
+                    codigoProductoRepetido = (int) codigoRepetido.values().toArray()[i];
+                    cadena += codigoPedidoRepetido + "" + codigoProductoRepetido;
+                }
+
+                throw new YaImportadoException("La linea pedido con codigo de pedido y producto" + cadena + "ya fueron importado");
+
+            }
+            
             System.out.println("Importación finalizada con éxito");
         } catch (FileNotFoundException ex) {
             System.err.println("Error. Fichero no encontrado");
