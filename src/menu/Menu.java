@@ -70,8 +70,9 @@ public class Menu {
             System.out.println("\t 4) VENDEDOR ");
             System.out.println("\t 5) PEDIDO ");
             System.out.println("\t 6) LINEA DE PEDIDO");
+            System.out.println("\t 7) GENERAR INFORMES MULTITABLA");
             System.out.println("Si no quiere modificar ninguna tabla pulse");
-            System.out.println("\t 7) SALIR ");
+            System.out.println("\t 8) SALIR ");
 
             try {
                 System.out.println("Inserta una opcion");
@@ -108,6 +109,8 @@ public class Menu {
                     break;
 
                 case 7:
+
+                case 8:
 
                     salir = true;
                     System.out.println("Saliendo del programa ...");
@@ -233,18 +236,22 @@ public class Menu {
                             switch (opcion1) {
 
                                 case 1:
+                                    System.out.println("Exportando a fichero TXT...");
                                     FabricanteFicheros.exportarFicheroDeTextoFabri();
                                     break;
 
                                 case 2:
+                                    System.out.println("Exportando a fichero CSV...");
                                     FabricanteFicheros.exportarFicheroCSVFabri();
                                     break;
 
                                 case 3:
+                                    System.out.println("Exportando a fichero Binario...");
                                     FabricanteFicheros.exportarFicheroBinarioFabri();
                                     break;
 
                                 case 4:
+                                    System.out.println("Exportando a fichero JSON...");
                                     FabricanteFicheros.exportarFicheroJSONFabri();
                                     break;
 
@@ -316,19 +323,6 @@ public class Menu {
                         break;
 
                     case 12:
-                        System.out.println("consulta 1");
-                        System.out.println("consulta 2");
-                        System.out.println("consulta 3");
-                        System.out.println("consulta 4");
-                        System.out.println("consulta 5");
-                        System.out.println("consulta 6");
-                        System.out.println("consulta 7");
-                        System.out.println("consulta 8");
-                        System.out.println("consulta 9");
-
-                        break;
-
-                    case 13:
 
                         salir = true;
                         System.out.println("Saliendo del programa ...");
@@ -525,10 +519,6 @@ public class Menu {
                         break;
 
                     case 12:
-
-                        break;
-
-                    case 13:
                         salir = true;
                         System.out.println("Saliendo del programa ...");
                         break;
@@ -729,10 +719,6 @@ public class Menu {
                         break;
 
                     case 12:
-
-                        break;
-
-                    case 13:
                         salir = true;
                         System.out.println("Saliendo del programa ...");
                         break;
@@ -933,10 +919,6 @@ public class Menu {
                         break;
 
                     case 12:
-
-                        break;
-
-                    case 13:
                         salir = true;
                         System.out.println("Saliendo del programa ...");
                         break;
@@ -997,8 +979,6 @@ public class Menu {
                                 pedir = true;
                             }
 
-                            //LineaPedido lp = new LineaPedido(0, codigoPro, cantidad, subTotal);
-                            //lineas.add(lp);
                         }
                         System.out.println("INSERTA EL CODIGO DEL VENDEDOR");
                         int codigoVen = teclado.nextInt();
@@ -1379,4 +1359,24 @@ public class Menu {
         System.out.println("\t 5) SALIR");
     }
 
+    public static void menuInformesMultitabla() {
+        boolean salir = false;
+        while (!salir) {
+            System.out.println("QUE INFORME DESEA GENERAR");
+            System.out.println("\t 1) CONSULTAR FABRICANTES Y SUS PRODUCTOS DISPONIBLES");
+            System.out.println("\t 2) CONSULTAR PEDIDOS REALIZADOS POR UN CLIENTE");
+            System.out.println("\t 3) CONSULTAR PRODUCTOS Y CLIENTES QUE LOS HAN COMPRADO");
+            System.out.println("\t 4) CONSULTAR PRODUCTOS COMPRADOS POR CADA CLIENTE");
+            System.out.println("\t 5) CONSULTAR FABRICANTES Y CLIENTES COMPRADOS");
+            System.out.println("\t 6) CONSULTAR PEDIDOS GESTIONADOS POR VENDEDORES Y SUS COMISIONES");
+            System.out.println("\t 7) CONSULTAR PRODUCTOS MAS VENDIDOS");
+            System.out.println("\t 8) CONSULTAR FABRICANTES CON PRODUCTOS SIN VENTAS");
+            System.out.println("\t 9) CONSULTAR ESTADÍSTICAS DE VENTAS DE VENDEDORES");
+            System.out.println("\t 10) SALIR");
+
+            int opcion = teclado.nextInt();
+            
+            
+        }
+    }
 }
