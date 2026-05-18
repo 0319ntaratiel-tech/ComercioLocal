@@ -43,51 +43,53 @@ public class ClienteFicheros {
     }
 
     public static void importarFicheroDeTextoCli(String ficheroTXT) throws YaImportadoException {
+
         try {
+            ArrayList<Integer> codigoRepetido = new ArrayList<>();
+            BufferedReader br = new BufferedReader(new FileReader(ficheroTXT));
+            String linea;
 
-            if (!ContenedorCliente.getAlmacenClientes().isEmpty()) {
-                throw new YaImportadoException(
-                        "Los clientes ya fueron importados");
-            }
+            while ((linea = br.readLine()) != null) {
 
-            try ( BufferedReader br = new BufferedReader(new FileReader(ficheroTXT))) {
+                String[] partes = linea.split(";");
 
-                String linea;
+                // Verificar que la línea tenga todos los datos
+                if (partes.length < 6) {
+                    System.err.println("Línea inválida: " + linea);
+                    continue;
+                }
 
-                while ((linea = br.readLine()) != null) {
+                int codigo = Integer.parseInt(partes[0]);
+                String nombre = partes[1];
+                String fechaNacimiento = partes[2];
+                String direccionEnvio = partes[3];
+                String telefono = partes[4];
+                String correo = partes[5];
 
-                    String[] partes = linea.split(";");
+                if (Conexiones.verificarExistenciaCodigo(4, codigo)) {
 
-                    // Verificar que la línea tenga todos los datos
-                    if (partes.length < 6) {
-                        System.err.println("Línea inválida: " + linea);
-                        continue;
-                    }
+                    codigoRepetido.add(codigo);
 
-                    int codigo = Integer.parseInt(partes[0]);
-                    String nombre = partes[1];
-                    String fechaNacimiento = partes[2];
-                    String direccionEnvio = partes[3];
-                    String telefono = partes[4];
-                    String correo = partes[5];
-
-                    if (Conexiones.verificarExistenciaCodigo(4, codigo)) {
-
-                        System.err.println("El cliente con código " + codigo + " ya existe en la base de datos");
-
-                    } else {
-                        Cliente c = new Cliente(codigo, nombre, fechaNacimiento, direccionEnvio, telefono, correo);
-                        Conexiones.insertarDatos(c);
-                        System.out.println("Cliente " + nombre + " importado correctamente");
-
-                    }
+                } else {
+                    Cliente c = new Cliente(codigo, nombre, fechaNacimiento, direccionEnvio, telefono, correo);
+                    Conexiones.insertarDatos(c);
+                    System.out.println("Cliente " + nombre + " importado correctamente");
 
                 }
 
-                System.out.println("Importación finalizada con éxito");
-                br.close();
-
             }
+
+            if (!codigoRepetido.isEmpty()) {
+                String cadena = "";
+                for (Integer i : codigoRepetido) {
+                    cadena += i;
+
+                }
+                throw new YaImportadoException("Los clientes con codigo " + cadena + "ya fueron importado");
+            }
+            System.out.println("Importación finalizada con éxito");
+            br.close();
+
         } catch (FileNotFoundException ex) {
             System.err.println("Error. Fichero no encontrado");
             System.err.println(ex);
@@ -113,28 +115,23 @@ public class ClienteFicheros {
     }
 
     public static void importarFicheroJSONCli(String ficheroJSON) throws YaImportadoException {
-        //comprobamos que si el contenedor tiene clientes dentro y si ya hay datos lanzamos la excepcion para evitar importar el fichero varias veces
-        if (!ContenedorCliente.getAlmacenClientes().isEmpty()) {
-            throw new YaImportadoException("Los clientes ya fueron importados");
-        }
-
-        //creamos el lector de json
-        ObjectMapper om = new ObjectMapper();
 
         try {
+            //creamos el lector de json
+            ObjectMapper om = new ObjectMapper();
             //leememos el fichero, lo interpreta, lo convierte a objetod de Fabricante y los mete en un ArrayList
             //el TypeReference sirve para mantener el tipo generico , sin esto java no sabe que es una lista de Fabricante 
             ArrayList<Cliente> clientes = om.readValue(new File(ficheroJSON), new TypeReference<ArrayList<Cliente>>() {
             });
-            //Aqui toma los datos leidos del json y los añade al contenedor de Fabricantes
-            //ContenedorCliente.getAlmacenClientes().addAll(clientes);
 
+            //creamos un arrayList para almacenar codigos repetidos
+            ArrayList<Integer> codigoRepetido = new ArrayList<>();
             while (!clientes.isEmpty()) {
                 for (Cliente c : clientes) {
                     Cliente c1 = new Cliente(c.getCodigo(), c.getNombre(), c.getFechaNacimiento(), c.getDireccionEnvio(), c.getTelefono(), c.getCorreo());
                     if (Conexiones.verificarExistenciaCodigo(4, c.getCodigo())) {
 
-                        System.err.println("El cliente con código " + c.getCodigo() + " ya existe en la base de datos");
+                        codigoRepetido.add(c.getCodigo());
 
                     } else {
                         Conexiones.insertarDatos(c1);
@@ -142,6 +139,14 @@ public class ClienteFicheros {
                     }
 
                 }
+            }
+            if (!codigoRepetido.isEmpty()) {
+                String cadena = "";
+                for (Integer i : codigoRepetido) {
+                    cadena += i;
+
+                }
+                throw new YaImportadoException("Los clientes con codigo " + cadena + "ya fueron importado");
             }
             System.out.println("Importación finalizada con éxito");
         } catch (IOException ex) {
@@ -168,51 +173,53 @@ public class ClienteFicheros {
     }
 
     public static void importarFicheroCSVCli(String ficheroCSV) throws YaImportadoException {
+
         try {
+            ArrayList<Integer> codigoRepetido = new ArrayList<>();
+            BufferedReader br = new BufferedReader(new FileReader(ficheroCSV));
+            String linea;
 
-            if (!ContenedorCliente.getAlmacenClientes().isEmpty()) {
-                throw new YaImportadoException(
-                        "Los clientes ya fueron importados");
-            }
+            while ((linea = br.readLine()) != null) {
 
-            try ( BufferedReader br = new BufferedReader(new FileReader(ficheroCSV))) {
+                String[] partes = linea.split(":");
 
-                String linea;
+                // Verificar que la línea tenga todos los datos
+                if (partes.length < 6) {
+                    System.err.println("Línea inválida: " + linea);
+                    continue;
+                }
 
-                while ((linea = br.readLine()) != null) {
+                int codigo = Integer.parseInt(partes[0]);
+                String nombre = partes[1];
+                String fechaNacimiento = partes[2];
+                String direccionEnvio = partes[3];
+                String telefono = partes[4];
+                String correo = partes[5];
 
-                    String[] partes = linea.split(":");
+                if (Conexiones.verificarExistenciaCodigo(4, codigo)) {
 
-                    // Verificar que la línea tenga todos los datos
-                    if (partes.length < 6) {
-                        System.err.println("Línea inválida: " + linea);
-                        continue;
-                    }
+                    codigoRepetido.add(codigo);
 
-                    int codigo = Integer.parseInt(partes[0]);
-                    String nombre = partes[1];
-                    String fechaNacimiento = partes[2];
-                    String direccionEnvio = partes[3];
-                    String telefono = partes[4];
-                    String correo = partes[5];
-
-                    if (Conexiones.verificarExistenciaCodigo(4, codigo)) {
-
-                        System.err.println("El cliente con código " + codigo + " ya existe en la base de datos");
-
-                    } else {
-                        Cliente c = new Cliente(codigo, nombre, fechaNacimiento, direccionEnvio, telefono, correo);
-                        Conexiones.insertarDatos(c);
-                        System.out.println("Cliente " + nombre + " importado correctamente");
-
-                    }
+                } else {
+                    Cliente c = new Cliente(codigo, nombre, fechaNacimiento, direccionEnvio, telefono, correo);
+                    Conexiones.insertarDatos(c);
+                    System.out.println("Cliente " + nombre + " importado correctamente");
 
                 }
 
-                System.out.println("Importación finalizada con éxito");
-                br.close();
-
             }
+
+            if (!codigoRepetido.isEmpty()) {
+                String cadena = "";
+                for (Integer i : codigoRepetido) {
+                    cadena += i;
+
+                }
+                throw new YaImportadoException("Los clientes con codigo " + cadena + "ya fueron importado");
+            }
+            System.out.println("Importación finalizada con éxito");
+            br.close();
+
         } catch (FileNotFoundException ex) {
             System.err.println("Error. Fichero no encontrado");
             System.err.println(ex);
@@ -241,10 +248,6 @@ public class ClienteFicheros {
 
     public static void importarFicheroBinarioCli(String ficheroBinario) throws YaImportadoException {
 
-        if (!ContenedorCliente.getAlmacenClientes().isEmpty()) {
-            throw new YaImportadoException("Los clientes ya fueron importados");
-        }
-
         try {
             //java abre le fichero binario y empieza a leer bytes de 0 y 1
             //interpreta esos bytes como objetos  java
@@ -256,14 +259,14 @@ public class ClienteFicheros {
             ArrayList<Cliente> clientes = (ArrayList<Cliente>) ob;
             //cerramos el fichero
             ois.close();
-            //mete todos los datos al contenedor
-            //ContenedorCliente.getAlmacenClientes().addAll(clientes);
+            //creamos un arrayList para almacenar codigos repetidos
+            ArrayList<Integer> codigoRepetido = new ArrayList<>();
             while (!clientes.isEmpty()) {
                 for (Cliente c : clientes) {
                     Cliente c1 = new Cliente(c.getCodigo(), c.getNombre(), c.getFechaNacimiento(), c.getDireccionEnvio(), c.getTelefono(), c.getCorreo());
                     if (Conexiones.verificarExistenciaCodigo(4, c.getCodigo())) {
 
-                        System.err.println("El cliente con código " + c.getCodigo() + " ya existe en la base de datos");
+                        codigoRepetido.add(c.getCodigo());
 
                     } else {
                         Conexiones.insertarDatos(c1);
@@ -271,6 +274,14 @@ public class ClienteFicheros {
                     }
 
                 }
+            }
+            if (!codigoRepetido.isEmpty()) {
+                String cadena = "";
+                for (Integer i : codigoRepetido) {
+                    cadena += i;
+
+                }
+                throw new YaImportadoException("Los clientes con codigo " + cadena + "ya fueron importado");
             }
             System.out.println("Importación finalizada con éxito");
 
