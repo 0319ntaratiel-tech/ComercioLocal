@@ -1143,13 +1143,9 @@ public class Menu {
                         System.out.println("Inserte el fichero de texto que desea importar");
                         String ficheroTXT = teclado.nextLine();
                         
-                    {
-                        try {
+                    
                             PedidoFicheros.importarFicheroDeTextoPed(ficheroTXT);
-                        } catch (YaImportadoException ex) {
-                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
+                       
                         break;
 
 
@@ -1157,13 +1153,9 @@ public class Menu {
                         System.out.println("Inserte el fichero CVS que desea importar");
                         String ficheroCSV = teclado.nextLine();
                         
-                    {
-                        try {
-                            PedidoFicheros.importarFicheroCSVPed(ficheroCSV);
-                        } catch (YaImportadoException ex) {
-                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
+                   
+                   //         PedidoFicheros.importarFicheroCSVPed(ficheroCSV);
+                       
                         break;
 
 
@@ -1184,14 +1176,10 @@ public class Menu {
                     case 10:
                         System.out.println("Inserte el fichero JSON que desea importar");
                         String ficheroJSON = teclado.nextLine();
-                        
-                    {
-                        try {
+                     
                             PedidoFicheros.importarFicheroJSONPed(ficheroJSON);
-                        } catch (YaImportadoException ex) {
-                            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
+                        
+                    
                         break;
 
 

@@ -40,47 +40,50 @@ public class VendedorFicheros {
 
     public static void importarFicheroDeTextoVen(String ficheroTXT) throws YaImportadoException {
         try {
-            if (!ContenedorVendedor.getAlmacenVendedor().isEmpty()) {
-                throw new YaImportadoException("Los vendedores ya fueron importados");
-            }
+            BufferedReader br = new BufferedReader(new FileReader(ficheroTXT));
 
-            try ( BufferedReader br = new BufferedReader(new FileReader(ficheroTXT))) {
+            String linea;
+            ArrayList<Integer> codigoRepetido = new ArrayList<>();
+            while ((linea = br.readLine()) != null) {
 
-                String linea;
+                String[] partes = linea.split(";");
 
-                while ((linea = br.readLine()) != null) {
+                // Verificar que la línea tenga todos los datos
+                if (partes.length < 6) {
+                    System.err.println("Línea inválida: " + linea);
+                    continue;
+                }
 
-                    String[] partes = linea.split(";");
+                int codigo = Integer.parseInt(partes[0]);
+                String nombre = partes[1];
+                String fechaAlta = partes[2];
+                String domicilio = partes[3];
+                double salario = Double.parseDouble(partes[4]);
+                double porcentaje = Double.parseDouble(partes[5]);
 
-                    // Verificar que la línea tenga todos los datos
-                    if (partes.length < 6) {
-                        System.err.println("Línea inválida: " + linea);
-                        continue;
-                    }
+                if (Conexiones.verificarExistenciaCodigo(3, codigo)) {
+                    codigoRepetido.add(codigo);
 
-                    int codigo = Integer.parseInt(partes[0]);
-                    String nombre = partes[1];
-                    String fechaAlta = partes[2];
-                    String domicilio = partes[3];
-                    double salario = Double.parseDouble(partes[4]);
-                    double porcentaje = Double.parseDouble(partes[5]);
-
-                    if (Conexiones.verificarExistenciaCodigo(3, codigo)) {
-
-                        System.err.println("El vendedor con código " + codigo + " ya existe en la base de datos");
-
-                    } else {
-                        Vendedor v = new Vendedor(codigo, nombre, fechaAlta, domicilio, salario, porcentaje);
-                        Conexiones.insertarDatos(v);
-                        System.out.println("Vendedor " + nombre + " importado correctamente");
-
-                    }
+                } else {
+                    Vendedor v = new Vendedor(codigo, nombre, fechaAlta, domicilio, salario, porcentaje);
+                    Conexiones.insertarDatos(v);
+                    System.out.println("Vendedor " + nombre + " importado correctamente");
 
                 }
 
-                System.out.println("Importación finalizada con éxito");
-                br.close();
             }
+            if (!codigoRepetido.isEmpty()) {
+                String cadena = "";
+                for (Integer i : codigoRepetido) {
+                    cadena += i;
+
+                }
+                throw new YaImportadoException("Los vendedores  con codigo " + cadena + "ya fueron importado");
+
+            }
+            System.out.println("Importación finalizada con éxito");
+            br.close();
+
         } catch (FileNotFoundException ex) {
             System.err.println("Error. Fichero no encontrado");
             System.err.println(ex);
@@ -105,33 +108,36 @@ public class VendedorFicheros {
     }
 
     public static void importarFicheroJSONVeni(String ficheroJSON) throws YaImportadoException {
-//comprobamos que si el contenedor tiene vendedores dentro y si ya hay datos lanzamos la excepcion para evitar importar el fichero varias veces
-        if (!ContenedorVendedor.getAlmacenVendedor().isEmpty()) {
-            throw new YaImportadoException("Los vendedores ya fueron importados");
-        }
-
-        //creamos el lector de json
-        ObjectMapper om = new ObjectMapper();
 
         try {
+            //creamos el lector de json
+            ObjectMapper om = new ObjectMapper();
             //leememos el fichero, lo interpreta, lo convierte a objeto de vendedores y los mete en un ArrayList
             //el TypeReference sirve para mantener el tipo generico , sin esto java no sabe que es una lista de Fabricante 
             ArrayList<Vendedor> vendedores = om.readValue(new File(ficheroJSON), new TypeReference<ArrayList<Vendedor>>() {
             });
-            //Aqui toma los datos leidos del json y los añade al contenedor de Fabricantes
-            //ContenedorVendedor.getAlmacenVendedor().addAll(vendedores);
+            ArrayList<Integer> codigoRepetido = new ArrayList<>();
             while (!vendedores.isEmpty()) {
                 for (Vendedor v : vendedores) {
                     Vendedor v1 = new Vendedor(v.getCodigo(), v.getNombre(), v.getFechaAlta(), v.getDomicilio(), v.getSalario(), v.getPorcentaje());
                     if (Conexiones.verificarExistenciaCodigo(3, v1.getCodigo())) {
-
-                        System.err.println("El vendedor con código " + v1.getCodigo() + " ya existe en la base de datos");
+                        codigoRepetido.add(v.getCodigo());
 
                     } else {
                         Conexiones.insertarDatos(v1);
                     }
 
                 }
+            }
+
+            if (!codigoRepetido.isEmpty()) {
+                String cadena = "";
+                for (Integer i : codigoRepetido) {
+                    cadena += i;
+
+                }
+                throw new YaImportadoException("Los vendedores  con codigo " + cadena + "ya fueron importado");
+
             }
             System.out.println("Importación finalizada con éxito");
         } catch (IOException ex) {
@@ -158,48 +164,54 @@ public class VendedorFicheros {
     }
 
     public static void importarFicheroCSVVen(String ficheroCSV) throws YaImportadoException {
+
         try {
-            if (!ContenedorVendedor.getAlmacenVendedor().isEmpty()) {
-                throw new YaImportadoException("Los vendedores ya fueron importados");
-            }
+            BufferedReader br = new BufferedReader(new FileReader(ficheroCSV));
 
-            try ( BufferedReader br = new BufferedReader(new FileReader(ficheroCSV))) {
+            String linea;
+            ArrayList<Integer> codigoRepetido = new ArrayList<>();
 
-                String linea;
+            while ((linea = br.readLine()) != null) {
 
-                while ((linea = br.readLine()) != null) {
+                String[] partes = linea.split(":");
 
-                    String[] partes = linea.split(":");
+                // Verificar que la línea tenga todos los datos
+                if (partes.length < 6) {
+                    System.err.println("Línea inválida: " + linea);
+                    continue;
+                }
 
-                    // Verificar que la línea tenga todos los datos
-                    if (partes.length < 6) {
-                        System.err.println("Línea inválida: " + linea);
-                        continue;
-                    }
+                int codigo = Integer.parseInt(partes[0]);
+                String nombre = partes[1];
+                String fechaAlta = partes[2];
+                String domicilio = partes[3];
+                double salario = Double.parseDouble(partes[4]);
+                double porcentaje = Double.parseDouble(partes[5]);
 
-                    int codigo = Integer.parseInt(partes[0]);
-                    String nombre = partes[1];
-                    String fechaAlta = partes[2];
-                    String domicilio = partes[3];
-                    double salario = Double.parseDouble(partes[4]);
-                    double porcentaje = Double.parseDouble(partes[5]);
+                if (Conexiones.verificarExistenciaCodigo(3, codigo)) {
+                    codigoRepetido.add(codigo);
 
-                    if (Conexiones.verificarExistenciaCodigo(3, codigo)) {
-
-                        System.err.println("El vendedor con código " + codigo + " ya existe en la base de datos");
-
-                    } else {
-                        Vendedor v = new Vendedor(codigo, nombre, fechaAlta, domicilio, salario, porcentaje);
-                        Conexiones.insertarDatos(v);
-                        System.out.println("Vendedor " + nombre + " importado correctamente");
-
-                    }
+                } else {
+                    Vendedor v = new Vendedor(codigo, nombre, fechaAlta, domicilio, salario, porcentaje);
+                    Conexiones.insertarDatos(v);
+                    System.out.println("Vendedor " + nombre + " importado correctamente");
 
                 }
 
-                System.out.println("Importación finalizada con éxito");
-                br.close();
             }
+
+            if (!codigoRepetido.isEmpty()) {
+                String cadena = "";
+                for (Integer i : codigoRepetido) {
+                    cadena += i;
+
+                }
+                throw new YaImportadoException("Los vendedores  con codigo " + cadena + "ya fueron importado");
+
+            }
+            System.out.println("Importación finalizada con éxito");
+            br.close();
+
         } catch (FileNotFoundException ex) {
             System.err.println("Error. Fichero no encontrado");
             System.err.println(ex);
@@ -226,15 +238,12 @@ public class VendedorFicheros {
     }
 
     public static void importarFicheroBinarioVen(String ficheroBinario) throws YaImportadoException {
-        if (!ContenedorVendedor.getAlmacenVendedor().isEmpty()) {
-            throw new YaImportadoException("Los vendedores ya fueron importados");
-        }
 
         try {
             //java abre le fichero binario y empieza a leer bytes de 0 y 1
             //interpreta esos bytes como objetos  java
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(ficheroBinario));
-
+            ArrayList<Integer> codigoRepetido = new ArrayList<>();
             //lee todo el contenido del fichero y lo devuelve como un object generico
             Object ob = ois.readObject();
             //aqui convertimos el objeto en al tipo correcto (se llama casting)
@@ -247,8 +256,7 @@ public class VendedorFicheros {
                 for (Vendedor v : vendedores) {
                     Vendedor v1 = new Vendedor(v.getCodigo(), v.getNombre(), v.getFechaAlta(), v.getDomicilio(), v.getSalario(), v.getPorcentaje());
                     if (Conexiones.verificarExistenciaCodigo(3, v1.getCodigo())) {
-
-                        System.err.println("El vendedor con código " + v1.getCodigo() + " ya existe en la base de datos");
+                        codigoRepetido.add(v.getCodigo());
 
                     } else {
                         Conexiones.insertarDatos(v1);
@@ -256,8 +264,15 @@ public class VendedorFicheros {
 
                 }
             }
-            System.out.println("Importación finalizada con éxito");
+            if (!codigoRepetido.isEmpty()) {
+                String cadena = "";
+                for (Integer i : codigoRepetido) {
+                    cadena += i;
 
+                }
+                System.out.println("Importación finalizada con éxito");
+
+            }
         } catch (FileNotFoundException ex) {
             System.err.println("Error. Fichero no encontrado");
             System.err.println(ex);

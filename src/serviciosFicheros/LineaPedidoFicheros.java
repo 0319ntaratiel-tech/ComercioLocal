@@ -11,6 +11,8 @@ import contenedores.ContenedorLineaPedido;
 import excepciones.YaImportadoException;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import modelos.LineaPedido;
@@ -44,45 +46,54 @@ public class LineaPedidoFicheros {
 
     public static void importarFicheroDeTextoLP(String ficheroTXT) throws YaImportadoException {
         try {
+            BufferedReader br = new BufferedReader(new FileReader(ficheroTXT));
 
-            if (!ContenedorLineaPedido.getAlmacenLineasPedidos().isEmpty()) {
-                throw new YaImportadoException(
-                        "Las lineas de pedido ya fueron importados");
+            String linea;
+            Map<Integer, Integer> codigoRepetido = new HashMap<>();
+            while ((linea = br.readLine()) != null) {
+
+                String[] partes = linea.split(";");
+
+                // Verificar que la línea tenga todos los datos
+                if (partes.length < 4) {
+                    System.err.println("Línea inválida: " + linea);
+                    continue;
+                }
+                int codigo = Integer.parseInt(partes[0]);
+                int codigoPro = Integer.parseInt(partes[1]);
+                int unidadesCompradas = Integer.parseInt(partes[2]);
+                double subTotal = Double.parseDouble(partes[3]);
+
+                if (Conexiones.verificarExistenciaLineaPedido(codigo, codigoPro)) {
+                    codigoRepetido.put(codigo, codigoPro);
+                } else {
+                    LineaPedido LP = new LineaPedido(codigo, codigoPro, unidadesCompradas, subTotal);
+                    Conexiones.insertarDatos(LP);
+                    System.out.println("LineaPedido importada correctamente");
+                }
+
             }
-
-            try ( BufferedReader br = new BufferedReader(new FileReader(ficheroTXT))) {
-
-                String linea;
-
-                while ((linea = br.readLine()) != null) {
-
-                    String[] partes = linea.split(";");
-
-                    // Verificar que la línea tenga todos los datos
-                    if (partes.length < 4) {
-                        System.err.println("Línea inválida: " + linea);
-                        continue;
-                    }
-                    int codigo = Integer.parseInt(partes[0]);
-                    int codigoPro = Integer.parseInt(partes[1]);
-                    int unidadesCompradas = Integer.parseInt(partes[2]);
-                    double subTotal = Double.parseDouble(partes[3]);
-
-                    if (Conexiones.verificarExistenciaLineaPedido(codigo, codigoPro)) {
-
-                        System.err.println("La LineaPedido con códigos " + codigo + " , " + codigoPro + " ya existe en la base de datos");
-
-                    } else {
-                        LineaPedido LP = new LineaPedido(codigo, codigoPro, unidadesCompradas, subTotal);
-                        Conexiones.insertarDatos(LP);
-                        System.out.println("LineaPedido importada correctamente");
-                    }
+            if (!codigoRepetido.isEmpty()) {
+                String cadena ="";
+                for (int i = 0; i < codigoRepetido.size(); i++) {
+                   
+                    System.out.println("");
+                    System.out.print("Clave: ");
+                    System.out.print(codigoRepetido.keySet().toArray()[i]);
+                    System.out.print("Con valor: ");
+                    System.out.print(codigoRepetido.values().toArray()[i]);
 
                 }
 
-                System.out.println("Importación finalizada con éxito");
-                br.close();
+              
+
+                throw new YaImportadoException("Los vendedores  con codigo " + cadena + "ya fueron importado");
+
             }
+
+            System.out.println("Importación finalizada con éxito");
+            br.close();
+
         } catch (FileNotFoundException ex) {
             System.err.println("Error. Fichero no encontrado");
             System.err.println(ex);

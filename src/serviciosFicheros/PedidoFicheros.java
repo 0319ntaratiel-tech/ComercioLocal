@@ -38,44 +38,39 @@ public class PedidoFicheros {
         }
     }
 
-    public static void importarFicheroDeTextoPed(String ficheroTXT) throws YaImportadoException {
+    public static void importarFicheroDeTextoPed(String ficheroTXT) {
+
         try {
+            BufferedReader br = new BufferedReader(new FileReader(ficheroTXT));
 
-            if (!ContenedorPedido.getAlmacenPedidos().isEmpty()) {
-                throw new YaImportadoException(
-                        "Los pedidos ya fueron importados");
-            }
+            String linea;
 
-            try ( BufferedReader br = new BufferedReader(new FileReader(ficheroTXT))) {
+            while ((linea = br.readLine()) != null) {
 
-                String linea;
+                String[] partes = linea.split(";");
 
-                while ((linea = br.readLine()) != null) {
-
-                    String[] partes = linea.split(";");
-
-                    // Verificar que la línea tenga todos los datos
-                    if (partes.length < 6) {
-                        System.err.println("Línea inválida: " + linea);
-                        continue;
-                    }
-                    //int codigo = Integer.parseInt(partes[0]);
-                    int codigoVendedor = Integer.parseInt(partes[0]);
-                    int codigoCliente = Integer.parseInt(partes[1]);
-                    String fechaRealizacion = partes[2];
-                    String fechaEntrega = partes[3];
-                    String estado = partes[4];
-                    double importe = Double.parseDouble(partes[5]);
-
-                    Pedido p = new Pedido(codigoVendedor, codigoCliente, fechaRealizacion, fechaEntrega, estado, importe);
-
-                    Conexiones.insertarDatos(p);
-
+                // Verificar que la línea tenga todos los datos
+                if (partes.length < 6) {
+                    System.err.println("Línea inválida: " + linea);
+                    continue;
                 }
 
-                System.out.println("Importación finalizada con éxito");
-                br.close();
+                int codigoVendedor = Integer.parseInt(partes[0]);
+                int codigoCliente = Integer.parseInt(partes[1]);
+                String fechaRealizacion = partes[2];
+                String fechaEntrega = partes[3];
+                String estado = partes[4];
+                double importe = Double.parseDouble(partes[5]);
+
+                Pedido p = new Pedido(codigoVendedor, codigoCliente, fechaRealizacion, fechaEntrega, estado, importe);
+
+                Conexiones.insertarDatos(p);
+
             }
+
+            System.out.println("Importación finalizada con éxito");
+            br.close();
+
         } catch (FileNotFoundException ex) {
             System.err.println("Error. Fichero no encontrado");
             System.err.println(ex);
@@ -98,26 +93,15 @@ public class PedidoFicheros {
         }
     }
 
-    public static void importarFicheroJSONPed(String ficheroJson) throws YaImportadoException {
-        //comprobamos que si el contenedor tiene pedidos dentro y si ya hay datos lanzamos la excepcion para evitar importar el fichero varias veces
-        if (!ContenedorPedido.getAlmacenPedidos().isEmpty()) {
-            throw new YaImportadoException("Los pedidos ya fueron importados");
-        }
-
-        //creamos el lector de json
-        ObjectMapper om = new ObjectMapper();
-
+    public static void importarFicheroJSONPed(String ficheroJson) {
         try {
-            //leememos el fichero, lo interpreta, lo convierte a objetod de pedidos y los mete en un ArrayList
-            //el TypeReference sirve para mantener el tipo generico , sin esto java no sabe que es una lista de Fabricante 
+            //creamos el lector de json
+            ObjectMapper om = new ObjectMapper();
             ArrayList<Pedido> pedidos = om.readValue(new File(ficheroJson), new TypeReference<ArrayList<Pedido>>() {
             });
-            //Aqui toma los datos leidos del json y los añade al contenedor de Fabricantes
-            //ContenedorPedido.getAlmacenPedidos().addAll(pedidos);
             while (!pedidos.isEmpty()) {
                 for (Pedido p : pedidos) {
                     Pedido p1 = new Pedido(p.getCodigoVendedor(), p.getCodigoCliente(), p.getFechaRealizacion(), p.getFechaEntrega(), p.getEstado(), p.getImporte());
-
                     Conexiones.insertarDatos(p1);
 
                 }
@@ -147,43 +131,36 @@ public class PedidoFicheros {
     }
 
     public static void importarFicheroCSVPed(String ficheroCSV) throws YaImportadoException {
+
         try {
+            BufferedReader br = new BufferedReader(new FileReader(ficheroCSV));
 
-            if (!ContenedorPedido.getAlmacenPedidos().isEmpty()) {
-                throw new YaImportadoException(
-                        "Los pedidos ya fueron importados");
-            }
+            String linea;
 
-            try ( BufferedReader br = new BufferedReader(new FileReader(ficheroCSV))) {
+            while ((linea = br.readLine()) != null) {
 
-                String linea;
+                String[] partes = linea.split(":");
 
-                while ((linea = br.readLine()) != null) {
-
-                    String[] partes = linea.split(":");
-
-                    // Verificar que la línea tenga todos los datos
-                    if (partes.length < 6) {
-                        System.err.println("Línea inválida: " + linea);
-                        continue;
-                    }
-                    //int codigo = Integer.parseInt(partes[0]);
-                    int codigoVendedor = Integer.parseInt(partes[0]);
-                    int codigoCliente = Integer.parseInt(partes[1]);
-                    String fechaRealizacion = partes[2];
-                    String fechaEntrega = partes[3];
-                    String estado = partes[4];
-                    double importe = Double.parseDouble(partes[5]);
-
-                    Pedido p = new Pedido(codigoVendedor, codigoCliente, fechaRealizacion, fechaEntrega, estado, importe);
-
-                    Conexiones.insertarDatos(p);
-
+                // Verificar que la línea tenga todos los datos
+                if (partes.length < 6) {
+                    System.err.println("Línea inválida: " + linea);
+                    continue;
                 }
+                
+                int codigoVendedor = Integer.parseInt(partes[0]);
+                int codigoCliente = Integer.parseInt(partes[1]);
+                String fechaRealizacion = partes[2];
+                String fechaEntrega = partes[3];
+                String estado = partes[4];
+                double importe = Double.parseDouble(partes[5]);
 
-                System.out.println("Importación finalizada con éxito");
-                br.close();
+                Pedido p = new Pedido(codigoVendedor, codigoCliente, fechaRealizacion, fechaEntrega, estado, importe);
+
+                Conexiones.insertarDatos(p);
+
             }
+            System.out.println("Importación finalizada con éxito");
+            br.close();
         } catch (FileNotFoundException ex) {
             System.err.println("Error. Fichero no encontrado");
             System.err.println(ex);
@@ -209,10 +186,7 @@ public class PedidoFicheros {
     }
 
     public static void importarFicheroBinarioPed(String ficheroBinario) throws YaImportadoException {
-        if (!ContenedorPedido.getAlmacenPedidos().isEmpty()) {
-            throw new YaImportadoException("Los pedidos ya fueron importados");
-        }
-
+       
         try {
             //java abre le fichero binario y empieza a leer bytes de 0 y 1
             //interpreta esos bytes como objetos  java
