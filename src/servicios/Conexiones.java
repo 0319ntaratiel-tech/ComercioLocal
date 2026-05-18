@@ -166,7 +166,6 @@ public class Conexiones {
 
     }
 
-    
     /**
      * Metodo para verifica si un código existe en la base de datos según la
      * clase indicada, estableciendo la conexión y consultando la tabla
@@ -926,12 +925,12 @@ public class Conexiones {
                                 + " | disponibilidad: " + rs.getString("disponibilidad");
 
                         System.out.println(linea);
-                        
-                        String linea1 =  rs.getString("fabricante") + ";" +
-                                rs.getString("lugarSede") + ";"
+
+                        String linea1 = rs.getString("fabricante") + ";"
+                                + rs.getString("lugarSede") + ";"
                                 + rs.getString("sitioWeb") + ";"
-                                +  rs.getString("producto") + ";"
-                                + rs.getString("categoria") + ";" 
+                                + rs.getString("producto") + ";"
+                                + rs.getString("categoria") + ";"
                                 + rs.getString("disponibilidad");
                         Comprobaciones.guardarLinea(linea1, "consultas.txt");
                     }
@@ -955,9 +954,9 @@ public class Conexiones {
 
                         System.out.println(linea);
                         String linea1 = rs1.getString("producto") + ";"
-                                +  rs1.getString("categoria") + ";"
-                                 + rs1.getString("cliente") + ";"
-                                +  rs1.getInt("unidadesTotales");
+                                + rs1.getString("categoria") + ";"
+                                + rs1.getString("cliente") + ";"
+                                + rs1.getInt("unidadesTotales");
                         Comprobaciones.guardarLinea(linea1, "consultas.txt");
                     }
                     rs1.close();
@@ -978,7 +977,7 @@ public class Conexiones {
                                 + " | unidadesTotales: " + rs2.getInt("unidadesTotales");
 
                         System.out.println(linea);
-                        String linea1 =rs2.getString("cliente") + ";"
+                        String linea1 = rs2.getString("cliente") + ";"
                                 + rs2.getString("direccion") + ";"
                                 + rs2.getString("producto") + ";"
                                 + rs2.getInt("unidadesTotales");
@@ -995,7 +994,8 @@ public class Conexiones {
                             + " ORDER BY f.nombre ASC";
                     PreparedStatement pst3 = con.prepareStatement(consulta5);
                     ResultSet rs3 = pst3.executeQuery();
-
+                    String consultasF5 = "Consulta 5";
+                    Comprobaciones.guardarLinea(consultasF5, "consultas.txt");
                     while (rs3.next()) {
                         String linea = "fabricante: " + rs3.getString("fabricante")
                                 + " | lugarSede: " + rs3.getString("lugar")
@@ -1005,7 +1005,13 @@ public class Conexiones {
                                 + " | productosComprados: " + rs3.getInt("productosComprados");
 
                         System.out.println(linea);
-                        Comprobaciones.guardarLinea(linea, "consultas.txt");
+                        String linea1 = rs3.getString("fabricante") + ";"
+                                + rs3.getString("lugar") + ";"
+                                + rs3.getString("web") + ";"
+                                + rs3.getString("cliente") + ";"
+                                + rs3.getString("nacimiento") + ";"
+                                + rs3.getInt("productosComprados");
+                        Comprobaciones.guardarLinea(linea1, "consultas.txt");
                     }
                     rs3.close();
                     pst3.close();
@@ -1017,6 +1023,8 @@ public class Conexiones {
                             + " ORDER BY v.nombre ASC";
                     PreparedStatement pst4 = con.prepareStatement(consulta6);
                     ResultSet rs4 = pst4.executeQuery();
+                    String consultasF6 = "Consulta 6";
+                    Comprobaciones.guardarLinea(consultasF6, "consultas.txt");
 
                     while (rs4.next()) {
                         String linea = "vendedor: " + rs4.getString("vendedor")
@@ -1027,7 +1035,13 @@ public class Conexiones {
                                 + " | comisionPedido: " + rs4.getDouble("comisionPedido");
 
                         System.out.println(linea);
-                        Comprobaciones.guardarLinea(linea, "consultas.txt");
+                        String linea1 = rs4.getString("vendedor")
+                                + ";" + rs4.getString("fechaAlta")
+                                + ";" + rs4.getString("fechaRea")
+                                + ";" + rs4.getString("estado")
+                                + ";" + rs4.getDouble("importe")
+                                + ";" + rs4.getDouble("comisionPedido");
+                        Comprobaciones.guardarLinea(linea1, "consultas.txt");
                     }
                     rs4.close();
                     pst4.close();
@@ -1040,7 +1054,8 @@ public class Conexiones {
                             + " HAVING COUNT(lp.codigoPedido) > 5 ORDER BY totalUnidades DESC";
                     PreparedStatement pst5 = con.prepareStatement(consulta7);
                     ResultSet rs5 = pst5.executeQuery();
-
+                    String consultasF7 = "Consulta 7";
+                    Comprobaciones.guardarLinea(consultasF7, "consultas.txt");
                     while (rs5.next()) {
                         String linea = "producto: " + rs5.getString("producto")
                                 + " | categoria: " + rs5.getString("categoria")
@@ -1049,7 +1064,12 @@ public class Conexiones {
                                 + " | numeroPedidos: " + rs5.getInt("numeroPedidos");
 
                         System.out.println(linea);
-                        Comprobaciones.guardarLinea(linea, "consultas.txt");
+                        String linea1 = rs5.getString("producto")
+                                + ";" + rs5.getString("categoria")
+                                + ";" + rs5.getInt("totalUnidades")
+                                + ";" + rs5.getDouble("importeTotal")
+                                + ";" + rs5.getInt("numeroPedidos");
+                        Comprobaciones.guardarLinea(linea1, "consultas.txt");
                     }
                     rs5.close();
                     pst5.close();
@@ -1061,7 +1081,8 @@ public class Conexiones {
                             + " WHERE lp.codigoProducto IS NULL ORDER BY f.nombre ASC";
                     PreparedStatement pst6 = con.prepareStatement(consulta8);
                     ResultSet rs6 = pst6.executeQuery();
-
+                    String consultasF8 = "Consulta 8";
+                    Comprobaciones.guardarLinea(consultasF8, "consultas.txt");
                     while (rs6.next()) {
 
                         String linea = "Fabricante: " + rs6.getString("nombre")
@@ -1069,7 +1090,10 @@ public class Conexiones {
                                 + " | web: " + rs6.getString("web");
 
                         System.out.println(linea);
-                        Comprobaciones.guardarLinea(linea, "consultas.txt");
+                        String linea1 = rs6.getString("nombre")
+                                + ";" + rs6.getString("sede")
+                                + ";" + rs6.getString("web");
+                        Comprobaciones.guardarLinea(linea1, "consultas.txt");
 
                     }
                     rs6.close();
@@ -1082,7 +1106,8 @@ public class Conexiones {
                             + " WHERE p.estado = 'entregado' GROUP BY v.nombre ORDER BY importeTotal DESC";
                     PreparedStatement pst7 = con.prepareStatement(consulta9);
                     ResultSet rs7 = pst7.executeQuery();
-
+                    String consultasF9 = "Consulta 9";
+                    Comprobaciones.guardarLinea(consultasF9, "consultas.txt");
                     while (rs7.next()) {
                         String linea = "vendedor: " + rs7.getString("vendedor")
                                 + " | totalPedidos: " + rs7.getInt("totalPedidos")
@@ -1090,6 +1115,11 @@ public class Conexiones {
                                 + " | promedioImporte: " + rs7.getDouble("promedioImporte");
 
                         System.out.println(linea);
+                        String linea1 = rs7.getString("vendedor")
+                                + ";" + rs7.getInt("totalPedidos")
+                                + ";" + rs7.getDouble("importeTotal")
+                                + ";" + rs7.getDouble("promedioImporte");
+                        Comprobaciones.guardarLinea(linea1, "consultas.txt");
                     }
                     rs7.close();
                     pst7.close();
@@ -1115,21 +1145,29 @@ public class Conexiones {
             PreparedStatement pst = con.prepareStatement(consulta1);
             pst.setInt(1, codigoCliente);
             ResultSet rs = pst.executeQuery();
-
-
+            String consultasF2 = "Consulta 2";
+            Comprobaciones.guardarLinea(consultasF2, "consultas.txt");
             while (rs.next()) {
 
-                 String linea = rs.getDate("fechaRealización") + ";" +
-                           rs.getDate("fechaEntrega") + ";" +
-                           rs.getString("estado") + ";" +
-                           rs.getDouble("importe") + ";" +
-                           rs.getString("producto") + ";" +
-                           rs.getInt("unidadesCompradas") + ";" +
-                           rs.getDouble("subTotal");
+                String linea = rs.getDate("fechaRealización") + ";"
+                        + rs.getDate("fechaEntrega") + ";"
+                        + rs.getString("estado") + ";"
+                        + rs.getDouble("importe") + ";"
+                        + rs.getString("producto") + ";"
+                        + rs.getInt("unidadesCompradas") + ";"
+                        + rs.getDouble("subTotal");
 
-            System.out.println(linea);
+                System.out.println(linea);
+                String linea1 = rs.getDate("fechaRealización") + ";"
+                        + rs.getDate("fechaEntrega") + ";"
+                        + rs.getString("estado") + ";"
+                        + rs.getDouble("importe") + ";"
+                        + rs.getString("producto") + ";"
+                        + rs.getInt("unidadesCompradas") + ";"
+                        + rs.getDouble("subTotal");
 
-                Comprobaciones.guardarLinea(linea, "consultas.txt");
+
+                Comprobaciones.guardarLinea(linea1, "consultas.txt");
             }
             rs.close();
             pst.close();
