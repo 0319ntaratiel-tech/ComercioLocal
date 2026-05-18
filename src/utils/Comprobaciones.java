@@ -174,17 +174,5 @@ public class Comprobaciones {
 
         return true;
     }
-    
-    public static void guardarLinea(String linea, String archivo) {
-    try (FileWriter fw = new FileWriter(archivo, true);
-         BufferedWriter bw = new BufferedWriter(fw)) {
-
-        bw.write(linea);
-        bw.newLine();
-
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-}
 
 }

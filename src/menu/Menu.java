@@ -109,6 +109,7 @@ public class Menu {
                     break;
 
                 case 7:
+                    Menu.menuInformesMultitabla();
 
                 case 8:
 
@@ -1374,9 +1375,72 @@ public class Menu {
             System.out.println("\t 9) CONSULTAR ESTADÍSTICAS DE VENTAS DE VENDEDORES");
             System.out.println("\t 10) SALIR");
 
-            int opcion = teclado.nextInt();
-            
-            
+            try {
+                int opcion = teclado.nextInt();
+
+                switch (opcion) {
+
+                    case 1:
+                        Conexiones.informesMultitabla(1);
+
+                        break;
+
+                    case 2:
+                        System.out.println("INGRESA EL CODIGO DEL CLIENTE QUE DESEA CONSULTAR");
+                        int codigoCli = teclado.nextInt();
+                        if(!Conexiones.verificarExistenciaCodigo(4, codigoCli)){
+                            System.out.println("EL CODIGO INGRESADO NO EXISTE EN LA BASE DE DATOS");
+                        }else {
+                            Conexiones.consulta2(codigoCli);
+                        }
+                        
+
+                        break;
+
+                    case 3:
+                        Conexiones.informesMultitabla(2);
+                        break;
+
+                    case 4:
+                        Conexiones.informesMultitabla(3);
+                        break;
+
+                    case 5:
+                        Conexiones.informesMultitabla(4);
+                        break;
+
+                    case 6:
+                        Conexiones.informesMultitabla(5);
+                        break;
+
+                    case 7:
+                        Conexiones.informesMultitabla(6);
+                        break;
+
+                    case 8:
+                        Conexiones.informesMultitabla(7);
+                        break;
+
+                    case 9:
+                        Conexiones.informesMultitabla(8);
+                        break;
+
+
+                    case 10:
+                        salir = true;
+                        System.out.println("Saliendo del programa ...");
+                        break;
+
+                    default:
+                        System.out.println("OPCION INVALIDA");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("ERROR ENTRADA INVALIDA,DEBE CONTENER SOLO NUMEROS");
+                teclado.nextLine();
+
+            }
+
         }
+
     }
 }

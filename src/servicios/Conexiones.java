@@ -24,6 +24,7 @@ import modelos.LineaPedido;
 import modelos.Pedido;
 import modelos.Producto;
 import modelos.Vendedor;
+import serviciosFicheros.InformesMultitablaFicheros;
 import utils.Comprobaciones;
 import utils.Configuracion;
 
@@ -901,10 +902,10 @@ public class Conexiones {
 
     }
 
-    public static void consultas(int clase) {
+    public static void informesMultitabla (int opcion) {
         try {
 
-            switch (clase) {
+            switch (opcion) {
                 case 1:
 
                     String consulta1 = "SELECT f.nombre AS fabricante, f.lugarSede, f.sitioWeb,p.nombre AS producto, p.categoria, p.disponibilidad "
@@ -913,7 +914,7 @@ public class Conexiones {
                     ResultSet rs = pst.executeQuery();
 
                     String consultasF1 = "Consulta 1";
-                    Comprobaciones.guardarLinea(consultasF1, "consultas.txt");
+                    InformesMultitablaFicheros.guardarLinea(consultasF1);
 
                     while (rs.next()) {
 
@@ -932,7 +933,7 @@ public class Conexiones {
                                 + rs.getString("producto") + ";"
                                 + rs.getString("categoria") + ";"
                                 + rs.getString("disponibilidad");
-                        Comprobaciones.guardarLinea(linea1, "consultas.txt");
+                        InformesMultitablaFicheros.guardarLinea(linea1);
                     }
                     rs.close();
                     pst.close();
@@ -944,7 +945,7 @@ public class Conexiones {
                     PreparedStatement pst1 = con.prepareStatement(consulta3);
                     ResultSet rs1 = pst1.executeQuery();
                     String consultasF3 = "Consulta 3";
-                    Comprobaciones.guardarLinea(consultasF3, "consultas.txt");
+                    InformesMultitablaFicheros.guardarLinea(consultasF3);
 
                     while (rs1.next()) {
                         String linea = "Producto: " + rs1.getString("producto")
@@ -957,7 +958,7 @@ public class Conexiones {
                                 + rs1.getString("categoria") + ";"
                                 + rs1.getString("cliente") + ";"
                                 + rs1.getInt("unidadesTotales");
-                        Comprobaciones.guardarLinea(linea1, "consultas.txt");
+                        InformesMultitablaFicheros.guardarLinea(linea1);
                     }
                     rs1.close();
                     pst1.close();
@@ -969,7 +970,7 @@ public class Conexiones {
                     PreparedStatement pst2 = con.prepareStatement(consulta4);
                     ResultSet rs2 = pst2.executeQuery();
                     String consultasF4 = "Consulta 4";
-                    Comprobaciones.guardarLinea(consultasF4, "consultas.txt");
+                    InformesMultitablaFicheros.guardarLinea(consultasF4);
                     while (rs2.next()) {
                         String linea = "cliente: " + rs2.getString("cliente")
                                 + " | direccionEnvio: " + rs2.getString("direccion")
@@ -981,7 +982,7 @@ public class Conexiones {
                                 + rs2.getString("direccion") + ";"
                                 + rs2.getString("producto") + ";"
                                 + rs2.getInt("unidadesTotales");
-                        Comprobaciones.guardarLinea(linea1, "consultas.txt");
+                        InformesMultitablaFicheros.guardarLinea(linea1);
                     }
                     rs2.close();
                     pst2.close();
@@ -995,7 +996,7 @@ public class Conexiones {
                     PreparedStatement pst3 = con.prepareStatement(consulta5);
                     ResultSet rs3 = pst3.executeQuery();
                     String consultasF5 = "Consulta 5";
-                    Comprobaciones.guardarLinea(consultasF5, "consultas.txt");
+                    InformesMultitablaFicheros.guardarLinea(consultasF5);
                     while (rs3.next()) {
                         String linea = "fabricante: " + rs3.getString("fabricante")
                                 + " | lugarSede: " + rs3.getString("lugar")
@@ -1011,7 +1012,7 @@ public class Conexiones {
                                 + rs3.getString("cliente") + ";"
                                 + rs3.getString("nacimiento") + ";"
                                 + rs3.getInt("productosComprados");
-                        Comprobaciones.guardarLinea(linea1, "consultas.txt");
+                        InformesMultitablaFicheros.guardarLinea(linea1);
                     }
                     rs3.close();
                     pst3.close();
@@ -1024,7 +1025,7 @@ public class Conexiones {
                     PreparedStatement pst4 = con.prepareStatement(consulta6);
                     ResultSet rs4 = pst4.executeQuery();
                     String consultasF6 = "Consulta 6";
-                    Comprobaciones.guardarLinea(consultasF6, "consultas.txt");
+                    InformesMultitablaFicheros.guardarLinea(consultasF6);
 
                     while (rs4.next()) {
                         String linea = "vendedor: " + rs4.getString("vendedor")
@@ -1041,7 +1042,7 @@ public class Conexiones {
                                 + ";" + rs4.getString("estado")
                                 + ";" + rs4.getDouble("importe")
                                 + ";" + rs4.getDouble("comisionPedido");
-                        Comprobaciones.guardarLinea(linea1, "consultas.txt");
+                        InformesMultitablaFicheros.guardarLinea(linea1);
                     }
                     rs4.close();
                     pst4.close();
@@ -1055,7 +1056,7 @@ public class Conexiones {
                     PreparedStatement pst5 = con.prepareStatement(consulta7);
                     ResultSet rs5 = pst5.executeQuery();
                     String consultasF7 = "Consulta 7";
-                    Comprobaciones.guardarLinea(consultasF7, "consultas.txt");
+                    InformesMultitablaFicheros.guardarLinea(consultasF7);
                     while (rs5.next()) {
                         String linea = "producto: " + rs5.getString("producto")
                                 + " | categoria: " + rs5.getString("categoria")
@@ -1069,7 +1070,7 @@ public class Conexiones {
                                 + ";" + rs5.getInt("totalUnidades")
                                 + ";" + rs5.getDouble("importeTotal")
                                 + ";" + rs5.getInt("numeroPedidos");
-                        Comprobaciones.guardarLinea(linea1, "consultas.txt");
+                        InformesMultitablaFicheros.guardarLinea(linea1);
                     }
                     rs5.close();
                     pst5.close();
@@ -1082,7 +1083,7 @@ public class Conexiones {
                     PreparedStatement pst6 = con.prepareStatement(consulta8);
                     ResultSet rs6 = pst6.executeQuery();
                     String consultasF8 = "Consulta 8";
-                    Comprobaciones.guardarLinea(consultasF8, "consultas.txt");
+                    InformesMultitablaFicheros.guardarLinea(consultasF8);
                     while (rs6.next()) {
 
                         String linea = "Fabricante: " + rs6.getString("nombre")
@@ -1093,7 +1094,7 @@ public class Conexiones {
                         String linea1 = rs6.getString("nombre")
                                 + ";" + rs6.getString("sede")
                                 + ";" + rs6.getString("web");
-                        Comprobaciones.guardarLinea(linea1, "consultas.txt");
+                        InformesMultitablaFicheros.guardarLinea(linea1);
 
                     }
                     rs6.close();
@@ -1107,7 +1108,7 @@ public class Conexiones {
                     PreparedStatement pst7 = con.prepareStatement(consulta9);
                     ResultSet rs7 = pst7.executeQuery();
                     String consultasF9 = "Consulta 9";
-                    Comprobaciones.guardarLinea(consultasF9, "consultas.txt");
+                    InformesMultitablaFicheros.guardarLinea(consultasF9);
                     while (rs7.next()) {
                         String linea = "vendedor: " + rs7.getString("vendedor")
                                 + " | totalPedidos: " + rs7.getInt("totalPedidos")
@@ -1119,7 +1120,7 @@ public class Conexiones {
                                 + ";" + rs7.getInt("totalPedidos")
                                 + ";" + rs7.getDouble("importeTotal")
                                 + ";" + rs7.getDouble("promedioImporte");
-                        Comprobaciones.guardarLinea(linea1, "consultas.txt");
+                        InformesMultitablaFicheros.guardarLinea(linea1);
                     }
                     rs7.close();
                     pst7.close();
@@ -1139,14 +1140,14 @@ public class Conexiones {
     public static void consulta2(int codigoCliente) {
         try {
 
-            String consulta1 = "  SELECT p.fechaRealización AS fechaRea, p.fechaEntrega AS fechaEntr,p.estado AS estado, p.importe AS importe,"
+            String consulta1 = "  SELECT p.fechaRealizacion AS fechaRea, p.fechaEntrega AS fechaEntr,p.estado AS estado, p.importe AS importe,"
                     + " pr.nombre AS producto, lp.unidadesCompradas, lp.subTotal FROM pedido p JOIN lineaPedido lp ON p.codigo = lp.codigoPedido"
-                    + " JOIN producto pr ON lp.codigoProducto = pr.codigo WHERE p.codigoCliente = ? ORDER BY p.fechaRealización ASC";
+                    + " JOIN producto pr ON lp.codigoProducto = pr.codigo WHERE p.codigoCliente = ? ORDER BY p.fechaRealizacion ASC";
             PreparedStatement pst = con.prepareStatement(consulta1);
             pst.setInt(1, codigoCliente);
             ResultSet rs = pst.executeQuery();
             String consultasF2 = "Consulta 2";
-            Comprobaciones.guardarLinea(consultasF2, "consultas.txt");
+            InformesMultitablaFicheros.guardarLinea(consultasF2);
             while (rs.next()) {
 
                 String linea = rs.getDate("fechaRealización") + ";"
@@ -1167,7 +1168,7 @@ public class Conexiones {
                         + rs.getDouble("subTotal");
 
 
-                Comprobaciones.guardarLinea(linea1, "consultas.txt");
+                InformesMultitablaFicheros.guardarLinea(linea1);
             }
             rs.close();
             pst.close();

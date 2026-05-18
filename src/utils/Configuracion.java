@@ -69,5 +69,6 @@ public class Configuracion {
     
     public static String nombreFicheroJSONLP = "ficheroLP.json";
     
+    public static String nombreFicheroMultitabla = "ficheroInfomes.txt";
     
 }
