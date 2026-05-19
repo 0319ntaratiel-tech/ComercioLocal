@@ -30,8 +30,6 @@ public class Pedido implements Lectora, Serializable{
     private double importe;
  
     
-    
-    
     //constructor
 
     public Pedido(int codigoVendedor, int codigoCliente, String fechaRealizacion, String fechaEntrega, String estado, double importe) {
@@ -48,14 +46,12 @@ public class Pedido implements Lectora, Serializable{
     }
 
     
-    
-
     public Pedido() {
     }
     
     
     
-    //getter
+    //getter and setter
 
     /**
      * metodo que devuelve el codigo del pedido
@@ -105,34 +101,66 @@ public class Pedido implements Lectora, Serializable{
         return estado;
     }
 
+    /**
+     * metodo que modifica el codigo del pedido
+     * @param codigo 
+     */
     public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
 
+    /**
+     * metodo que modifica el codigoVendedor
+     * @param codigoVendedor 
+     */
     public void setCodigoVendedor(int codigoVendedor) {
         this.codigoVendedor = codigoVendedor;
     }
 
+    /**
+     * metodo que modifica el codigo cliente
+     * @param codigoCliente 
+     */
     public void setCodigoCliente(int codigoCliente) {
         this.codigoCliente = codigoCliente;
     }
 
+    /**
+     * metodo que modifica la fecha de realizacion
+     * @param fechaRealizacion 
+     */
     public void setFechaRealizacion(String fechaRealizacion) {
         this.fechaRealizacion = fechaRealizacion;
     }
 
+    /**
+     * metodo que modifica la fecha de entrega
+     * @param fechaEntrega 
+     */
     public void setFechaEntrega(String fechaEntrega) {
         this.fechaEntrega = fechaEntrega;
     }
 
+    /**
+     * metodo que modifica el estado del pedido
+     * @param estado 
+     */
     public void setEstado(String estado) {
         this.estado = estado;
     }
 
+    /**
+     * metodo que devuelve el importe del pedido
+     * @return importe
+     */
     public double getImporte() {
         return importe;
     }
 
+    /**
+     * metodo que mofica el importe del pedido
+     * @param importe 
+     */
     public void setImporte(double importe) {
         this.importe = importe;
     }
@@ -164,6 +192,10 @@ public class Pedido implements Lectora, Serializable{
                         getFechaEntrega()+ ":" + getEstado() + ":" + getImporte();
     }
 
+    /**
+     * metodo que devuelve los datos de los pedidos
+     * @return String datos pedidos
+     */
     @Override
     public String toString() {
         return "Pedido{" + "codigo=" + codigo + ", codigoVendedor=" + codigoVendedor + ", codigoCliente=" + codigoCliente + ", fechaRealizacion=" + fechaRealizacion + ", fechaEntrega=" + fechaEntrega + ", estado=" + estado + ", importe=" + importe + '}';

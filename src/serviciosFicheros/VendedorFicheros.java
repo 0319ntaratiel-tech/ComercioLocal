@@ -16,11 +16,14 @@ import servicios.Conexiones;
 import utils.Configuracion;
 
 /**
- *
- * @author isard
+ * Clase que contiene la gestion exportar e importar a diferentes tipos de ficheros
+ * @author Gabriela
  */
 public class VendedorFicheros {
 
+    /**
+     * metodo que exporta los datos que hay en la base de datos a un fichero de texto
+     */
     public static void exportarFicheroDeTextoVen() {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(Configuracion.nombreFicheroTextoVen));
@@ -38,6 +41,11 @@ public class VendedorFicheros {
         }
     }
 
+    /**
+     * metodo que importa los datos de un fichero txt a la base de datos
+     * @param ficheroTXT se le pasa por parametro el fichero a importar
+     * @throws YaImportadoException si ya estan importados lanza la excepcion
+     */
     public static void importarFicheroDeTextoVen(String ficheroTXT) throws YaImportadoException {
         try {
             BufferedReader br = new BufferedReader(new FileReader(ficheroTXT));
@@ -75,7 +83,7 @@ public class VendedorFicheros {
             if (!codigoRepetido.isEmpty()) {
                 String cadena = "";
                 for (Integer i : codigoRepetido) {
-                    cadena += i;
+                    cadena += i + ", ";
 
                 }
                 throw new YaImportadoException("Los vendedores  con codigo " + cadena + "ya fueron importado");
@@ -93,6 +101,9 @@ public class VendedorFicheros {
         }
     }
 
+    /**
+     * metodo que exporta los datos de la base de datos a un fichero json
+     */
     public static void exportarFicheroJSONVen() {
         ObjectMapper mp = new ObjectMapper();
 
@@ -107,6 +118,11 @@ public class VendedorFicheros {
 
     }
 
+    /**
+     * metodo que importa lo datos de un fichero json a la base de datos
+     * @param ficheroJSON se le pasa por parametro el fichero a importar
+     * @throws YaImportadoException si ya estan los datos importados lanza la excepcion 
+     */
     public static void importarFicheroJSONVeni(String ficheroJSON) throws YaImportadoException {
 
         try {
@@ -117,7 +133,7 @@ public class VendedorFicheros {
             ArrayList<Vendedor> vendedores = om.readValue(new File(ficheroJSON), new TypeReference<ArrayList<Vendedor>>() {
             });
             ArrayList<Integer> codigoRepetido = new ArrayList<>();
-            while (!vendedores.isEmpty()) {
+            
                 for (Vendedor v : vendedores) {
                     Vendedor v1 = new Vendedor(v.getCodigo(), v.getNombre(), v.getFechaAlta(), v.getDomicilio(), v.getSalario(), v.getPorcentaje());
                     if (Conexiones.verificarExistenciaCodigo(3, v1.getCodigo())) {
@@ -128,12 +144,12 @@ public class VendedorFicheros {
                     }
 
                 }
-            }
+            
 
             if (!codigoRepetido.isEmpty()) {
                 String cadena = "";
                 for (Integer i : codigoRepetido) {
-                    cadena += i;
+                    cadena += i + ", ";
 
                 }
                 throw new YaImportadoException("Los vendedores  con codigo " + cadena + "ya fueron importado");
@@ -146,6 +162,9 @@ public class VendedorFicheros {
         }
     }
 
+    /**
+     * metodo que exporta los datos de la base de datos a un fichero csv
+     */
     public static void exportarFicheroCSVVen() {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(Configuracion.nombreFicheroCSVVen));
@@ -163,6 +182,11 @@ public class VendedorFicheros {
         }
     }
 
+    /**
+     * metodo que importa lo datos de un fichero csv a la base de datos
+     * @param ficheroCSV se le pasa por parametro el fichero a importar
+     * @throws YaImportadoException si ya estan los datos importados salta la excepcion
+     */
     public static void importarFicheroCSVVen(String ficheroCSV) throws YaImportadoException {
 
         try {
@@ -203,7 +227,7 @@ public class VendedorFicheros {
             if (!codigoRepetido.isEmpty()) {
                 String cadena = "";
                 for (Integer i : codigoRepetido) {
-                    cadena += i;
+                    cadena += i + ", ";
 
                 }
                 throw new YaImportadoException("Los vendedores  con codigo " + cadena + "ya fueron importado");
@@ -221,6 +245,9 @@ public class VendedorFicheros {
         }
     }
 
+    /**
+     * metodo que exporta los datos de la base de datos a un fichero binario
+     */
     public static void exportarFicheroBinarioVen() {
         try {
             ObjectOutputStream oss = new ObjectOutputStream(new FileOutputStream(Configuracion.nombreFicheroBinarioVen, true));
@@ -237,6 +264,11 @@ public class VendedorFicheros {
 
     }
 
+    /**
+     * metodo que importa los datos de un fichero binario a la base de datos
+     * @param ficheroBinario se le pasa por parametro el fichero a importar
+     * @throws YaImportadoException si ya esta importado lanza la excepcion
+     */
     public static void importarFicheroBinarioVen(String ficheroBinario) throws YaImportadoException {
 
         try {
@@ -251,7 +283,7 @@ public class VendedorFicheros {
             //cerramos el fichero
             ois.close();
             ArrayList<Integer> codigoRepetido = new ArrayList<>();
-            while (!vendedores.isEmpty()) {
+            
                 for (Vendedor v : vendedores) {
                     Vendedor v1 = new Vendedor(v.getCodigo(), v.getNombre(), v.getFechaAlta(), v.getDomicilio(), v.getSalario(), v.getPorcentaje());
                     if (Conexiones.verificarExistenciaCodigo(3, v1.getCodigo())) {
@@ -262,11 +294,11 @@ public class VendedorFicheros {
                     }
 
                 }
-            }
+            
             if (!codigoRepetido.isEmpty()) {
                 String cadena = "";
                 for (Integer i : codigoRepetido) {
-                    cadena += i;
+                    cadena += i + ", ";
 
                 }
                 throw new YaImportadoException("Los vendedores  con codigo " + cadena + "ya fueron importado");

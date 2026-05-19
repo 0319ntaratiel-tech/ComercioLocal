@@ -10,11 +10,15 @@ import java.io.IOException;
 import utils.Configuracion;
 
 /**
- *
- * @author isard
+ * Clase que contiene el metodo guardarLinea 
+ * @author isard Natalia
  */
 public class InformesMultitablaFicheros {
 
+    /**
+     * metodo que guarda los datos dados de los informes multitabla en un fichero de texto
+     * @param linea 
+     */
     public static void guardarLinea(String linea) {
         
         try {

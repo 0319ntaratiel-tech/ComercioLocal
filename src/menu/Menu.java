@@ -110,6 +110,7 @@ public class Menu {
 
                 case 7:
                     Menu.menuInformesMultitabla();
+                    break;
 
                 case 8:
 
@@ -231,7 +232,7 @@ public class Menu {
                     case 6:
                         boolean salir1 = false;
                         Conexiones.insersarDatosContenedorFabricante();
-                        while (!salir) {
+                        while (!salir1) {
                             Menu.menuExportar();
                             int opcion1 = teclado.nextInt();
                             switch (opcion1) {
@@ -257,7 +258,7 @@ public class Menu {
                                     break;
 
                                 case 5:
-                                    salir = true;
+                                    salir1 = true;
                                     break;
 
                                 default:
@@ -269,51 +270,51 @@ public class Menu {
 
                     case 7:
                         System.out.println("Inserte el fichero TXT que desea importar");
-                        String ficheroTXT = teclado.nextLine();
+                        String ficheroTXT = teclado.next();
 
                          {
                             try {
                                 FabricanteFicheros.importarFicheroDeTextoFabri(ficheroTXT);
                             } catch (YaImportadoException ex) {
-                                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                                System.err.println(ex);
                             }
                         }
                         break;
 
                     case 8:
                         System.out.println("Inserte el fichero CVS que desea importar");
-                        String ficheroCSV = teclado.nextLine();
+                        String ficheroCSV = teclado.next();
                          {
                             try {
                                 FabricanteFicheros.importarFicheroCSVFabri(ficheroCSV);
                             } catch (YaImportadoException ex) {
-                                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                                System.err.println(ex);
                             }
                         }
                         break;
 
                     case 9:
                         System.out.println("Inserte el fichero Binario que desea importar");
-                        String ficheroBinario = teclado.nextLine();
+                        String ficheroBinario = teclado.next();
 
                          {
                             try {
                                 FabricanteFicheros.importarFicheroBinarioFabri(ficheroBinario);
                             } catch (YaImportadoException ex) {
-                                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                                System.err.println(ex);
                             }
                         }
                         break;
 
                     case 10:
                         System.out.println("Inserte el fichero JSON que desea importar");
-                        String ficheroJSON = teclado.nextLine();
+                        String ficheroJSON = teclado.next();
 
                          {
                             try {
                                 FabricanteFicheros.importarFicheroJSONFabri(ficheroJSON);
                             } catch (YaImportadoException ex) {
-                                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                                System.err.println(ex);
                             }
                         }
                         break;
@@ -326,7 +327,7 @@ public class Menu {
                     case 12:
 
                         salir = true;
-                        System.out.println("Saliendo del programa ...");
+
                         break;
 
                     default:
@@ -431,7 +432,7 @@ public class Menu {
                     case 6:
                         boolean salir1 = false;
                         Conexiones.insertarDatosContenedorClientes();
-                        while (!salir) {
+                        while (!salir1) {
                             Menu.menuExportar();
                             int opcion1 = teclado.nextInt();
                             switch (opcion1) {
@@ -453,7 +454,7 @@ public class Menu {
                                     break;
 
                                 case 5:
-                                    salir = true;
+                                    salir1 = true;
                                     break;
 
                                 default:
@@ -521,7 +522,7 @@ public class Menu {
 
                     case 12:
                         salir = true;
-                        System.out.println("Saliendo del programa ...");
+
                         break;
 
                     default:
@@ -629,7 +630,7 @@ public class Menu {
                     case 6:
                         boolean salir1 = false;
                         Conexiones.insertarDatosContenedorVendedor();
-                        while (!salir) {
+                        while (!salir1) {
                             Menu.menuExportar();
                             int opcion1 = teclado.nextInt();
                             switch (opcion1) {
@@ -651,7 +652,7 @@ public class Menu {
                                     break;
 
                                 case 5:
-                                    salir = true;
+                                    salir1 = true;
                                     break;
 
                                 default:
@@ -721,7 +722,7 @@ public class Menu {
 
                     case 12:
                         salir = true;
-                        System.out.println("Saliendo del programa ...");
+
                         break;
 
                     default:
@@ -830,7 +831,7 @@ public class Menu {
                     case 6:
                         boolean salir1 = false;
                         Conexiones.insertarDatosContenedoresProductos();
-                        while (!salir) {
+                        while (!salir1) {
                             Menu.menuExportar();
                             int opcion1 = teclado.nextInt();
                             switch (opcion1) {
@@ -852,7 +853,7 @@ public class Menu {
                                     break;
 
                                 case 5:
-                                    salir = true;
+                                    salir1 = true;
                                     break;
 
                                 default:
@@ -921,7 +922,7 @@ public class Menu {
 
                     case 12:
                         salir = true;
-                        System.out.println("Saliendo del programa ...");
+
                         break;
                     default:
                         System.out.println("OPCION INVALIDA");
@@ -1052,7 +1053,7 @@ public class Menu {
                     case 6:
                         boolean salir1 = false;
                         Conexiones.insertarDatosContenedoresPedidos();
-                        while (!salir) {
+                        while (!salir1) {
                             Menu.menuExportar();
                             int opcion1 = teclado.nextInt();
                             switch (opcion1) {
@@ -1074,7 +1075,7 @@ public class Menu {
                                     break;
 
                                 case 5:
-                                    salir = true;
+                                    salir1 = true;
                                     break;
 
                                 default:
@@ -1122,7 +1123,7 @@ public class Menu {
 
                     case 12:
                         salir = true;
-                        System.out.println("Saliendo del programa ...");
+
                         break;
 
                     default:
@@ -1226,7 +1227,7 @@ public class Menu {
                     case 5:
                         boolean salir1 = false;
                         Conexiones.insertarDatosContenedoresLP();
-                        while (!salir) {
+                        while (!salir1) {
                             Menu.menuExportar();
                             int opcion1 = teclado.nextInt();
                             switch (opcion) {
@@ -1248,7 +1249,7 @@ public class Menu {
                                     break;
 
                                 case 5:
-                                    salir = true;
+                                    salir1 = true;
                                     break;
 
                                 default:
@@ -1315,7 +1316,7 @@ public class Menu {
 
                     case 11:
                         salir = true;
-                        System.out.println("Saliendo del programa ...");
+
                         break;
 
                     default:
@@ -1352,7 +1353,7 @@ public class Menu {
     }
 
     public static void menuExportar() {
-        System.out.println("ELIGA LA MANERA EN LA QUE DESA EXPORTAR LA TABLA");
+        System.out.println("ELIGA LA MANERA EN LA QUE DESEA EXPORTAR LA TABLA");
         System.out.println("\t 1) EXPORTAR TABLA A FICHERO DE TEXTO");
         System.out.println("\t 2) EXPORTAR TABLA A FICHERO DE CSV");
         System.out.println("\t 3) EXPORTAR TABLA A FICHERO BINARIO");
@@ -1361,8 +1362,8 @@ public class Menu {
     }
 
     public static void menuInformesMultitabla() {
-        boolean salir = false;
-        while (!salir) {
+        boolean salir2 = false;
+        while (!salir2) {
             System.out.println("QUE INFORME DESEA GENERAR");
             System.out.println("\t 1) CONSULTAR FABRICANTES Y SUS PRODUCTOS DISPONIBLES");
             System.out.println("\t 2) CONSULTAR PEDIDOS REALIZADOS POR UN CLIENTE");
@@ -1388,12 +1389,11 @@ public class Menu {
                     case 2:
                         System.out.println("INGRESA EL CODIGO DEL CLIENTE QUE DESEA CONSULTAR");
                         int codigoCli = teclado.nextInt();
-                        if(!Conexiones.verificarExistenciaCodigo(4, codigoCli)){
+                        if (!Conexiones.verificarExistenciaCodigo(4, codigoCli)) {
                             System.out.println("EL CODIGO INGRESADO NO EXISTE EN LA BASE DE DATOS");
-                        }else {
+                        } else {
                             Conexiones.consulta2(codigoCli);
                         }
-                        
 
                         break;
 
@@ -1425,10 +1425,9 @@ public class Menu {
                         Conexiones.informesMultitabla(8);
                         break;
 
-
                     case 10:
-                        salir = true;
-                        System.out.println("Saliendo del programa ...");
+                        salir2 = true;
+
                         break;
 
                     default:

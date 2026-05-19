@@ -40,7 +40,7 @@ public class LineaPedido implements Lectora, Serializable{
 
     
     
-    //getter
+    //getter and setter
 
     /**
      * metodo que devuelve el codigo del pedido 
@@ -66,22 +66,42 @@ public class LineaPedido implements Lectora, Serializable{
         return unidadesCompradas;
     }
 
+    /**
+     * metodo que modifica el codigoPedido
+     * @param codigoPedido 
+     */
     public void setCodigoPedido(int codigoPedido) {
         this.codigoPedido = codigoPedido;
     }
 
+    /**
+     * metodo que modifica el codigoProducto
+     * @param codigoProducto 
+     */
     public void setCodigoProducto(int codigoProducto) {
         this.codigoProducto = codigoProducto;
     }
 
+    /**
+     * metodo que modifica la unidades compradas
+     * @param unidadesCompradas 
+     */
     public void setUnidadesCompradas(int unidadesCompradas) {
         this.unidadesCompradas = unidadesCompradas;
     }
 
+    /**
+     * metodo que devuelve el subTotal
+     * @return subTotal
+     */
     public double getSubTotal() {
         return subTotal;
     }
 
+    /**
+     * metodo que modifica el subTotal
+     * @param subTotal 
+     */
     public void setSubTotal(double subTotal) {
         this.subTotal = subTotal;
     }
@@ -91,16 +111,23 @@ public class LineaPedido implements Lectora, Serializable{
     
     
     //metodos
-    
-    
-    
-    
+
+    /**
+     * metodo que devuelve los datos de las lineas Pedido
+     * @return String  datos LineaPedido
+     */
+    @Override
+    public String toString(){
+        return "LineaPedido{" + "codigoPedido=" + codigoPedido + ", codigoProducto="+ codigoProducto + ", unidadesCompradas="+ unidadesCompradas
+                + ", subTotal=" + subTotal + '}';
+    }
+
     /**
      * metodo que muestra los datos de la linea pedido separada mediante punto y coma (;)
      * @return la informacion de la linea pedido
      */
     @Override
-    public String mostrarDatosConPuntoComa(){
+    public String mostrarDatosConPuntoComa() {
         return getCodigoPedido()+ ";" + getCodigoProducto()+ ";" 
                 + getUnidadesCompradas() + ";" + getSubTotal();
     }

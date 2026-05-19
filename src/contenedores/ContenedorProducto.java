@@ -47,17 +47,7 @@ public class ContenedorProducto {
         }
     }
 
-    /**
-     * metodo que muestra el precio de venta del producto
-     */
-    public static double mostrarPrecioVenta() {
-        double precioVenta = 0;
-        for (Producto pro : almacenProductos) {
-            precioVenta = pro.getPrecioVenta();
-        }
-
-        return precioVenta;
-    }
+    
     //getter
 
     /**

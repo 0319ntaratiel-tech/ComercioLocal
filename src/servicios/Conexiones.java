@@ -55,7 +55,7 @@ public class Conexiones {
     public static void cierreDeConexion() {
         try {
             con.close();
-            System.out.println("Conexión cerrada");
+            System.out.println("Conexion cerrada");
         } catch (SQLException ex) {
             Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -808,7 +808,7 @@ public class Conexiones {
         }
     }
 
-    public static void insertarDatosContenedoresLP() { //lanzar aqui la excepcion
+    public static void insertarDatosContenedoresLP() { 
         try {
 
             PreparedStatement pst = con.prepareStatement("SELECT * FROM lineaPedido");

@@ -18,11 +18,14 @@ import servicios.Conexiones;
 import utils.Configuracion;
 
 /**
- *
- * @author isard
+ * Clase que contiene la gestion exportar e importar a diferentes tipos de ficheros
+ * @author Natalia
  */
 public class FabricanteFicheros {
 
+    /**
+     * metodo que exporta los datos que hay en la base de datos a un fichero de texto
+     */
     public static void exportarFicheroDeTextoFabri() {
 
         try {
@@ -42,6 +45,11 @@ public class FabricanteFicheros {
 
     }
 
+    /**
+     * metodo que importa los datos de un fichero txt a la base de datos
+     * @param ficheroTXT se le pasa por parametro el fichero a importar
+     * @throws YaImportadoException si ya estan importados lanza la excepcion
+     */
     public static void importarFicheroDeTextoFabri(String ficheroTXT) throws YaImportadoException {
 
         try {
@@ -83,7 +91,7 @@ public class FabricanteFicheros {
             if (!codigoRepetido.isEmpty()) {
                 String cadena = "";
                 for (Integer i : codigoRepetido) {
-                    cadena += i;
+                    cadena += i + ", ";
 
                 }
                 throw new YaImportadoException("Los fabricantes con codigo " + cadena + "ya fueron importado");
@@ -104,6 +112,9 @@ public class FabricanteFicheros {
         }
     }
 
+    /**
+     * metodo que exporta los datos de la base de datos a un fichero json
+     */
     public static void exportarFicheroJSONFabri() {
 
         ObjectMapper mp = new ObjectMapper();
@@ -119,6 +130,11 @@ public class FabricanteFicheros {
 
     }
 
+    /**
+     * metodo que importa lo datos de un fichero json a la base de datos
+     * @param nombreFicheroJson se le pasa por parametro el fichero a importar
+     * @throws YaImportadoException si ya estan los datos importados lanza la excepcion 
+     */
     public static void importarFicheroJSONFabri(String nombreFicheroJson) throws YaImportadoException {
 
         try {
@@ -131,35 +147,40 @@ public class FabricanteFicheros {
 
             //creamos un arrayList para almacenar codigos repetidos
             ArrayList<Integer> codigoRepetido = new ArrayList<>();
-            while (!fabricantes.isEmpty()) {
-                for (Fabricante f : fabricantes) {
-                    Fabricante f1 = new Fabricante(f.getCodigo(), f.getNombre(), f.getAnyoFundacion(), f.getLugarSede(), f.getEmpleados(), f.getSitioWeb());
-                    if (Conexiones.verificarExistenciaCodigo(1, f.getCodigo())) {
 
-                        codigoRepetido.add(f.getCodigo());
+            for (Fabricante f : fabricantes) {
+                Fabricante f1 = new Fabricante(f.getCodigo(), f.getNombre(), f.getAnyoFundacion(), f.getLugarSede(), f.getEmpleados(), f.getSitioWeb());
+                if (Conexiones.verificarExistenciaCodigo(1, f.getCodigo())) {
 
-                    } else {
-                        Conexiones.insertarDatos(f1);
+                    codigoRepetido.add(f.getCodigo());
 
-                    }
+                } else {
+                    Conexiones.insertarDatos(f1);
+                    System.out.println("Fabricante " + f.getNombre() + " importado correctamente");
 
                 }
+
             }
+
             if (!codigoRepetido.isEmpty()) {
                 String cadena = "";
                 for (Integer i : codigoRepetido) {
-                    cadena += i;
+                    cadena += i + ", ";
 
                 }
-                throw new YaImportadoException("Los fabricantes con codigo " + cadena + "ya fueron importado");
+                throw new YaImportadoException("Los fabricantes con codigo " + cadena + "ya fueron importados");
             }
             System.out.println("Importación finalizada con éxito");
+
         } catch (IOException ex) {
             System.err.println("Ha ocurrido un error");
             System.err.println(ex);
         }
     }
 
+    /**
+     * metodo que exporta los datos de la base de datos a un fichero csv
+     */
     public static void exportarFicheroCSVFabri() {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(Configuracion.nombreFicheroCSVFabri));
@@ -177,6 +198,11 @@ public class FabricanteFicheros {
         }
     }
 
+    /**
+     * metodo que importa lo datos de un fichero csv a la base de datos
+     * @param ficheroCSV se le pasa por parametro el fichero a importar
+     * @throws YaImportadoException si ya estan los datos importados salta la excepcion
+     */
     public static void importarFicheroCSVFabri(String ficheroCSV) throws YaImportadoException {
 
         try {
@@ -209,7 +235,6 @@ public class FabricanteFicheros {
 
                     Fabricante f = new Fabricante(codigo, nombre, anyoFundacion, lugarSede, empleados, sitioWeb);
 
-                    //ContenedorFabricante.agregarFabricante(f);
                     Conexiones.insertarDatos(f);
 
                     System.out.println("Fabricante " + nombre + " importado correctamente");
@@ -219,7 +244,7 @@ public class FabricanteFicheros {
             if (!codigoRepetido.isEmpty()) {
                 String cadena = "";
                 for (Integer i : codigoRepetido) {
-                    cadena += i;
+                    cadena += i + ", ";
 
                 }
                 throw new YaImportadoException("Los fabricantes con codigo " + cadena + "ya fueron importado");
@@ -240,6 +265,9 @@ public class FabricanteFicheros {
         }
     }
 
+    /**
+     * metodo que exporta los datos de la base de datos a un fichero binario
+     */
     public static void exportarFicheroBinarioFabri() {
 
         try {
@@ -257,6 +285,11 @@ public class FabricanteFicheros {
 
     }
 
+    /**
+     * metodo que importa los datos de un fichero binario a la base de datos
+     * @param ficheroBinario se le pasa por parametro el fichero a importar
+     * @throws YaImportadoException si ya esta importado lanza la excepcion
+     */
     public static void importarFicheroBinarioFabri(String ficheroBinario) throws YaImportadoException {
 
         try {
@@ -272,29 +305,31 @@ public class FabricanteFicheros {
             ois.close();
             //creamos un arrayList para almacenar codigos repetidos
             ArrayList<Integer> codigoRepetido = new ArrayList<>();
-            while (!fabricantes.isEmpty()) {
-                for (Fabricante f : fabricantes) {
-                    Fabricante f1 = new Fabricante(f.getCodigo(), f.getNombre(), f.getAnyoFundacion(), f.getLugarSede(), f.getEmpleados(), f.getSitioWeb());
-                    if (Conexiones.verificarExistenciaCodigo(1, f.getCodigo())) {
 
-                        codigoRepetido.add(f.getCodigo());
+            for (Fabricante f : fabricantes) {
+                Fabricante f1 = new Fabricante(f.getCodigo(), f.getNombre(), f.getAnyoFundacion(), f.getLugarSede(), f.getEmpleados(), f.getSitioWeb());
+                if (Conexiones.verificarExistenciaCodigo(1, f.getCodigo())) {
 
-                    } else {
-                        Conexiones.insertarDatos(f1);
-                    }
+                    codigoRepetido.add(f.getCodigo());
 
+                } else {
+                    Conexiones.insertarDatos(f1);
+                    System.out.println("Fabricante " + f.getNombre() + " importado correctamente");
                 }
+
             }
 
             if (!codigoRepetido.isEmpty()) {
                 String cadena = "";
                 for (Integer i : codigoRepetido) {
-                    cadena += i;
-                    
+                    cadena += i + ", ";
+
                 }
                 throw new YaImportadoException("Los fabricantes con codigo " + cadena + "ya fueron importado");
             }
+
             System.out.println("Importación finalizada con éxito");
+
         } catch (FileNotFoundException ex) {
             System.err.println("Error. Fichero no encontrado");
             System.err.println(ex);

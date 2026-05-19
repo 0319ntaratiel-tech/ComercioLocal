@@ -38,7 +38,6 @@ public class Fabricante implements Lectora, Serializable {
     // Metodos
     /**
      * Metodo que devuelve el codigo
-     *
      * @return codigo
      */
     public int getCodigo() {
@@ -47,7 +46,6 @@ public class Fabricante implements Lectora, Serializable {
 
     /**
      * Metodo que devuelve el nombre
-     *
      * @return nombre
      */
     public String getNombre() {
@@ -56,7 +54,6 @@ public class Fabricante implements Lectora, Serializable {
 
     /**
      * Metodo que devuelve el año de fundacion
-     *
      * @return anyoFundacion
      */
     public int getAnyoFundacion() {
@@ -65,7 +62,6 @@ public class Fabricante implements Lectora, Serializable {
 
     /**
      * Metodo que devuelve el lugar de la sede
-     *
      * @return lugarsede
      */
     public String getLugarSede() {
@@ -74,7 +70,6 @@ public class Fabricante implements Lectora, Serializable {
 
     /**
      * Metodo que devuelve numero de empleados
-     *
      * @return empleados
      */
     public int getEmpleados() {
@@ -83,37 +78,65 @@ public class Fabricante implements Lectora, Serializable {
 
     /**
      * Metodo que devuelve el sitio web
-     *
      * @return sitioweb
      */
     public String getSitioWeb() {
         return sitioWeb;
     }
 
+    /**
+     * metodo que modifica el nombre del fabricante
+     * @param nombre 
+     */
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
+    /**
+     * metodo que modifica el anyo de fundacion 
+     * @param anyoFundacion 
+     */
     public void setAnyoFundacion(int anyoFundacion) {
         this.anyoFundacion = anyoFundacion;
     }
 
+    /**
+     * metodo que modifica el lugar sede
+     * @param lugarSede 
+     */
     public void setLugarSede(String lugarSede) {
         this.lugarSede = lugarSede;
     }
 
+    /**
+     * metodo que modifica los empleados
+     * @param empleados 
+     */
     public void setEmpleados(int empleados) {
         this.empleados = empleados;
     }
 
+    
+    /**
+     * metodo que modifica el sitioweb
+     * @param sitioWeb 
+     */
     public void setSitioWeb(String sitioWeb) {
         this.sitioWeb = sitioWeb;
     }
 
+    /**
+     * metodo que modifica el codigo
+     * @param codigo 
+     */
     public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
 
+    /**
+     * metodo que devuelve los datos de los fabricantes
+     * @return String datos fabricantes
+     */
     @Override
     public String toString() {
         return "Fabricante{" + "codigo=" + codigo + ", nombre=" + nombre + ", anyoFundacion=" + anyoFundacion + ", lugarSede=" + lugarSede + ", empleados=" + empleados + ", sitioWeb=" + sitioWeb + '}';

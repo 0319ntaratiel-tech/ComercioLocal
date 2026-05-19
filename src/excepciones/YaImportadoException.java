@@ -5,8 +5,8 @@
 package excepciones;
 
 /**
- *
- * @author isard
+ * Clase que extiende de Exception y que se utiliza para verificar si un fichero ya fue importado 
+ * @author Natalia
  */
 public class YaImportadoException extends Exception{
 

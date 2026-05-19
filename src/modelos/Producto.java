@@ -90,28 +90,61 @@ public class Producto implements Lectora, Serializable{
         return precioVenta;
     }
 
+    /**
+     * metodo que modifica el codigo del producto
+     * @param codigo 
+     */
     public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
 
+    /**
+     * metodo que modifica el codigo de fabricante
+     * @param codigoFabricante 
+     */
     public void setCodigoFabricante(int codigoFabricante) {
         this.codigoFabricante = codigoFabricante;
     }
 
+    /**
+     * metodo que modifica el nombre del producto
+     * @param nombre 
+     */
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
+    /**
+     * metodo que modifica la categoria
+     * @param categoria 
+     */
     public void setCategoria(String categoria) {
         this.categoria = categoria;
     }
 
+    /**
+     * metodo que modifica la disponibilidad
+     * @param disponibilidad 
+     */
     public void setDisponibilidad(String disponibilidad) {
         this.disponibilidad = disponibilidad;
     }
 
+    /**
+     * metodo que modifica el precio de venta del producto
+     * @param precioVenta 
+     */
     public void setPrecioVenta(double precioVenta) {
         this.precioVenta = precioVenta;
+    }
+
+    /**
+     * metodo que devuelve los datos de los productos
+     * @return String datos productos
+     */
+    @Override
+    public String toString() {
+        return "Producto{" + "codigo=" + codigo + ", codigoFabricante=" + codigoFabricante + ", nombre=" + nombre + ", categoria=" + categoria + ", disponibilidad=" + disponibilidad + ", precioVenta=" + precioVenta + '}';
     }
     
     

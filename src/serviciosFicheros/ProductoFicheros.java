@@ -16,11 +16,14 @@ import servicios.Conexiones;
 import utils.Configuracion;
 
 /**
- *
- * @author isard
+ * Clase que contiene la gestion exportar e importar a diferentes tipos de ficheros
+ * @author Natalia
  */
 public class ProductoFicheros {
 
+    /**
+     * metodo que exporta los datos que hay en la base de datos a un fichero de texto
+     */
     public static void exportarFicheroDeTextoPro() {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(Configuracion.nombreFicheroTextoPro));
@@ -38,6 +41,11 @@ public class ProductoFicheros {
         }
     }
 
+    /**
+     * metodo que importa los datos de un fichero txt a la base de datos
+     * @param nombreTXT se le pasa por parametro el fichero a importar
+     * @throws YaImportadoException si ya estan importados lanza la excepcion
+     */
     public static void importarFicheroDeTextoPro(String nombreTXT) throws YaImportadoException {
 
         try {
@@ -75,7 +83,7 @@ public class ProductoFicheros {
             if (!codigoRepetido.isEmpty()) {
                 String cadena = "";
                 for (Integer i : codigoRepetido) {
-                    cadena += i;
+                    cadena += i + ", ";
 
                 }
                 throw new YaImportadoException("Los productos con codigo " + cadena + "ya fueron importado");
@@ -96,6 +104,9 @@ public class ProductoFicheros {
         }
     }
 
+    /**
+     * metodo que exporta los datos de la base de datos a un fichero json
+     */
     public static void exportarFicheroJSONPro() {
         ObjectMapper mp = new ObjectMapper();
 
@@ -110,6 +121,11 @@ public class ProductoFicheros {
 
     }
 
+    /**
+     * metodo que importa lo datos de un fichero json a la base de datos
+     * @param ficheroJson se le pasa por parametro el fichero a importar
+     * @throws YaImportadoException si ya estan los datos importados lanza la excepcion 
+     */
     public static void importarFicheroJSONPro(String ficheroJson) throws YaImportadoException {
 
         try {
@@ -122,7 +138,7 @@ public class ProductoFicheros {
             });
             //creamos un arrayList para almacenar codigos repetidos
             ArrayList<Integer> codigoRepetido = new ArrayList<>();
-            while (!productos.isEmpty()) {
+           
                 for (Producto p : productos) {
                     Producto p1 = new Producto(p.getCodigo(), p.getCodigoFabricante(), p.getNombre(), p.getCategoria(), p.getDisponibilidad(), p.getPrecioVenta());
                     if (Conexiones.verificarExistenciaCodigo(2, p.getCodigo())) {
@@ -134,11 +150,11 @@ public class ProductoFicheros {
                     }
                 }
 
-            }
+            
             if (!codigoRepetido.isEmpty()) {
                 String cadena = "";
                 for (Integer i : codigoRepetido) {
-                    cadena += i;
+                    cadena += i + ", ";
 
                 }
                 throw new YaImportadoException("Los productos con codigo " + cadena + "ya fueron importado");
@@ -150,6 +166,9 @@ public class ProductoFicheros {
         }
     }
 
+    /**
+     * metodo que exporta los datos de la base de datos a un fichero csv
+     */
     public static void exportarFicheroCSVPro() {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(Configuracion.nombreFicheroCSVPro));
@@ -168,6 +187,11 @@ public class ProductoFicheros {
 
     }
 
+    /**
+     * metodo que importa lo datos de un fichero csv a la base de datos
+     * @param nombreCSV se le pasa por parametro el fichero a importar
+     * @throws YaImportadoException si ya estan los datos importados salta la excepcion
+     */
     public static void importarFicheroCSVPro(String nombreCSV) throws YaImportadoException {
 
         try {
@@ -205,7 +229,7 @@ public class ProductoFicheros {
             if (!codigoRepetido.isEmpty()) {
                 String cadena = "";
                 for (Integer i : codigoRepetido) {
-                    cadena += i;
+                    cadena += i + ", ";
 
                 }
                 throw new YaImportadoException("Los productos con codigo " + cadena + "ya fueron importado");
@@ -226,6 +250,9 @@ public class ProductoFicheros {
         }
     }
 
+    /**
+     * metodo que exporta los datos de la base de datos a un fichero binario
+     */
     public static void exportarFicheroBinarioPro() {
         try {
             ObjectOutputStream oss = new ObjectOutputStream(new FileOutputStream(Configuracion.nombreFicheroBinarioPro, true));
@@ -241,6 +268,11 @@ public class ProductoFicheros {
         }
     }
 
+    /**
+     * metodo que importa los datos de un fichero binario a la base de datos
+     * @param nombreBinario se le pasa por parametro el fichero a importar
+     * @throws YaImportadoException si ya esta importado lanza la excepcion
+     */
     public static void importarFicheroBinarioPro(String nombreBinario) throws YaImportadoException {
 
         try {
@@ -256,7 +288,7 @@ public class ProductoFicheros {
             ois.close();
             //creamos un arrayList para almacenar codigos repetidos
             ArrayList<Integer> codigoRepetido = new ArrayList<>();
-            while (!productos.isEmpty()) {
+            
                 for (Producto p : productos) {
                     Producto p1 = new Producto(p.getCodigo(), p.getCodigoFabricante(), p.getNombre(), p.getCategoria(), p.getDisponibilidad(), p.getPrecioVenta());
                     if (Conexiones.verificarExistenciaCodigo(2, p.getCodigo())) {
@@ -268,11 +300,11 @@ public class ProductoFicheros {
                     }
                 }
 
-            }
+            
             if (!codigoRepetido.isEmpty()) {
                 String cadena = "";
                 for (Integer i : codigoRepetido) {
-                    cadena += i;
+                    cadena += i + ", ";
 
                 }
                 throw new YaImportadoException("Los productos con codigo " + cadena + "ya fueron importado");

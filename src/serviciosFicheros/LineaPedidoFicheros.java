@@ -20,11 +20,14 @@ import servicios.Conexiones;
 import utils.Configuracion;
 
 /**
- *
- * @author isard
+ * Clase que contiene la gestion exportar e importar a diferentes tipos de ficheros
+ * @author Gabriela
  */
 public class LineaPedidoFicheros {
 
+    /**
+     * metodo que exporta los datos que hay en la base de datos a un fichero de texto
+     */
     public static void exportarFicheroDeTextoLP() {
 
         try {
@@ -44,6 +47,11 @@ public class LineaPedidoFicheros {
 
     }
 
+    /**
+     * metodo que importa los datos de un fichero txt a la base de datos
+     * @param ficheroTXT se le pasa por parametro el fichero a importar
+     * @throws YaImportadoException si ya estan importados lanza la excepcion
+     */
     public static void importarFicheroDeTextoLP(String ficheroTXT) throws YaImportadoException {
         try {
             BufferedReader br = new BufferedReader(new FileReader(ficheroTXT));
@@ -82,10 +90,10 @@ public class LineaPedidoFicheros {
 
                     codigoPedidoRepetido = (int) codigoRepetido.keySet().toArray()[i];
                     codigoProductoRepetido = (int) codigoRepetido.values().toArray()[i];
-                    cadena += codigoPedidoRepetido + "" + codigoProductoRepetido;
+                    cadena += codigoPedidoRepetido + "" + codigoProductoRepetido + ", ";
                 }
 
-                throw new YaImportadoException("La linea pedido con codigo de pedido y producto" + cadena + "ya fueron importado");
+                throw new YaImportadoException("La linea pedido con codigo de pedido y producto" + cadena + "ya fueron importados");
 
             }
 
@@ -101,6 +109,9 @@ public class LineaPedidoFicheros {
         }
     }
 
+    /**
+     * metodo que exporta los datos de la base de datos a un fichero json
+     */
     public static void exportarFicheroJSONLP() {
         ObjectMapper mp = new ObjectMapper();
 
@@ -114,6 +125,11 @@ public class LineaPedidoFicheros {
         }
     }
 
+    /**
+     * metodo que importa lo datos de un fichero json a la base de datos
+     * @param ficheroJSON se le pasa por parametro el fichero a importar
+     * @throws YaImportadoException si ya estan los datos importados lanza la excepcion 
+     */
     public static void importarFicheroJSONLP(String ficheroJSON) throws YaImportadoException {
 
         try {
@@ -124,7 +140,7 @@ public class LineaPedidoFicheros {
             ArrayList<LineaPedido> lineasPedidos = om.readValue(new File(ficheroJSON), new TypeReference<ArrayList<LineaPedido>>() {
             });
             Map<Integer, Integer> codigoRepetido = new HashMap<>();
-            while (!lineasPedidos.isEmpty()) {
+            
                 for (LineaPedido l : lineasPedidos) {
                     LineaPedido l1 = new LineaPedido(l.getCodigoPedido(), l.getCodigoProducto(), l.getUnidadesCompradas(), l.getSubTotal());
                     if (Conexiones.verificarExistenciaLineaPedido(l.getCodigoPedido(), l.getCodigoProducto())) {
@@ -136,7 +152,7 @@ public class LineaPedidoFicheros {
                     }
 
                 }
-            }
+            
             if (!codigoRepetido.isEmpty()) {
                 int codigoPedidoRepetido = 0;
                 int codigoProductoRepetido = 0;
@@ -146,7 +162,7 @@ public class LineaPedidoFicheros {
 
                     codigoPedidoRepetido = (int) codigoRepetido.keySet().toArray()[i];
                     codigoProductoRepetido = (int) codigoRepetido.values().toArray()[i];
-                    cadena += codigoPedidoRepetido + "" + codigoProductoRepetido;
+                    cadena += codigoPedidoRepetido + "" + codigoProductoRepetido + ", ";
                 }
 
                 throw new YaImportadoException("La linea pedido con codigo de pedido y producto" + cadena + "ya fueron importado");
@@ -160,6 +176,9 @@ public class LineaPedidoFicheros {
         }
     }
 
+    /**
+     * metodo que exporta los datos de la base de datos a un fichero csv
+     */
     public static void exportarFicheroCSVLP() {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(Configuracion.nombreFicheroCSVLP));
@@ -177,6 +196,11 @@ public class LineaPedidoFicheros {
         }
     }
 
+    /**
+     * metodo que importa lo datos de un fichero csv a la base de datos
+     * @param ficheroCSV se le pasa por parametro el fichero a importar
+     * @throws YaImportadoException si ya estan los datos importados salta la excepcion
+     */
     public static void importarFicheroCSVLP(String ficheroCSV) throws YaImportadoException {
         try {
 
@@ -220,7 +244,7 @@ public class LineaPedidoFicheros {
 
                     codigoPedidoRepetido = (int) codigoRepetido.keySet().toArray()[i];
                     codigoProductoRepetido = (int) codigoRepetido.values().toArray()[i];
-                    cadena += codigoPedidoRepetido + "" + codigoProductoRepetido;
+                    cadena += codigoPedidoRepetido + "" + codigoProductoRepetido + ", ";
                 }
 
                 throw new YaImportadoException("La linea pedido con codigo de pedido y producto" + cadena + "ya fueron importado");
@@ -239,6 +263,9 @@ public class LineaPedidoFicheros {
         }
     }
 
+    /**
+     * metodo que exporta los datos de la base de datos a un fichero binario
+     */
     public static void exportarFicheroBinarioLP() {
         try {
             ObjectOutputStream oss = new ObjectOutputStream(new FileOutputStream(Configuracion.nombreFicheroBinarioLP, true));
@@ -254,6 +281,11 @@ public class LineaPedidoFicheros {
         }
     }
 
+    /**
+     * metodo que importa los datos de un fichero binario a la base de datos
+     * @param ficheroBinario se le pasa por parametro el fichero a importar
+     * @throws YaImportadoException si ya esta importado lanza la excepcion
+     */
     public static void importarFicheroBinarioLP(String ficheroBinario) throws YaImportadoException {
         
         try {
@@ -263,14 +295,14 @@ public class LineaPedidoFicheros {
 
             //lee todo el contenido del fichero y lo devuelve como un object generico
             Object ob = ois.readObject();
-             Map<Integer, Integer> codigoRepetido = new HashMap<>();
+            Map<Integer, Integer> codigoRepetido = new HashMap<>();
             //aqui convertimos el objeto en al tipo correcto (se llama casting)
             ArrayList<LineaPedido> lineasPedidos = (ArrayList<LineaPedido>) ob;
             //cerramos el fichero
             ois.close();
             //mete todos los datos al contenedor
             //ContenedorLineaPedido.getAlmacenLineasPedidos().values().addAll(LineasPedidos);
-            while (!lineasPedidos.isEmpty()) {
+           
                 for (LineaPedido l : lineasPedidos) {
                     LineaPedido l1 = new LineaPedido(l.getCodigoPedido(), l.getCodigoProducto(), l.getUnidadesCompradas(), l.getSubTotal());
                     if (Conexiones.verificarExistenciaLineaPedido(l.getCodigoPedido(), l.getCodigoProducto())) {
@@ -282,7 +314,7 @@ public class LineaPedidoFicheros {
                     }
 
                 }
-            }
+            
             if (!codigoRepetido.isEmpty()) {
                 int codigoPedidoRepetido = 0;
                 int codigoProductoRepetido = 0;
@@ -292,7 +324,7 @@ public class LineaPedidoFicheros {
 
                     codigoPedidoRepetido = (int) codigoRepetido.keySet().toArray()[i];
                     codigoProductoRepetido = (int) codigoRepetido.values().toArray()[i];
-                    cadena += codigoPedidoRepetido + "" + codigoProductoRepetido;
+                    cadena += codigoPedidoRepetido + "" + codigoProductoRepetido + ", ";
                 }
 
                 throw new YaImportadoException("La linea pedido con codigo de pedido y producto" + cadena + "ya fueron importado");

@@ -89,26 +89,50 @@ public class Cliente implements Lectora, Serializable{
         return correo;
     }
 
+    /**
+     * metodo que modifica el codigo del cliente
+     * @param codigo 
+     */
     public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
 
+    /**
+     * metodo que modifica el nombre del cliente
+     * @param nombre 
+     */
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
+    /**
+     * metodo que modifica la fecha de nacimiento del cliente
+     * @param fechaNacimiento 
+     */
     public void setFechaNacimiento(String fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 
+    /**
+     * metodo que modifica la direccion de envio del cliente
+     * @param direccionEnvio 
+     */
     public void setDireccionEnvio(String direccionEnvio) {
         this.direccionEnvio = direccionEnvio;
     }
 
+    /**
+     * metodo que modifica el telefono del cliente
+     * @param telefono 
+     */
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
 
+    /**
+     * metodo que modifica el correo del cliente
+     * @param correo 
+     */
     public void setCorreo(String correo) {
         this.correo = correo;
     }
@@ -137,6 +161,15 @@ public class Cliente implements Lectora, Serializable{
         return  getCodigo() + ":" + getNombre() + ":" 
                 + getFechaNacimiento() + ":" + getDireccionEnvio() + ":" +
                         getTelefono() + ":" + getCorreo();
+    }
+
+    /**
+     * metodo que devuelve los datos de los clientes
+     * @return datos clientes
+     */
+    @Override
+    public String toString() {
+        return "Cliente{" + "codigo=" + codigo + ", nombre=" + nombre + ", fechaNacimiento=" + fechaNacimiento + ", direccionEnvio=" + direccionEnvio + ", telefono=" + telefono + ", correo=" + correo + '}';
     }
     
     

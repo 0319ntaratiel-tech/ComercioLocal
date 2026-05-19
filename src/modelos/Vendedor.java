@@ -10,7 +10,7 @@ import java.time.LocalDate;
 
 /**
  *
- * @author isard
+ * @author Gabriela
  */
 public class Vendedor implements Lectora, Serializable{
     // Atributos
@@ -90,29 +90,63 @@ public class Vendedor implements Lectora, Serializable{
         return porcentaje;
     }
 
+    /**
+     * metodo que modifica el codigo de vendedor
+     * @param codigo 
+     */
     public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
 
+    /**
+     * metodo que modifica el nombre del vendedor
+     * @param nombre 
+     */
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
+    /**
+     * metodo que modifica la fecha de alta del vendedor
+     * @param fechaAlta 
+     */
     public void setFechaAlta(String fechaAlta) {
         this.fechaAlta = fechaAlta;
     }
 
+    /**
+     * metodo que modifica el domicilio
+     * @param domicilio 
+     */
     public void setDomicilio(String domicilio) {
         this.domicilio = domicilio;
     }
 
+    /**
+     * metodo que modifica el salario
+     * @param salario 
+     */
     public void setSalario(double salario) {
         this.salario = salario;
     }
 
+    /**
+     * metodo que modifica el porcentaje
+     * @param porcentaje 
+     */
     public void setPorcentaje(double porcentaje) {
         this.porcentaje = porcentaje;
     }
+
+    /**
+     * metodo que devuelve los datos del vendedor
+     * @return String datos vendedor
+     */
+    @Override
+    public String toString() {
+        return "Vendedor{" + "codigo=" + codigo + ", nombre=" + nombre + ", fechaAlta=" + fechaAlta + ", domicilio=" + domicilio + ", salario=" + salario + ", porcentaje=" + porcentaje + '}';
+    }
+    
     
     
 

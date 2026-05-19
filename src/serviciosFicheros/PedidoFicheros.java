@@ -8,7 +8,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import contenedores.ContenedorPedido;
-import excepciones.YaImportadoException;
 import java.io.*;
 import java.util.ArrayList;
 import modelos.Pedido;
@@ -16,11 +15,14 @@ import servicios.Conexiones;
 import utils.Configuracion;
 
 /**
- *
- * @author isard
+ * Clase que contiene la gestion exportar e importar a diferentes tipos de ficheros
+ * @author Gabriela
  */
 public class PedidoFicheros {
-
+    
+    /**
+     * metodo que exporta los datos que hay en la base de datos a un fichero de texto
+     */
     public static void exportarFicheroDeTextoPed() {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(Configuracion.nombreFicheroTextoFabri));
@@ -38,6 +40,10 @@ public class PedidoFicheros {
         }
     }
 
+    /**
+     * metodo que importa los datos de un fichero txt a la base de datos
+     * @param ficheroTXT se le pasa por parametro el fichero a importar
+     */
     public static void importarFicheroDeTextoPed(String ficheroTXT) {
 
         try {
@@ -80,6 +86,9 @@ public class PedidoFicheros {
         }
     }
 
+    /**
+     * metodo que exporta los datos de la base de datos a un fichero json
+     */
     public static void exportarFicheroJSONPed() {
         ObjectMapper mp = new ObjectMapper();
 
@@ -93,26 +102,33 @@ public class PedidoFicheros {
         }
     }
 
+    /**
+     * metodo que importa lo datos de un fichero json a la base de datos
+     * @param ficheroJson se le pasa por parametro el fichero a importar
+     */
     public static void importarFicheroJSONPed(String ficheroJson) {
         try {
             //creamos el lector de json
             ObjectMapper om = new ObjectMapper();
             ArrayList<Pedido> pedidos = om.readValue(new File(ficheroJson), new TypeReference<ArrayList<Pedido>>() {
             });
-            while (!pedidos.isEmpty()) {
-                for (Pedido p : pedidos) {
-                    Pedido p1 = new Pedido(p.getCodigoVendedor(), p.getCodigoCliente(), p.getFechaRealizacion(), p.getFechaEntrega(), p.getEstado(), p.getImporte());
-                    Conexiones.insertarDatos(p1);
 
-                }
+            for (Pedido p : pedidos) {
+                Pedido p1 = new Pedido(p.getCodigoVendedor(), p.getCodigoCliente(), p.getFechaRealizacion(), p.getFechaEntrega(), p.getEstado(), p.getImporte());
+                Conexiones.insertarDatos(p1);
+
             }
+
             System.out.println("Importación finalizada con éxito");
         } catch (IOException ex) {
             System.err.println("Ha ocurrido un error");
             System.err.println(ex);
         }
     }
-
+    
+    /**
+     * metodo que exporta los datos de la base de datos a un fichero csv
+     */
     public static void exportarFicheroCSVPed() {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(Configuracion.nombreFicheroCSVPed));
@@ -129,7 +145,12 @@ public class PedidoFicheros {
             System.err.println(ex);
         }
     }
+    
 
+    /**
+     * metodo que importa lo datos de un fichero csv a la base de datos
+     * @param ficheroCSV se le pasa por parametro el fichero a importar
+     */
     public static void importarFicheroCSVPed(String ficheroCSV) {
 
         try {
@@ -146,7 +167,7 @@ public class PedidoFicheros {
                     System.err.println("Línea inválida: " + linea);
                     continue;
                 }
-                
+
                 int codigoVendedor = Integer.parseInt(partes[0]);
                 int codigoCliente = Integer.parseInt(partes[1]);
                 String fechaRealizacion = partes[2];
@@ -170,6 +191,9 @@ public class PedidoFicheros {
         }
     }
 
+    /**
+     * metodo que exporta los datos de la base de datos a un fichero binario
+     */
     public static void exportarFicheroBinarioPed() {
         try {
             ObjectOutputStream oss = new ObjectOutputStream(new FileOutputStream(Configuracion.nombreFicheroBinarioPed, true));
@@ -185,8 +209,12 @@ public class PedidoFicheros {
         }
     }
 
+    /**
+     * metodo que importa los datos de un fichero binario a la base de datos
+     * @param ficheroBinario se le pasa por parametro el fichero a importar
+     */
     public static void importarFicheroBinarioPed(String ficheroBinario) {
-       
+
         try {
             //java abre le fichero binario y empieza a leer bytes de 0 y 1
             //interpreta esos bytes como objetos  java
@@ -198,16 +226,14 @@ public class PedidoFicheros {
             ArrayList<Pedido> pedidos = (ArrayList<Pedido>) ob;
             //cerramos el fichero
             ois.close();
-            //mete todos los datos al contenedor
-            //ContenedorPedido.getAlmacenPedidos().addAll(pedidos);
-            while (!pedidos.isEmpty()) {
-                for (Pedido p : pedidos) {
-                    Pedido p1 = new Pedido(p.getCodigoVendedor(), p.getCodigoCliente(), p.getFechaRealizacion(), p.getFechaEntrega(), p.getEstado(), p.getImporte());
 
-                    Conexiones.insertarDatos(p1);
+            for (Pedido p : pedidos) {
+                Pedido p1 = new Pedido(p.getCodigoVendedor(), p.getCodigoCliente(), p.getFechaRealizacion(), p.getFechaEntrega(), p.getEstado(), p.getImporte());
 
-                }
+                Conexiones.insertarDatos(p1);
+
             }
+
             System.out.println("Importación finalizada con éxito");
 
         } catch (FileNotFoundException ex) {
