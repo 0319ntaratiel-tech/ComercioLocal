@@ -9,12 +9,14 @@ import java.util.LinkedList;
 import modelos.Vendedor;
 
 /**
- *
- * @author isard
+ * Clase contenedora donde se almacenaran los diferentes datos insertados , 
+ * asi como la informacion de los vendedores que esten en la base de datos
+ * @author Natalia
  */
 public class ContenedorVendedor {
-    //creamos una lista para almecenar los datos insertados durante la ejecución
+    //creamos una lista para almacenar los datos de la base de datos
     private static ArrayList<Vendedor> almacenVendedor = new ArrayList<>();
+    //creamos una lista para almacenar los datos insertados durante la ejecución
     private static ArrayList<Vendedor> almacenVendedorNuevos = new ArrayList<>();
     
    

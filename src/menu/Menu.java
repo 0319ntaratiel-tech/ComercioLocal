@@ -35,7 +35,7 @@ import utils.Comprobaciones;
 import utils.Configuracion;
 
 /**
- *
+ * Clase que contiene el programa principal con su menu y sus submenus
  * @author Natalia y Gabriela
  */
 public class Menu {
@@ -47,15 +47,17 @@ public class Menu {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        //establecemos la conexion con la base de datos
         Conexiones.conexionEstablecida();
+        //lanzamos el menu
         Menu.menuPrincipal();
+        //cerramos la conexion con la base de datos
         Conexiones.cierreDeConexion();
 
     }
 
     /**
-     * Menu principal donde se le pregunta al usuario la tabla que desea
-     * gestionar
+     * Menu principal donde se le pregunta al usuario la tabla que desea gestionar o si desea genererar los informes multitabla
      */
     public static void menuPrincipal() {
         int opcion = 0;
@@ -125,6 +127,9 @@ public class Menu {
         }
     }
 
+    /**
+     * subMenu Fabricante con diferentes operaciones de gestion
+     */
     public static void subMenuFabricante() {
 
         boolean salir = false;
@@ -231,6 +236,7 @@ public class Menu {
 
                     case 6:
                         boolean salir1 = false;
+                        //insertamos los datos de la base de datos al contenedor Fabricante
                         Conexiones.insersarDatosContenedorFabricante();
                         while (!salir1) {
                             Menu.menuExportar();
@@ -342,6 +348,9 @@ public class Menu {
         }
     }
 
+    /**
+     * subMenu Cliente que contiene diferentes operaciones de gestion
+     */
     public static void subMenuCliente() {
         boolean salir = false;
         while (!salir) {
@@ -431,6 +440,7 @@ public class Menu {
 
                     case 6:
                         boolean salir1 = false;
+                        //insertamos los datos de la base de datos al contenedor clientes
                         Conexiones.insertarDatosContenedorClientes();
                         while (!salir1) {
                             Menu.menuExportar();
@@ -438,18 +448,22 @@ public class Menu {
                             switch (opcion1) {
 
                                 case 1:
+                                    System.out.println("Exportando a fichero TXT...");
                                     ClienteFicheros.exportarFicheroDeTextoCli();
                                     break;
 
                                 case 2:
+                                    System.out.println("Exportando a fichero CSV...");
                                     ClienteFicheros.exportarFicheroCSVCli();
                                     break;
 
                                 case 3:
+                                    System.out.println("Exportando a fichero Binario...");
                                     ClienteFicheros.exportarFicheroBinarioCli();
                                     break;
 
                                 case 4:
+                                    System.out.println("Exportando a fichero JSON...");
                                     ClienteFicheros.exportarFicheroJSONCli();
                                     break;
 
@@ -466,7 +480,7 @@ public class Menu {
 
                     case 7:
                         System.out.println("Inserte el fichero TXT que desea importar");
-                        String ficheroTXT = teclado.nextLine();
+                        String ficheroTXT = teclado.next();
                          {
                             try {
                                 ClienteFicheros.importarFicheroDeTextoCli(ficheroTXT);
@@ -479,7 +493,7 @@ public class Menu {
 
                     case 8:
                         System.out.println("Inserte el fichero CVS que desea importar");
-                        String ficheroCSV = teclado.nextLine();
+                        String ficheroCSV = teclado.next();
                          {
                             try {
                                 ClienteFicheros.importarFicheroCSVCli(ficheroCSV);
@@ -491,7 +505,7 @@ public class Menu {
 
                     case 9:
                         System.out.println("Inserte el fichero Binario que desea importar");
-                        String ficheroBinario = teclado.nextLine();
+                        String ficheroBinario = teclado.next();
 
                          {
                             try {
@@ -504,7 +518,7 @@ public class Menu {
 
                     case 10:
                         System.out.println("Inserte el fichero JSON que desea importar");
-                        String ficheroJSON = teclado.nextLine();
+                        String ficheroJSON = teclado.next();
 
                          {
                             try {
@@ -538,6 +552,9 @@ public class Menu {
 
     }
 
+    /**
+     * subMenu Vendedor que realiza diferentes operaciones de gestion
+     */
     public static void subMenuVendedor() {
         boolean salir = false;
         while (!salir) {
@@ -629,6 +646,7 @@ public class Menu {
 
                     case 6:
                         boolean salir1 = false;
+                        //insertamos los datos de la base de datos al contenedor vendedor
                         Conexiones.insertarDatosContenedorVendedor();
                         while (!salir1) {
                             Menu.menuExportar();
@@ -636,18 +654,22 @@ public class Menu {
                             switch (opcion1) {
 
                                 case 1:
+                                    System.out.println("Exportando a fichero TXT...");
                                     VendedorFicheros.exportarFicheroDeTextoVen();
                                     break;
 
                                 case 2:
+                                    System.out.println("Exportando a fichero CSV...");
                                     VendedorFicheros.exportarFicheroCSVVen();
                                     break;
 
                                 case 3:
+                                    System.out.println("Exportando a fichero Binario...");
                                     VendedorFicheros.exportarFicheroBinarioVen();
                                     break;
 
                                 case 4:
+                                    System.out.println("Exportando a fichero JSON...");
                                     VendedorFicheros.exportarFicheroJSONVen();
                                     break;
 
@@ -664,7 +686,7 @@ public class Menu {
 
                     case 7:
                         System.out.println("Inserte el fichero TXT que desea importar");
-                        String ficheroTXT = teclado.nextLine();
+                        String ficheroTXT = teclado.next();
 
                          {
                             try {
@@ -677,7 +699,7 @@ public class Menu {
 
                     case 8:
                         System.out.println("Inserte el fichero CVS que desea importar");
-                        String ficheroCSV = teclado.nextLine();
+                        String ficheroCSV = teclado.next();
 
                          {
                             try {
@@ -690,7 +712,7 @@ public class Menu {
 
                     case 9:
                         System.out.println("Inserte el fichero Binario que desea importar");
-                        String ficheroBinario = teclado.nextLine();
+                        String ficheroBinario = teclado.next();
 
                          {
                             try {
@@ -704,7 +726,7 @@ public class Menu {
 
                     case 10:
                         System.out.println("Inserte el fichero JSON que desea importar");
-                        String ficheroJSON = teclado.nextLine();
+                        String ficheroJSON = teclado.next();
                          {
                             try {
                                 VendedorFicheros.importarFicheroJSONVeni(ficheroJSON);
@@ -738,6 +760,9 @@ public class Menu {
 
     }
 
+    /**
+     * subMenu Producto que realiza diferente operaciones de gestion
+     */
     public static void subMenuProducto() {
         boolean salir = false;
         while (!salir) {
@@ -830,6 +855,7 @@ public class Menu {
 
                     case 6:
                         boolean salir1 = false;
+                        //insertamos los datos de la base de datos al contenedor productos
                         Conexiones.insertarDatosContenedoresProductos();
                         while (!salir1) {
                             Menu.menuExportar();
@@ -837,18 +863,22 @@ public class Menu {
                             switch (opcion1) {
 
                                 case 1:
+                                    System.out.println("Exportando a fichero TXT...");
                                     ProductoFicheros.exportarFicheroDeTextoPro();
                                     break;
 
                                 case 2:
+                                    System.out.println("Exportando a fichero CSV...");
                                     ProductoFicheros.exportarFicheroCSVPro();
                                     break;
 
                                 case 3:
+                                    System.out.println("Exportando a fichero Binario...");
                                     ProductoFicheros.exportarFicheroBinarioPro();
                                     break;
 
                                 case 4:
+                                    System.out.println("Exportando a fichero JSON...");
                                     ProductoFicheros.exportarFicheroJSONPro();
                                     break;
 
@@ -865,7 +895,7 @@ public class Menu {
 
                     case 7:
                         System.out.println("Inserte el fichero TXT que desea importar");
-                        String ficheroTXT = teclado.nextLine();
+                        String ficheroTXT = teclado.next();
                          {
                             try {
                                 ProductoFicheros.importarFicheroDeTextoPro(ficheroTXT);
@@ -878,7 +908,7 @@ public class Menu {
 
                     case 8:
                         System.out.println("Inserte el fichero CVS que desea importar");
-                        String ficheroCSV = teclado.nextLine();
+                        String ficheroCSV = teclado.next();
 
                          {
                             try {
@@ -891,7 +921,7 @@ public class Menu {
 
                     case 9:
                         System.out.println("Inserte el fichero Binario que desea importar");
-                        String ficheroBinario = teclado.nextLine();
+                        String ficheroBinario = teclado.next();
 
                          {
                             try {
@@ -904,7 +934,7 @@ public class Menu {
 
                     case 10:
                         System.out.println("Inserte el fichero JSON que desea importar");
-                        String ficheroJSON = teclado.nextLine();
+                        String ficheroJSON = teclado.next();
 
                          {
                             try {
@@ -937,6 +967,9 @@ public class Menu {
 
     }
 
+    /**
+     * subMenu Pedido que realiza diferentes operaciones de gestion
+     */
     public static void subMenuPedido() {
         boolean salir = false;
 
@@ -1052,6 +1085,7 @@ public class Menu {
 
                     case 6:
                         boolean salir1 = false;
+                        //insertamos los datos de la base de datos al contenedor pedidos
                         Conexiones.insertarDatosContenedoresPedidos();
                         while (!salir1) {
                             Menu.menuExportar();
@@ -1059,18 +1093,22 @@ public class Menu {
                             switch (opcion1) {
 
                                 case 1:
+                                    System.out.println("Exportando a fichero TXT...");
                                     PedidoFicheros.exportarFicheroDeTextoPed();
                                     break;
 
                                 case 2:
+                                    System.out.println("Exportando a fichero CSV...");
                                     PedidoFicheros.exportarFicheroCSVPed();
                                     break;
 
                                 case 3:
+                                    System.out.println("Exportando a fichero Binario...");
                                     PedidoFicheros.exportarFicheroBinarioPed();
                                     break;
 
                                 case 4:
+                                    System.out.println("Exportando a fichero JSON...");
                                     PedidoFicheros.exportarFicheroJSONPed();
                                     break;
 
@@ -1087,7 +1125,7 @@ public class Menu {
 
                     case 7:
                         System.out.println("Inserte el fichero de texto que desea importar");
-                        String ficheroTXT = teclado.nextLine();
+                        String ficheroTXT = teclado.next();
 
                         PedidoFicheros.importarFicheroDeTextoPed(ficheroTXT);
 
@@ -1095,7 +1133,7 @@ public class Menu {
 
                     case 8:
                         System.out.println("Inserte el fichero CVS que desea importar");
-                        String ficheroCSV = teclado.nextLine();
+                        String ficheroCSV = teclado.next();
 
                         PedidoFicheros.importarFicheroCSVPed(ficheroCSV);
 
@@ -1103,14 +1141,14 @@ public class Menu {
 
                     case 9:
                         System.out.println("Inserte el fichero Binario que desea importar");
-                        String ficheroBinario = teclado.nextLine();
+                        String ficheroBinario = teclado.next();
                         PedidoFicheros.importarFicheroBinarioPed(ficheroBinario);
 
                         break;
 
                     case 10:
                         System.out.println("Inserte el fichero JSON que desea importar");
-                        String ficheroJSON = teclado.nextLine();
+                        String ficheroJSON = teclado.next();
 
                         PedidoFicheros.importarFicheroJSONPed(ficheroJSON);
 
@@ -1139,6 +1177,9 @@ public class Menu {
 
     }
 
+    /**
+     * subMenu lineaPedido que realiza diferentes operaciones de gestion
+     */
     public static void subMenuLineaPedido() {
         boolean salir = false;
         while (!salir) {
@@ -1226,25 +1267,30 @@ public class Menu {
 
                     case 5:
                         boolean salir1 = false;
+                        //insertamos los datos de la base de datos al contenedor lineaPedido
                         Conexiones.insertarDatosContenedoresLP();
                         while (!salir1) {
                             Menu.menuExportar();
                             int opcion1 = teclado.nextInt();
-                            switch (opcion) {
+                            switch (opcion1) {
 
                                 case 1:
+                                    System.out.println("Exportando a fichero TXT...");
                                     LineaPedidoFicheros.exportarFicheroDeTextoLP();
                                     break;
 
                                 case 2:
+                                    System.out.println("Exportando a fichero CSV...");
                                     LineaPedidoFicheros.exportarFicheroCSVLP();
                                     break;
 
                                 case 3:
+                                    System.out.println("Exportando a fichero Binario...");
                                     LineaPedidoFicheros.exportarFicheroBinarioLP();
                                     break;
 
                                 case 4:
+                                    System.out.println("Exportando a fichero JSON...");
                                     LineaPedidoFicheros.exportarFicheroJSONLP();
                                     break;
 
@@ -1261,7 +1307,7 @@ public class Menu {
 
                     case 6:
                         System.out.println("Inserte el fichero de texto que desea importar");
-                        String ficheroTXT = teclado.nextLine();
+                        String ficheroTXT = teclado.next();
                          {
                             try {
                                 LineaPedidoFicheros.importarFicheroDeTextoLP(ficheroTXT);
@@ -1273,7 +1319,7 @@ public class Menu {
 
                     case 7:
                         System.out.println("Inserte el fichero CSV que desea importar");
-                        String ficheroCSV = teclado.nextLine();
+                        String ficheroCSV = teclado.next();
                          {
                             try {
                                 LineaPedidoFicheros.importarFicheroCSVLP(ficheroCSV);
@@ -1285,7 +1331,7 @@ public class Menu {
 
                     case 8:
                         System.out.println("Inserte el fichero binario que desea importar");
-                        String ficheroBinario = teclado.nextLine();
+                        String ficheroBinario = teclado.next();
 
                          {
                             try {
@@ -1298,7 +1344,7 @@ public class Menu {
 
                     case 9:
                         System.out.println("Inserte el fichero json que desea importar");
-                        String ficheroJSON = teclado.nextLine();
+                        String ficheroJSON = teclado.next();
 
                          {
                             try {
@@ -1332,6 +1378,9 @@ public class Menu {
 
     }
 
+    /**
+     * Historial de subMenus
+     */
     public static void historialSubMenus() {
         System.out.println("Que operacion de gestion desea realizar ");
         System.out.println("\t 1) INSERTAR UNA FILA EN LA TABLA ");
@@ -1352,6 +1401,9 @@ public class Menu {
         System.out.println("\t 12) SALIR ");
     }
 
+    /**
+     * menu Exportar
+     */
     public static void menuExportar() {
         System.out.println("ELIGA LA MANERA EN LA QUE DESEA EXPORTAR LA TABLA");
         System.out.println("\t 1) EXPORTAR TABLA A FICHERO DE TEXTO");
@@ -1361,6 +1413,9 @@ public class Menu {
         System.out.println("\t 5) SALIR");
     }
 
+    /**
+     * menu informes multitabla
+     */
     public static void menuInformesMultitabla() {
         boolean salir2 = false;
         while (!salir2) {

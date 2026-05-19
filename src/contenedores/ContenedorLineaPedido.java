@@ -9,13 +9,16 @@ import java.util.Map;
 import modelos.LineaPedido;
 
 /**
- *
- * @author isard
+ * Clase contenedora donde se almacenaran los diferentes datos insertados , 
+ * asi como la informacion de las lineas pedido que esten en la base de datos
+ * @author Natalia
  */
 public class ContenedorLineaPedido {
-    //creamos una lista para almecenar los datos insertados durante la ejecución
+    //creamos una lista para almacenar los datos de la base de datos
     private static Map<Integer , LineaPedido> almacenLineasPedidos =  new HashMap<>();
+    //creamos una lista para almacenar los datos insertados durante la ejecución
     private static Map<Integer , LineaPedido> almacenLineasPedidosNuevos = new HashMap<>();
+    //creamos un contador , para que se vaya aumentando la llave de la linea pedido
     private static int contador = 1;
     
    

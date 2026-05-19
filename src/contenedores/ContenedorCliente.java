@@ -8,12 +8,14 @@ import java.util.ArrayList;
 import modelos.Cliente;
 
 /**
- *
- * @author isard
+ * Clase contenedora donde se almacenaran los diferentes datos insertados , 
+ * asi como la informacion de los clientes que esten en la base de datos
+ * @author Natalia
  */
 public class ContenedorCliente {
-    //creamos una lista para almecenar los datos insertados durante la ejecución
+    //creamos una lista para almecenar los datos de la base de datos 
     private static ArrayList<Cliente> almacenClientes = new ArrayList<>();
+    //creamos una lista para almecenar los datos insertados durante la ejecución
     private static ArrayList<Cliente> almacenClientesNuevos = new ArrayList<>();
 
     

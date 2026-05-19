@@ -4,13 +4,10 @@
  */
 package modelos;
 
-import contenedores.ContenedorProducto;
+
 import interfaces.Lectora;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import servicios.Conexiones;
+
 
 /**
  * La clase funciona para insertar una

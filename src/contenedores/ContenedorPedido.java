@@ -9,17 +9,17 @@ import java.util.ArrayList;
 import modelos.Pedido;
 
 /**
- *
- * @author isard
+ * Clase contenedora donde se almacenaran los diferentes datos insertados , 
+ * asi como la informacion de los pedidos que esten en la base de datos
+ * @author Natalia
  */
 public class ContenedorPedido {
-    //creamos una lista para almecenar los datos insertados durante la ejecución
+    //creamos una lista para almacenar los datos de la base de datos
     private static ArrayList<Pedido> almacenPedidos = new ArrayList<>();
+    //creamos una lista para almecenar los datos insertados durante la ejecución
     private static ArrayList<Pedido> almacenPedidosNuevos = new ArrayList<>();
     
-    //constructor
-
-   
+    
     
     //metodos
     /**

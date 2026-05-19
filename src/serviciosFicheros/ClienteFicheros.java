@@ -31,8 +31,9 @@ public class ClienteFicheros {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(Configuracion.nombreFicheroTextoCli));
 
+             //recorre la lista de clientes del contenedor
             for (Cliente c : ContenedorCliente.getAlmacenClientes()) {
-
+                //almacena cada cliente en el fichero separando los datos con punto y coma
                 bw.write(c.mostrarDatosConPuntoComa());
                 bw.newLine();
             }
@@ -53,12 +54,14 @@ public class ClienteFicheros {
     public static void importarFicheroDeTextoCli(String ficheroTXT) throws YaImportadoException {
 
         try {
+            //creamos un arraylist de tipo integer para almacenar los codigos que ya fueron insertados
             ArrayList<Integer> codigoRepetido = new ArrayList<>();
+            //leemos el fichero pasado por parametro linea a linea
             BufferedReader br = new BufferedReader(new FileReader(ficheroTXT));
             String linea;
 
             while ((linea = br.readLine()) != null) {
-
+                //almacenamos en vector las lineas sin el ;
                 String[] partes = linea.split(";");
 
                 // Verificar que la línea tenga todos los datos
@@ -66,7 +69,7 @@ public class ClienteFicheros {
                     System.err.println("Línea inválida: " + linea);
                     continue;
                 }
-
+                //extraemos los datos por posicion
                 int codigo = Integer.parseInt(partes[0]);
                 String nombre = partes[1];
                 String fechaNacimiento = partes[2];
@@ -74,19 +77,22 @@ public class ClienteFicheros {
                 String telefono = partes[4];
                 String correo = partes[5];
 
+                //verificamos que el codigo no este en la base de datos
                 if (Conexiones.verificarExistenciaCodigo(4, codigo)) {
-
+                    //si esta lo almacena en el array creado anteriormente
                     codigoRepetido.add(codigo);
 
                 } else {
+                    //creamos los objetos cliente con los datos extraidos del fichero
                     Cliente c = new Cliente(codigo, nombre, fechaNacimiento, direccionEnvio, telefono, correo);
+                    // y lo insertamos a la base de datos
                     Conexiones.insertarDatos(c);
                     System.out.println("Cliente " + nombre + " importado correctamente");
 
                 }
 
             }
-
+            //si el cliente ya existe en la base de datos, salta la excepcion YaImportadoException
             if (!codigoRepetido.isEmpty()) {
                 String cadena = "";
                 for (Integer i : codigoRepetido) {
@@ -116,6 +122,7 @@ public class ClienteFicheros {
 
         ObjectWriter wr = mp.writerWithDefaultPrettyPrinter();
 
+        //le pasamos el fichero al que queremos pasarle los datos , y el contenedor cliente donde estan almacenados los datos
         try {
             wr.writeValue(new File(Configuracion.nombreFicheroJSONCli), ContenedorCliente.getAlmacenClientes());
         } catch (IOException ex) {
@@ -143,19 +150,22 @@ public class ClienteFicheros {
             //creamos un arrayList para almacenar codigos repetidos
             ArrayList<Integer> codigoRepetido = new ArrayList<>();
 
+            //recorremos el array y extraemos los datos del cliente para crear un objeto
             for (Cliente c : clientes) {
                 Cliente c1 = new Cliente(c.getCodigo(), c.getNombre(), c.getFechaNacimiento(), c.getDireccionEnvio(), c.getTelefono(), c.getCorreo());
+                //comprobamos que el cliente no exista en la base de datos
                 if (Conexiones.verificarExistenciaCodigo(4, c.getCodigo())) {
 
                     codigoRepetido.add(c.getCodigo());
 
                 } else {
+                    //si los clientes son nuevos se insertan en la base de datos
                     Conexiones.insertarDatos(c1);
 
                 }
 
             }
-
+            //si los fabricantes ya existen, salta la excepcion YaImportadoException
             if (!codigoRepetido.isEmpty()) {
                 String cadena = "";
                 for (Integer i : codigoRepetido) {
@@ -178,8 +188,9 @@ public class ClienteFicheros {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(Configuracion.nombreFicheroCSVCli));
 
+            //recorre la lista de clientes del contenedor
             for (Cliente c : ContenedorCliente.getAlmacenClientes()) {
-
+                //almacena cada cliente en el fichero separando los datos con dos puntos
                 bw.write(c.mostrarDatosConDosPuntos());
                 bw.newLine();
             }
@@ -199,12 +210,14 @@ public class ClienteFicheros {
     public static void importarFicheroCSVCli(String ficheroCSV) throws YaImportadoException {
 
         try {
+            //creamos un arrayList de tipo integer para almacenar los codigos que ya fueron insertados
             ArrayList<Integer> codigoRepetido = new ArrayList<>();
+            //leemos el fichero pasado por parametro linea a linea
             BufferedReader br = new BufferedReader(new FileReader(ficheroCSV));
             String linea;
 
             while ((linea = br.readLine()) != null) {
-
+                //almacenamos en un vector las lineas sin el :
                 String[] partes = linea.split(":");
 
                 // Verificar que la línea tenga todos los datos
@@ -212,7 +225,7 @@ public class ClienteFicheros {
                     System.err.println("Línea inválida: " + linea);
                     continue;
                 }
-
+                //extraemos los datos por posicion
                 int codigo = Integer.parseInt(partes[0]);
                 String nombre = partes[1];
                 String fechaNacimiento = partes[2];
@@ -220,12 +233,15 @@ public class ClienteFicheros {
                 String telefono = partes[4];
                 String correo = partes[5];
 
+                //verificamos que el codigo no este en la base de datos
                 if (Conexiones.verificarExistenciaCodigo(4, codigo)) {
-
+                    //si esta lo almacena el array creado anteriormente
                     codigoRepetido.add(codigo);
 
                 } else {
+                    //creamos los objetos cliente con los datos extraidos del fichero
                     Cliente c = new Cliente(codigo, nombre, fechaNacimiento, direccionEnvio, telefono, correo);
+                    //y lo insertamos en la base de datos
                     Conexiones.insertarDatos(c);
                     System.out.println("Cliente " + nombre + " importado correctamente");
 
@@ -233,6 +249,7 @@ public class ClienteFicheros {
 
             }
 
+            //si el cliente ya existe salta la excepcion YaImportadoException
             if (!codigoRepetido.isEmpty()) {
                 String cadena = "";
                 for (Integer i : codigoRepetido) {
@@ -259,7 +276,9 @@ public class ClienteFicheros {
     public static void exportarFicheroBinarioCli() {
 
         try {
+            //le pasamos el fichero que queremos que escriba
             ObjectOutputStream oss = new ObjectOutputStream(new FileOutputStream(Configuracion.nombreFicheroBinarioCli, true));
+            //escribe los datos de los clientes almacenados en el contenedor
             oss.writeObject(ContenedorCliente.getAlmacenClientes());
 
             oss.close();
@@ -294,19 +313,24 @@ public class ClienteFicheros {
             //creamos un arrayList para almacenar codigos repetidos
             ArrayList<Integer> codigoRepetido = new ArrayList<>();
 
+            //recorremos la lista y se extrae los datos de los clientes
             for (Cliente c : clientes) {
+                //creamos los objetos con esos datos
                 Cliente c1 = new Cliente(c.getCodigo(), c.getNombre(), c.getFechaNacimiento(), c.getDireccionEnvio(), c.getTelefono(), c.getCorreo());
+                //verificamos que los clientes no esten ya en la base de datos
                 if (Conexiones.verificarExistenciaCodigo(4, c.getCodigo())) {
-
+                    //almacenamos los clientes que esten repetidos
                     codigoRepetido.add(c.getCodigo());
 
                 } else {
+                    //si son nuevos los insertamos en la base de datos
                     Conexiones.insertarDatos(c1);
 
                 }
 
             }
 
+            //si hay clientes repetidos salta las excepcion YaImportadoException
             if (!codigoRepetido.isEmpty()) {
                 String cadena = "";
                 for (Integer i : codigoRepetido) {

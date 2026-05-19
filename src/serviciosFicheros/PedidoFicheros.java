@@ -26,9 +26,9 @@ public class PedidoFicheros {
     public static void exportarFicheroDeTextoPed() {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(Configuracion.nombreFicheroTextoFabri));
-
+            //recorre la lista de pedidos del contenedor
             for (Pedido p : ContenedorPedido.getAlmacenPedidos()) {
-
+                //almacena cada pedido en el fichero separando los datos con punto y coma
                 bw.write(p.mostrarDatosConPuntoComa());
                 bw.newLine();
             }
@@ -47,12 +47,14 @@ public class PedidoFicheros {
     public static void importarFicheroDeTextoPed(String ficheroTXT) {
 
         try {
+            //leemos el fichero pasado por parametro linea a linea
             BufferedReader br = new BufferedReader(new FileReader(ficheroTXT));
 
             String linea;
 
             while ((linea = br.readLine()) != null) {
 
+                //almacenamos en un vector las lineas sin el ;
                 String[] partes = linea.split(";");
 
                 // Verificar que la línea tenga todos los datos
@@ -60,7 +62,7 @@ public class PedidoFicheros {
                     System.err.println("Línea inválida: " + linea);
                     continue;
                 }
-
+                //extraemos los datos por posicion
                 int codigoVendedor = Integer.parseInt(partes[0]);
                 int codigoCliente = Integer.parseInt(partes[1]);
                 String fechaRealizacion = partes[2];
@@ -68,8 +70,9 @@ public class PedidoFicheros {
                 String estado = partes[4];
                 double importe = Double.parseDouble(partes[5]);
 
+                //creamos el objeto de tipo pedido con los datos extraidos del fichero
                 Pedido p = new Pedido(codigoVendedor, codigoCliente, fechaRealizacion, fechaEntrega, estado, importe);
-
+                //y lo insertamos a la base de datos
                 Conexiones.insertarDatos(p);
 
             }
@@ -94,6 +97,7 @@ public class PedidoFicheros {
 
         ObjectWriter wr = mp.writerWithDefaultPrettyPrinter();
 
+        //le pasamos el fichero al queremos pasarle los datos, y el contenedor pedidos donde estan los datos almacenados
         try {
             wr.writeValue(new File(Configuracion.nombreFicheroJSONPed), ContenedorPedido.getAlmacenPedidos());
         } catch (IOException ex) {
@@ -110,11 +114,15 @@ public class PedidoFicheros {
         try {
             //creamos el lector de json
             ObjectMapper om = new ObjectMapper();
+            //leememos el fichero, lo interpreta, lo convierte a objeto de Pedido y los mete en un ArrayList
+            //el TypeReference sirve para mantener el tipo generico , sin esto java no sabe que es una lista de Pedido 
             ArrayList<Pedido> pedidos = om.readValue(new File(ficheroJson), new TypeReference<ArrayList<Pedido>>() {
             });
 
+            //recorremos el array y extraemos los datos del pedido para crear los objetos
             for (Pedido p : pedidos) {
                 Pedido p1 = new Pedido(p.getCodigoVendedor(), p.getCodigoCliente(), p.getFechaRealizacion(), p.getFechaEntrega(), p.getEstado(), p.getImporte());
+                //insertamos los objetos a la base de datos
                 Conexiones.insertarDatos(p1);
 
             }
@@ -133,8 +141,9 @@ public class PedidoFicheros {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(Configuracion.nombreFicheroCSVPed));
 
+            //recorre la lista de pedidos del contenedor
             for (Pedido p : ContenedorPedido.getAlmacenPedidos()) {
-
+                //almacena cada pedido en el fichero separando los datos con dos puntos
                 bw.write(p.mostrarDatosConDosPuntos());
                 bw.newLine();
             }
@@ -154,12 +163,13 @@ public class PedidoFicheros {
     public static void importarFicheroCSVPed(String ficheroCSV) {
 
         try {
+            //leemos el fichero pasado por parametro linea a linea
             BufferedReader br = new BufferedReader(new FileReader(ficheroCSV));
 
             String linea;
 
             while ((linea = br.readLine()) != null) {
-
+                //almacenamos en un vector las lineas sin el :
                 String[] partes = linea.split(":");
 
                 // Verificar que la línea tenga todos los datos
@@ -167,7 +177,8 @@ public class PedidoFicheros {
                     System.err.println("Línea inválida: " + linea);
                     continue;
                 }
-
+                
+                //extraemos los datos por posicion
                 int codigoVendedor = Integer.parseInt(partes[0]);
                 int codigoCliente = Integer.parseInt(partes[1]);
                 String fechaRealizacion = partes[2];
@@ -175,8 +186,10 @@ public class PedidoFicheros {
                 String estado = partes[4];
                 double importe = Double.parseDouble(partes[5]);
 
+                //creamos el objeto pedido con los datos extraidos del fichero
                 Pedido p = new Pedido(codigoVendedor, codigoCliente, fechaRealizacion, fechaEntrega, estado, importe);
 
+                //y lo insertamos en la base de datos
                 Conexiones.insertarDatos(p);
 
             }
@@ -196,7 +209,9 @@ public class PedidoFicheros {
      */
     public static void exportarFicheroBinarioPed() {
         try {
+            //le pasamos el fichero que queremos que escriba
             ObjectOutputStream oss = new ObjectOutputStream(new FileOutputStream(Configuracion.nombreFicheroBinarioPed, true));
+            //escribe los datos de los pedidos almacenados en el contenedor
             oss.writeObject(ContenedorPedido.getAlmacenPedidos());
 
             oss.close();
@@ -227,9 +242,11 @@ public class PedidoFicheros {
             //cerramos el fichero
             ois.close();
 
+            //recorremos la lista y se estrae los datos de los pedidos
             for (Pedido p : pedidos) {
+                //creamos los objetos con esos datos
                 Pedido p1 = new Pedido(p.getCodigoVendedor(), p.getCodigoCliente(), p.getFechaRealizacion(), p.getFechaEntrega(), p.getEstado(), p.getImporte());
-
+                // y los insertamos a la base de datos
                 Conexiones.insertarDatos(p1);
 
             }

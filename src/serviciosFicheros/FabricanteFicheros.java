@@ -31,8 +31,9 @@ public class FabricanteFicheros {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(Configuracion.nombreFicheroTextoFabri));
 
+            //recorre la lista de fabricantes del contenedor
             for (Fabricante f : ContenedorFabricante.getFabricantes()) {
-
+                //almacena cada fabricante en el fichero separando los datos con punto y coma
                 bw.write(f.mostrarDatosConPuntoComa());
                 bw.newLine();
             }
@@ -53,12 +54,15 @@ public class FabricanteFicheros {
     public static void importarFicheroDeTextoFabri(String ficheroTXT) throws YaImportadoException {
 
         try {
+            //creamos un arrayList de tipo integer para almacenar los fabricantes que ya fueron insertados
             ArrayList<Integer> codigoRepetido = new ArrayList<>();
+            //leemos el fichero pasado por parametro linea a linea
             BufferedReader br = new BufferedReader(new FileReader(ficheroTXT));
             String linea;
 
             while ((linea = br.readLine()) != null) {
 
+                //almacenamos en un vector las lineas sin el ;
                 String[] partes = linea.split(";");
 
                 // Verificar que la línea tenga todos los datos
@@ -67,6 +71,7 @@ public class FabricanteFicheros {
                     continue;
                 }
 
+                //extraemos los datos por posicion
                 int codigo = Integer.parseInt(partes[0]);
                 String nombre = partes[1];
                 int anyoFundacion = Integer.parseInt(partes[2]);
@@ -74,20 +79,22 @@ public class FabricanteFicheros {
                 int empleados = Integer.parseInt(partes[4]);
                 String sitioWeb = partes[5];
 
+                //verificamos que el codigo no este en la base de datos
                 if (Conexiones.verificarExistenciaCodigo(1, codigo)) {
-
+                    //si esta lo almacena al array creado anteriormente
                     codigoRepetido.add(codigo);
 
                 } else {
-
+                    //creamos el objeto de fabricante con los datos extraidos del fichero
                     Fabricante f = new Fabricante(codigo, nombre, anyoFundacion, lugarSede, empleados, sitioWeb);
-
+                    //y lo insertamos a la base de datos
                     Conexiones.insertarDatos(f);
 
                     System.out.println("Fabricante " + nombre + " importado correctamente");
                 }
             }
 
+            //si el fabricante ya existe en la base de datos, salta la excepcion YaImportadoException 
             if (!codigoRepetido.isEmpty()) {
                 String cadena = "";
                 for (Integer i : codigoRepetido) {
@@ -121,6 +128,7 @@ public class FabricanteFicheros {
 
         ObjectWriter wr = mp.writerWithDefaultPrettyPrinter();
 
+        //le pasamos el fichero al que queremos pasarle los datos, y el contenedor fabricante donde estan los datos almacenados
         try {
             wr.writeValue(new File(Configuracion.nombreFicheroJSONFabri), ContenedorFabricante.getFabricantes());
         } catch (IOException ex) {
@@ -148,13 +156,16 @@ public class FabricanteFicheros {
             //creamos un arrayList para almacenar codigos repetidos
             ArrayList<Integer> codigoRepetido = new ArrayList<>();
 
+            //recorremos el array y extraemos los datos del fabricante para crear un objeto
             for (Fabricante f : fabricantes) {
                 Fabricante f1 = new Fabricante(f.getCodigo(), f.getNombre(), f.getAnyoFundacion(), f.getLugarSede(), f.getEmpleados(), f.getSitioWeb());
+                //comprobamos que el fabricante no exista ya en la base de datos
                 if (Conexiones.verificarExistenciaCodigo(1, f.getCodigo())) {
 
                     codigoRepetido.add(f.getCodigo());
 
                 } else {
+                    //si los fabricantes son nuevos se insertan en la base de datos
                     Conexiones.insertarDatos(f1);
                     System.out.println("Fabricante " + f.getNombre() + " importado correctamente");
 
@@ -162,6 +173,7 @@ public class FabricanteFicheros {
 
             }
 
+            //si los fabricantes ya existen , salta la excepcion YaImportadoException
             if (!codigoRepetido.isEmpty()) {
                 String cadena = "";
                 for (Integer i : codigoRepetido) {
@@ -185,8 +197,9 @@ public class FabricanteFicheros {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(Configuracion.nombreFicheroCSVFabri));
 
+            //recorre la lista de fabricantes del contenedor
             for (Fabricante f : ContenedorFabricante.getFabricantes()) {
-
+                //almacena cada fabricante en el fichero separando los datos con dos puntos
                 bw.write(f.mostrarDatosConDosPuntos());
                 bw.newLine();
             }
@@ -206,12 +219,14 @@ public class FabricanteFicheros {
     public static void importarFicheroCSVFabri(String ficheroCSV) throws YaImportadoException {
 
         try {
+            //creamos un arrayList de tipo integer para almacenar los codigos que ya fueron insertados
             ArrayList<Integer> codigoRepetido = new ArrayList<>();
+            //leemos el fichero pasado por parametro linea a linea
             BufferedReader br = new BufferedReader(new FileReader(ficheroCSV));
             String linea;
 
             while ((linea = br.readLine()) != null) {
-
+                //almacenamos en un vector las lineas sin el :
                 String[] partes = linea.split(":");
 
                 // Verificar que la línea tenga todos los datos
@@ -220,6 +235,7 @@ public class FabricanteFicheros {
                     continue;
                 }
 
+                //extraemos los datos por posicion
                 int codigo = Integer.parseInt(partes[0]);
                 String nombre = partes[1];
                 int anyoFundacion = Integer.parseInt(partes[2]);
@@ -227,20 +243,22 @@ public class FabricanteFicheros {
                 int empleados = Integer.parseInt(partes[4]);
                 String sitioWeb = partes[5];
 
+                //verificamos que el codigo no este en la base de datos
                 if (Conexiones.verificarExistenciaCodigo(1, codigo)) {
-
+                    //si esta lo almacena al array creado anteriormente
                     codigoRepetido.add(codigo);
 
                 } else {
-
+                    //creamos el objeto fabricante con los datos extraidos del fichero
                     Fabricante f = new Fabricante(codigo, nombre, anyoFundacion, lugarSede, empleados, sitioWeb);
-
+                    //y lo insertamos en la base de datos
                     Conexiones.insertarDatos(f);
 
                     System.out.println("Fabricante " + nombre + " importado correctamente");
                 }
             }
 
+            //si el fabricante ya existe salta la excepcion YaImportadoException
             if (!codigoRepetido.isEmpty()) {
                 String cadena = "";
                 for (Integer i : codigoRepetido) {
@@ -271,7 +289,9 @@ public class FabricanteFicheros {
     public static void exportarFicheroBinarioFabri() {
 
         try {
+            //le pasamos el fichero que queremos que escriba
             ObjectOutputStream oss = new ObjectOutputStream(new FileOutputStream(Configuracion.nombreFicheroBinarioFabri, true));
+            //escribe los datos de los fabricantes almacenados en el contenedor
             oss.writeObject(ContenedorFabricante.getFabricantes());
 
             oss.close();
@@ -306,19 +326,24 @@ public class FabricanteFicheros {
             //creamos un arrayList para almacenar codigos repetidos
             ArrayList<Integer> codigoRepetido = new ArrayList<>();
 
+            //recorremos la lista y se extrae los datos de los fabricantes 
             for (Fabricante f : fabricantes) {
+                //creamos los objetos con esos datos
                 Fabricante f1 = new Fabricante(f.getCodigo(), f.getNombre(), f.getAnyoFundacion(), f.getLugarSede(), f.getEmpleados(), f.getSitioWeb());
+                //verificamos que los fabricantes no esten ya en la base de datos
                 if (Conexiones.verificarExistenciaCodigo(1, f.getCodigo())) {
-
+                    //almacenamos los  fabricantes que esten repetidos 
                     codigoRepetido.add(f.getCodigo());
 
                 } else {
+                    //si son nuevos los insertamos en la base de datos
                     Conexiones.insertarDatos(f1);
                     System.out.println("Fabricante " + f.getNombre() + " importado correctamente");
                 }
 
             }
 
+            //si hay fabricantes repetidos salta la excepcion YaImportadoException
             if (!codigoRepetido.isEmpty()) {
                 String cadena = "";
                 for (Integer i : codigoRepetido) {

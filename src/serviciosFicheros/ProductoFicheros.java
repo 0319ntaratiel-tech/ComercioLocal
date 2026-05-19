@@ -27,9 +27,9 @@ public class ProductoFicheros {
     public static void exportarFicheroDeTextoPro() {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(Configuracion.nombreFicheroTextoPro));
-
+            //recorre la lista de productos del contenedor
             for (Producto p : ContenedorProducto.getAlmacenProductos()) {
-
+                //almacena cada producto en el fichero separando los datos con punto y coma
                 bw.write(p.mostrarDatosConPuntoComa());
                 bw.newLine();
             }
@@ -49,17 +49,21 @@ public class ProductoFicheros {
     public static void importarFicheroDeTextoPro(String nombreTXT) throws YaImportadoException {
 
         try {
+            //creamos un arrayList de tipo integer para almacenar los productos  que ya fueron insertados
             ArrayList<Integer> codigoRepetido = new ArrayList<>();
+            //leemos el fichero pasado por parametro linea a linea
             BufferedReader br = new BufferedReader(new FileReader(nombreTXT));
             String linea;
 
             while ((linea = br.readLine()) != null) {
+                //almacenamos en un vector las lineas sin el ;
                 String[] partes = linea.split(";");
                 // Verificar que la línea tenga todos los datos
                 if (partes.length < 6) {
                     System.err.println("Línea inválida: " + linea);
                     continue;
                 }
+                //extraemos los datos por posicion
                 int codigo = Integer.parseInt(partes[0]);
                 int codigoFabricante = Integer.parseInt(partes[1]);
                 String nombre = partes[2];
@@ -67,19 +71,22 @@ public class ProductoFicheros {
                 String disponibilidad = partes[4];
                 double precioVenta = Double.parseDouble(partes[5]);
 
+                //verificamos que el codigo no este en la base de datos
                 if (Conexiones.verificarExistenciaCodigo(2, codigo)) {
-
+                    //si esta lo almacena al array creado anteriormente
                     codigoRepetido.add(codigo);
 
                 } else {
+                    //creamos el objeto de producto con los datos extraidos del fichero
                     Producto p = new Producto(codigo, codigoFabricante, nombre, categoria, disponibilidad, precioVenta);
-
+                    //y lo insertamos a la base de datos
                     Conexiones.insertarDatos(p);
 
                     System.out.println("Producto " + nombre + " importado correctamente");
                 }
 
             }
+            //si el producto ya existe en la base de datos, salta la excepcion YaImportadoException 
             if (!codigoRepetido.isEmpty()) {
                 String cadena = "";
                 for (Integer i : codigoRepetido) {
@@ -111,7 +118,7 @@ public class ProductoFicheros {
         ObjectMapper mp = new ObjectMapper();
 
         ObjectWriter wr = mp.writerWithDefaultPrettyPrinter();
-
+        //le pasamos el fichero al que queremos pasarle los datos, y el contenedor producto donde estan los datos almacenados
         try {
             wr.writeValue(new File(Configuracion.nombreFicheroJSONPro), ContenedorProducto.getAlmacenProductos());
         } catch (IOException ex) {
@@ -138,19 +145,21 @@ public class ProductoFicheros {
             });
             //creamos un arrayList para almacenar codigos repetidos
             ArrayList<Integer> codigoRepetido = new ArrayList<>();
-           
+                //recorremos el array y extraemos los datos del producto para crear un objeto
                 for (Producto p : productos) {
                     Producto p1 = new Producto(p.getCodigo(), p.getCodigoFabricante(), p.getNombre(), p.getCategoria(), p.getDisponibilidad(), p.getPrecioVenta());
+                    //comprobamos que el producto no exista ya en la base de datos
                     if (Conexiones.verificarExistenciaCodigo(2, p.getCodigo())) {
 
                         codigoRepetido.add(p.getCodigo());
 
                     } else {
+                        //si los productos son nuevos se insertan en la base de datos
                         Conexiones.insertarDatos(p);
                     }
                 }
 
-            
+            //si los productos ya existen , salta la excepcion YaImportadoException
             if (!codigoRepetido.isEmpty()) {
                 String cadena = "";
                 for (Integer i : codigoRepetido) {
@@ -173,8 +182,9 @@ public class ProductoFicheros {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(Configuracion.nombreFicheroCSVPro));
 
+            //recorre la lista de productos del contenedor
             for (Producto p : ContenedorProducto.getAlmacenProductos()) {
-
+                //almacena cada producto en el fichero separando los datos con dos puntos
                 bw.write(p.mostrarDatosConDosPuntos());
                 bw.newLine();
             }
@@ -195,17 +205,21 @@ public class ProductoFicheros {
     public static void importarFicheroCSVPro(String nombreCSV) throws YaImportadoException {
 
         try {
+            //creamos un arrayList de tipo integer para almacenar los codigos que ya fueron insertados
             ArrayList<Integer> codigoRepetido = new ArrayList<>();
+            //leemos el fichero pasado por parametro linea a linea
             BufferedReader br = new BufferedReader(new FileReader(nombreCSV));
             String linea;
 
             while ((linea = br.readLine()) != null) {
+                //almacenamos en un vector las lineas sin el :
                 String[] partes = linea.split(":");
                 // Verificar que la línea tenga todos los datos
                 if (partes.length < 6) {
                     System.err.println("Línea inválida: " + linea);
                     continue;
                 }
+                //extraemos los datos por posicion
                 int codigo = Integer.parseInt(partes[0]);
                 int codigoFabricante = Integer.parseInt(partes[1]);
                 String nombre = partes[2];
@@ -213,19 +227,22 @@ public class ProductoFicheros {
                 String disponibilidad = partes[4];
                 double precioVenta = Double.parseDouble(partes[5]);
 
+                //verificamos que el codigo no este en la base de datos
                 if (Conexiones.verificarExistenciaCodigo(2, codigo)) {
-
+                    //si esta lo almacena al array creado anteriormente
                     codigoRepetido.add(codigo);
 
                 } else {
+                    //creamos el objeto producto con los datos extraidos del fichero
                     Producto p = new Producto(codigo, codigoFabricante, nombre, categoria, disponibilidad, precioVenta);
-
+                    //y lo insertamos en la base de datos
                     Conexiones.insertarDatos(p);
 
                     System.out.println("Producto " + nombre + " importado correctamente");
                 }
 
             }
+            //si el producto ya existe salta la excepcion YaImportadoException
             if (!codigoRepetido.isEmpty()) {
                 String cadena = "";
                 for (Integer i : codigoRepetido) {
@@ -255,7 +272,10 @@ public class ProductoFicheros {
      */
     public static void exportarFicheroBinarioPro() {
         try {
+            //le pasamos el fichero que queremos que escriba
             ObjectOutputStream oss = new ObjectOutputStream(new FileOutputStream(Configuracion.nombreFicheroBinarioPro, true));
+            
+            //escribe los datos de los productos almacenados en el contenedor
             oss.writeObject(ContenedorProducto.getAlmacenProductos());
 
             oss.close();
@@ -288,19 +308,22 @@ public class ProductoFicheros {
             ois.close();
             //creamos un arrayList para almacenar codigos repetidos
             ArrayList<Integer> codigoRepetido = new ArrayList<>();
-            
+                //recorremos la lista y se extrae los datos de los productos 
                 for (Producto p : productos) {
+                    //creamos los objetos con esos datos
                     Producto p1 = new Producto(p.getCodigo(), p.getCodigoFabricante(), p.getNombre(), p.getCategoria(), p.getDisponibilidad(), p.getPrecioVenta());
+                    //verificamos que los productos no esten ya en la base de datos
                     if (Conexiones.verificarExistenciaCodigo(2, p.getCodigo())) {
-
+                        //almacenamos los  productos que esten repetidos 
                         codigoRepetido.add(p.getCodigo());
 
                     } else {
+                        //si son nuevos los insertamos en la base de datos
                         Conexiones.insertarDatos(p);
                     }
                 }
 
-            
+            //si hay productos repetidos salta la excepcion YaImportadoException
             if (!codigoRepetido.isEmpty()) {
                 String cadena = "";
                 for (Integer i : codigoRepetido) {

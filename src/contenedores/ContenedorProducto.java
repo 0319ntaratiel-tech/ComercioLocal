@@ -10,13 +10,15 @@ import java.util.Set;
 import modelos.Producto;
 
 /**
- *
- * @author isard
+ *  Clase contenedora donde se almacenaran los diferentes datos insertados , 
+ * asi como la informacion de los productos que esten en la base de datos
+ * @author Natalia
  */
 public class ContenedorProducto {
 
-    //creamos una lista para almecenar los datos insertados durante la ejecución
+    //creamos una lista para almacenar los datos de la base de datos
     private static Set<Producto> almacenProductos = new HashSet<>();
+    //creamos una lista para almacenar los datos insertados durante la ejecución
     private static Set<Producto> almacenProductosNuevo = new HashSet<>();
 
    
@@ -52,7 +54,6 @@ public class ContenedorProducto {
 
     /**
      * metodo que devuelve la lista de productos
-     *
      * @return almacenProductos
      */
     public static Set<Producto> getAlmacenProductos() {

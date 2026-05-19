@@ -8,12 +8,14 @@ import java.util.ArrayList;
 import modelos.Fabricante;
 
 /**
- *
- * @author isard
+ * Clase contenedora donde se almacenaran los diferentes datos insertados , 
+ * asi como la informacion de los fabricantes que esten en la base de datos
+ * @author Natalia
  */
 public class ContenedorFabricante {
-    //creamos una lista para almecenar los datos insertados durante la ejecución
-    private static ArrayList<Fabricante> almacenFabricantes=new ArrayList<>();;
+    //creamos una lista para almacenar los datos de la base de datos
+    private static ArrayList<Fabricante> almacenFabricantes=new ArrayList<>();
+    //creamos una lista para almacenar los datos insertados durante la ejecución
     private static ArrayList<Fabricante> almacenFabricantesNuevo= new ArrayList<>();
     
   
