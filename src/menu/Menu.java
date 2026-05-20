@@ -36,6 +36,7 @@ import utils.Configuracion;
 
 /**
  * Clase que contiene el programa principal con su menu y sus submenus
+ *
  * @author Natalia y Gabriela
  */
 public class Menu {
@@ -57,7 +58,8 @@ public class Menu {
     }
 
     /**
-     * Menu principal donde se le pregunta al usuario la tabla que desea gestionar o si desea genererar los informes multitabla
+     * Menu principal donde se le pregunta al usuario la tabla que desea
+     * gestionar o si desea genererar los informes multitabla
      */
     public static void menuPrincipal() {
         int opcion = 0;
@@ -146,7 +148,7 @@ public class Menu {
                         int codigoFabri = teclado.nextInt(); //Verificar codigo
 
                         if (Conexiones.verificarExistenciaCodigo(1, codigoFabri)) {
-                            System.out.println("EL CODIGO INGRESADO YA EXISTE O ES MENOR O IGUAL QUE CERO");
+                            System.err.println("EL CODIGO INGRESADO YA EXISTE");
 
                         } else {
                             teclado.nextLine();
@@ -158,7 +160,7 @@ public class Menu {
                             System.out.println("INSERTA EL AÑO DE FUNDACION DEL FABRICANTE");
                             int anyoFundacionFabri = teclado.nextInt();
                             teclado.nextLine();
-                            if (!Comprobaciones.comprobarAnyoFundacion(anyoFundacionFabri)) {
+                            if (!Comprobaciones.comprobarAnyo(anyoFundacionFabri)) {
                                 return;
                             }
                             System.out.println("INSERTA EL LUGAR SEDE DEL FABRICANTE ");
@@ -190,10 +192,12 @@ public class Menu {
                         teclado.nextLine();
 
                         if (Conexiones.verificarExistenciaCodigo(1, codigoFabri1)) {
-                            Conexiones.actualizarFila(1, codigoFabri1);
-                            System.out.println("FABRICANTE ACTUALIZADO");
+                            if (Conexiones.actualizarFila(1, codigoFabri1)) {
+                                System.out.println("FABRICANTE ACTUALIZADO");
+                            }
+
                         } else {
-                            System.out.println("NO EXISTE EL CODIGO INGRESADO");
+                            System.err.println("NO EXISTE EL CODIGO INGRESADO");
                         }
 
                         break;
@@ -208,7 +212,7 @@ public class Menu {
                             Conexiones.eliminarFila(1, codigoFabrEli);
                             System.out.println("FABRICANTE ELIMINADO");
                         } else {
-                            System.out.println("NO EXISTE EL CODIGO INGRESADO");
+                            System.err.println("NO EXISTE EL CODIGO INGRESADO");
                         }
 
                         break;
@@ -223,7 +227,7 @@ public class Menu {
                             Conexiones.consultarFila(1, codigoFabrB);
 
                         } else {
-                            System.out.println("NO EXISTE EL CODIGO INGRESADO");
+                            System.err.println("NO EXISTE EL CODIGO INGRESADO");
                         }
 
                         break;
@@ -340,7 +344,7 @@ public class Menu {
                         System.out.println("OPCION INCORRECTA");
                 }
             } catch (InputMismatchException e) {
-                System.out.println("ERROR ENTRADA INVALIDA,DEBE CONTENER SOLO NUMEROS");
+                System.err.println("ERROR ENTRADA INVALIDA");
                 teclado.nextLine();
 
             }

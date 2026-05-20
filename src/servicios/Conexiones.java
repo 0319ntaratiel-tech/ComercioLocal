@@ -273,7 +273,7 @@ public class Conexiones {
      * @param clase indica la tabla a actualizar
      * @param codigo codigo del registro a acatualizar
      */
-    public static void actualizarFila(int clase, int codigo) {
+    public static boolean actualizarFila(int clase, int codigo) {
 
         try {
             //Segun el valor ingresado, se actaliza una tabla distinta
@@ -283,20 +283,21 @@ public class Conexiones {
                 String nombreFabri = teclado.nextLine();
                 //Valida caracteres 
                 if (!Comprobaciones.comprobarStringValido(nombreFabri)) {
-                    return;
+                    return false;
                 }
                 System.out.println("INSERTA NUEVO AÑO DE FUNDACION DEL FABRICANTE");
                 int anyoFundacionFabri = teclado.nextInt();
-                //Valida año
-                if (!Comprobaciones.comprobarAnyoFundacion(anyoFundacionFabri)) {
-                    return;
-                }
                 teclado.nextLine();
+                //Valida año
+                if (!Comprobaciones.comprobarAnyo(anyoFundacionFabri)) {
+                    return false;
+                }
+                
                 System.out.println("INSERTA NUEVO LUGAR SEDE DEL FABRICANTE ");
                 String lugarSedeFabri = teclado.nextLine();
                 //Valida caracteres 
                 if (!Comprobaciones.comprobarCarcateresDireccion(lugarSedeFabri)) {
-                    return;
+                    return false;
                 }
                 System.out.println("INSERTA NUEVO NUMERO DE EMPLEADOS DEL FABRICANTE");
                 int empleadosFabri = teclado.nextInt();
@@ -306,7 +307,7 @@ public class Conexiones {
                 String sitioWebFabri = teclado.next();
                 //Valida caracteres permitidos
                 if (!Comprobaciones.comprobarStringValido(nombreFabri)) {
-                    return;
+                    return false;
                 }
                 PreparedStatement pst = con.prepareStatement("update fabricante set nombre= ?,"
                         + "anyoFundacion=?,lugarSede=?,empleados=?,sitioWeb=? where codigo=?");
@@ -318,6 +319,7 @@ public class Conexiones {
                 pst.setInt(6, codigo);
                 pst.executeUpdate();
                 pst.close();
+                return true;
             } else if (clase == 2) {
 
                 //Actualiza producto
@@ -326,33 +328,32 @@ public class Conexiones {
                 //Valida el codigo
                 if (!verificarExistenciaCodigo(1, codidoFab)) {
                     System.out.println("EL CODIGO INGRESADO NO EXISTE EN LA BASE DE DATOS");
-                    return;
+                    return false;
                 }
                 teclado.nextLine();
                 System.out.println("INSERTA NUEVO NOMBRE DEL PRODUCTO");
                 String nombre = teclado.nextLine();
                 //Valida caracteres 
                 if (!Comprobaciones.comprobarStringValido(nombre)) {
-                    return;
+                    return false;
                 }
                 System.out.println("INSERTA NUEVA CATEGORIA DEL PRODUCTO");
                 String categoria = teclado.nextLine();
                 //Valida caracteres 
                 if (!Comprobaciones.comprobarStringValido(categoria)) {
-                    return;
+                    return false;
                 }
                 System.out.println("INSERTA NUEVO DISPONIBILIDAD DEL PRODUCTO");
                 String disponibilidad = teclado.nextLine();
                 //Valida disponibilidad
                 if (!Comprobaciones.verificarDisponibilidad(disponibilidad)) {
-                    return;
+                    return false;
                 }
                 System.out.println("INSERTA NUEVO PRECIO DE VENTA DEL PRODUCTO");
                 double precioVenta = teclado.nextDouble();
                 //Valida precio
-                if (!Comprobaciones.validarNumero(precioVenta).equals("Número válido")) {
-                    System.out.println("Precio invalido debe ser mayor a 0");
-                    return;
+                if(!Comprobaciones.validarNumero(precioVenta)){
+                    return  false;
                 }
                 teclado.nextLine();
 
@@ -367,6 +368,7 @@ public class Conexiones {
                 pst.setInt(6, codigo);
                 pst.executeUpdate();
                 pst.close();
+                return  true;
             } else if (clase == 3) {
 
                 //Actualiza vendedor
@@ -374,26 +376,23 @@ public class Conexiones {
                 String nombreVen = teclado.nextLine();
                 //Valida caracteres
                 if (!Comprobaciones.comprobarStringValido(nombreVen)) {
-                    return;
+                    return false;
                 }
                 System.out.println("INSERTA NUEVA FECHA DE ALTA DEL VENDEDOR");
                 String fechaAltaVen = teclado.nextLine();
                 //Valida formato de fecha
                 if (!Comprobaciones.comprobarFecha(fechaAltaVen)) {
-                    return;
+                    return false;
                 }
                 System.out.println("INSERTA NUEVO DOMICILIO DEL VENDEDOR");
                 String domicilioVen = teclado.nextLine();
                 //Valida caracteres
                 if (Comprobaciones.comprobarCarcateresDireccion(domicilioVen)) {
-                    return;
+                    return false;
                 }
                 System.out.println("INSERTA NUEVO SALARIO DEL VENDEDOR");
                 double salarioVen = teclado.nextDouble();
-                if (!Comprobaciones.validarNumero(salarioVen).equals("Número válido")) {
-                    System.out.println("Valor invalido debe ser mayor a 5");
-                    return;
-                }
+               
                 teclado.nextLine();
                 System.out.println("INSERTA NUEVO PORCENTAJE DEL VENDEDOR");
                 double porcentajeVen = teclado.nextDouble();
@@ -411,25 +410,26 @@ public class Conexiones {
                 pst.setInt(6, codigo);
                 pst.executeUpdate();
                 pst.close();
+                return  true;
             } else if (clase == 4) {
                 //Actualiza cliente
                 System.out.println("INSERTA NUEVO  NOMBRE DEL CLIENTE");
                 String nombreCli = teclado.nextLine();
                 //Valida caracteres
                 if (Comprobaciones.comprobarStringValido(nombreCli)) {
-                    return;
+                    return false;
                 }
                 System.out.println("INSERTA NUEVA FECHA DE NACIMIENTO DEL CLIENTE");
                 String fechaNacimientoCli = teclado.nextLine();
                 //Valida fecha
                 if (Comprobaciones.comprobarFecha(fechaNacimientoCli)) {
-                    return;
+                    return false;
                 }
                 System.out.println("INSERTA NUEVA DIRECCION DE ENVIO DEL CLIENTE");
                 String direccionEnvio = teclado.nextLine();
                 //Valida caracteres
                 if (Comprobaciones.comprobarCarcateresDireccion(direccionEnvio)) {
-                    return;
+                    return false;
                 }
                 System.out.println("INSERTA NUEVO TELEFONO DEL CLIENTE");
                 String telCliente = teclado.nextLine();
@@ -439,7 +439,7 @@ public class Conexiones {
                 String correoCli = teclado.nextLine();
                 //Valida caracteres
                 if (Comprobaciones.comprobarStringValido(correoCli)) {
-                    return;
+                    return false;
                 }
                 PreparedStatement pst = con.prepareStatement("update cliente set nombre=?,fechaNacimiento=?,"
                         + "direccionEnvio=?,telefono=?,correo=? where codigo=? ");
@@ -452,13 +452,14 @@ public class Conexiones {
                 pst.setInt(6, codigo);
                 pst.executeUpdate();
                 pst.close();
+                return  true;
             } else if (clase == 5) {
                 //Actualiza un pedido
                 System.out.println("INSERTA NUEVO CODIGO DEL VENDEDOR");
                 int codigoVen = teclado.nextInt();
                 if (verificarExistenciaCodigo(3, codigoVen)) {
                     System.out.println("EL CODIGO NO EXISTE EN LA BASE DE DATOS");
-                    return;
+                    return false;
                 }
                 teclado.nextLine();
 
@@ -466,19 +467,19 @@ public class Conexiones {
                 int codigoCli = teclado.nextInt();
                 if (verificarExistenciaCodigo(4, codigoCli)) {
                     System.out.println("EL CODIGO NO EXISTE EN LA BASE DE DATOS");
-                    return;
+                    return false;
                 }
                 teclado.nextLine();
 
                 System.out.println("INSERTA NUEVA FECHA DE ENTREGA DEL PEDIDO YYYY-MM-DD");
                 String fechaEnt = teclado.nextLine();
                 if(Comprobaciones.comprobarFecha(fechaEnt)){
-                    return;
+                    return false;
                 }
                 System.out.println("INSERTA NUEVO ESTADO DEL PEDIDO");
                 String estado = teclado.nextLine();
                 if(!Comprobaciones.verificarEstado(estado)){
-                    return;
+                    return false;
                 }
 
                 PreparedStatement pst = con.prepareStatement("update pedido set codigoVendedor=?,codigoCliente=?,fechaEntrega =?,estado=?"
@@ -491,6 +492,7 @@ public class Conexiones {
                 pst.setInt(6, codigo);
                 pst.executeUpdate();
                 pst.close();
+                return  true;
             } else {
                 System.out.println("Clase no encontrada");
             }
@@ -498,6 +500,7 @@ public class Conexiones {
         } catch (SQLException ex) {
             Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return true;
     }
 
     /**
