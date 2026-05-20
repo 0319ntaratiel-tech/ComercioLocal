@@ -75,40 +75,6 @@ public class Comprobaciones {
         return false;
     }
 
-    public static boolean comprobarOrdenFechas(String fechaRea, String fechaEnt) {
-
-        String[] fRea = fechaRea.split("-");
-        String[] fEnt = fechaEnt.split("-");
-
-        try {
-            int anoRea = Integer.parseInt(fRea[0]);
-            int mesRea = Integer.parseInt(fRea[1]);
-            int diaRea = Integer.parseInt(fRea[2]);
-
-            int anoEnt = Integer.parseInt(fEnt[0]);
-            int mesEnt = Integer.parseInt(fEnt[1]);
-            int diaEnt = Integer.parseInt(fEnt[2]);
-
-            if (anoEnt < anoRea) {
-                return false;
-            }
-
-            if (anoEnt == anoRea && mesEnt < mesRea) {
-                return false;
-            }
-
-            if (anoEnt == anoRea && mesEnt == mesRea && diaEnt < diaRea) {
-                return false;
-            }
-
-        } catch (NumberFormatException e) {
-            System.err.println("Error en el formato de las fechas");
-            return false;
-        }
-
-        return true;
-    }
-
     public static boolean verificarDisponibilidad(String texto) {
 
         for (String opcion : Configuracion.disponibilidad) {
@@ -157,6 +123,20 @@ public class Comprobaciones {
         if (texto == null || texto.isEmpty()) {
             System.err.println("El valor no puede estar vacío");
             return false;
+        }
+        if (texto.length() > 45) {
+            System.err.println("El valor no puede tener más de 50 caracteres");
+            return false;
+        }
+
+        return true;
+    }
+
+    public static boolean comprobarCarcateresDireccion(String texto) {
+
+        if (texto == null || texto.isEmpty()) {
+            System.err.println("El valor no puede estar vacío");
+            return false;
         } else if (texto.length() > 50) {
             System.err.println("El valor no puede tener más de 50 caracteres");
             return false;
@@ -165,14 +145,11 @@ public class Comprobaciones {
         return true;
     }
 
-    public static boolean comprobarIntValido(int numero) {
-
+    public static String validarNumero(double numero) {
         if (numero <= 0) {
-
-            return false;
+            return "Número inválido";
         }
-
-        return true;
+        return "Número válido";
     }
 
 }

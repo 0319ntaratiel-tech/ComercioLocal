@@ -10,7 +10,7 @@ import java.time.LocalDate;
 
 /**
  *
- * @author Gabriela
+ * @author Gabriela Gomez
  */
 public class Vendedor implements Lectora, Serializable{
     // Atributos
@@ -37,7 +37,7 @@ public class Vendedor implements Lectora, Serializable{
     
     
 
-    //Metodos
+    //Getter y setters
     /**
      * Metodo que devuelve el codigo
      *

@@ -11,7 +11,7 @@ import java.time.LocalDate;
 /**
  * La clase funciona para insertar un 
  * cliente a la tabla de datos con sus respectivos atributos
- * @author Natalia
+ * @author Natalia Taratiel
  */
 public class Cliente implements Lectora, Serializable{
     //atributos

@@ -17,7 +17,7 @@ import servicios.Conexiones;
 /**
  * La clase funciona para insertar un 
  * pedido a la tabla de datos con sus respectivos atributos
- * @author Natalia
+ * @author Natalia Taratiel
  */
 public class Pedido implements Lectora, Serializable{
     //atributos
