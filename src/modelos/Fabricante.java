@@ -13,8 +13,9 @@ import java.io.Serializable;
  * @author Gabriela Gomez
  */
 public class Fabricante implements Lectora, Serializable {
-    //Atributos
-
+    /*
+    Atributos
+    */
     private int codigo;
     private String nombre;
     private int anyoFundacion;
@@ -22,7 +23,9 @@ public class Fabricante implements Lectora, Serializable {
     private int empleados;
     private String sitioWeb;
 
-    //Constructor
+    /*
+    Constructor
+    */
     public Fabricante(int codigo, String nombre, int anyoFundacion, String lugarSede, int empleados, String sitioWeb) {
         this.codigo = codigo;
         this.nombre = nombre;

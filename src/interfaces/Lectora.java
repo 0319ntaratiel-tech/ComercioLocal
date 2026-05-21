@@ -5,7 +5,7 @@
 package interfaces;
 
 /**
- *
+ * Clase que contiene metodos abstractos que seran implementados en las clases
  * @author Natalia
  */
 public interface Lectora {

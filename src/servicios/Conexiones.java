@@ -29,7 +29,7 @@ import utils.Comprobaciones;
 import utils.Configuracion;
 
 /**
- *
+ * Clase que contiene metodos de conexion con la base de datos, asi como diferentes metodos de gestion 
  * @author Natalia y Gabriela
  */
 public class Conexiones {
@@ -416,7 +416,7 @@ public class Conexiones {
                 System.out.println("INSERTA NUEVO  NOMBRE DEL CLIENTE");
                 String nombreCli = teclado.nextLine();
                 //Valida caracteres
-                if (Comprobaciones.comprobarStringValido(nombreCli)) {
+                if (!Comprobaciones.comprobarStringValido(nombreCli)) {
                     return false;
                 }
                 System.out.println("INSERTA NUEVA FECHA DE NACIMIENTO DEL CLIENTE");
@@ -428,7 +428,7 @@ public class Conexiones {
                 System.out.println("INSERTA NUEVA DIRECCION DE ENVIO DEL CLIENTE");
                 String direccionEnvio = teclado.nextLine();
                 //Valida caracteres
-                if (Comprobaciones.comprobarCarcateresDireccion(direccionEnvio)) {
+                if (!Comprobaciones.comprobarCarcateresDireccion(direccionEnvio)) {
                     return false;
                 }
                 System.out.println("INSERTA NUEVO TELEFONO DEL CLIENTE");
@@ -438,7 +438,7 @@ public class Conexiones {
                 System.out.println("INSERTA NUEVO CORREO DEL CLIENTE");
                 String correoCli = teclado.nextLine();
                 //Valida caracteres
-                if (Comprobaciones.comprobarStringValido(correoCli)) {
+                if (!Comprobaciones.comprobarStringValido(correoCli)) {
                     return false;
                 }
                 PreparedStatement pst = con.prepareStatement("update cliente set nombre=?,fechaNacimiento=?,"

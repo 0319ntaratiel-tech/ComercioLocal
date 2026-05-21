@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 /**
- *
+ * Clase que contiene diferentes metodos de comprobacion para verificar el correcto funcionamiento del programa
  * @author Gabriela Gomez
  */
 public class Comprobaciones {
@@ -31,7 +31,7 @@ public class Comprobaciones {
 
         try {
             if (fechaSeparada.length != 3) {
-                System.out.println("ERROR, FORMATO INCORRECTO. DEBE SERYYYY-MM-DD");
+                System.out.println("ERROR, FORMATO INCORRECTO. DEBE SER YYYY-MM-DD");
                 return true;
             }
 

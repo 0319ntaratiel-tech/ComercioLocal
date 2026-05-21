@@ -14,7 +14,10 @@ import java.time.LocalDate;
  * @author Natalia Taratiel
  */
 public class Cliente implements Lectora, Serializable{
-    //atributos
+    
+    /*
+    Atributos
+    */
     private int codigo;
     private String nombre;
     private String fechaNacimiento;
@@ -22,8 +25,10 @@ public class Cliente implements Lectora, Serializable{
     private String telefono;
     private String correo;
     
-    //constructor
-
+    
+    /*
+    Constructor
+    */
     public Cliente(int codigo, String nombre, String fechaNacimiento, String direccionEnvio, String telefono, String correo) {
         this.codigo = codigo;
         this.nombre = nombre;

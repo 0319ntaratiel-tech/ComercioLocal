@@ -13,7 +13,9 @@ import java.time.LocalDate;
  * @author Gabriela Gomez
  */
 public class Vendedor implements Lectora, Serializable{
-    // Atributos
+    /*
+    Atributos
+    */
 
     private int codigo;
     private String nombre;
@@ -22,7 +24,9 @@ public class Vendedor implements Lectora, Serializable{
     private double salario;
     private double porcentaje;
 
-    //Constructor
+    /*
+    Constructor
+    */
     public Vendedor(int codigo, String nombre, String fechaAlta, String domicilio, double salario, double porcentaje) {
         this.codigo = codigo;
         this.nombre = nombre;

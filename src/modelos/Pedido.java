@@ -20,7 +20,9 @@ import servicios.Conexiones;
  * @author Natalia Taratiel
  */
 public class Pedido implements Lectora, Serializable{
-    //atributos
+    /*
+    Atributos
+    */
     private int codigo;
     private int codigoVendedor;
     private int codigoCliente;
@@ -30,7 +32,9 @@ public class Pedido implements Lectora, Serializable{
     private double importe;
  
     
-    //constructor
+    /*
+    Constructor
+    */
 
     public Pedido(int codigoVendedor, int codigoCliente, String fechaRealizacion, String fechaEntrega, String estado, double importe) {
         this.codigo = Conexiones.codigoPedido();

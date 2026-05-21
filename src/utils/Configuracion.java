@@ -5,7 +5,7 @@
 package utils;
 
 /**
- * Clase que contiene las diferentes constantes que usaremos en las diferentes clases
+ * Clase que contiene las diferentes constantes que usaremos a lo largo del proyecto
  * @author Natalia
  */
 public class Configuracion {

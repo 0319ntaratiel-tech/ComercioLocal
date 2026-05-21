@@ -14,8 +14,10 @@ import utils.Configuracion;
  * @author Gabriela Gomez
  */
 public class Producto implements Lectora, Serializable{
-    //Atributos
-
+    
+    /*
+    Atributos
+    */
     private int codigo;
     private int codigoFabricante;
     private String nombre;
@@ -23,7 +25,9 @@ public class Producto implements Lectora, Serializable{
     private String disponibilidad;
     private double precioVenta;
 
-    //Constructor
+    /*
+    Constructor
+    */
     public Producto(int codigo, int codigoFabricante, String nombre, String categoria, String disponibilidad, double precioVenta) {
         this.codigo = codigo;
         this.codigoFabricante = codigoFabricante;

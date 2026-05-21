@@ -15,14 +15,18 @@ import java.io.Serializable;
  * @author Natalia
  */
 public class LineaPedido implements Lectora, Serializable{
-    //atributos
+    /*
+    Atributos
+    */
     private int codigoPedido;
     private int codigoProducto;
     private int unidadesCompradas;
     private double subTotal;
    
     
-    //constructor
+    /*
+    Constructor
+    */
 
     public LineaPedido(int codigoPedido, int codigoProducto, int unidadesCompradas, double subTotal) {
         this.codigoPedido = codigoPedido;
