@@ -29,7 +29,9 @@ import utils.Comprobaciones;
 import utils.Configuracion;
 
 /**
- * Clase que contiene metodos de conexion con la base de datos, asi como diferentes metodos de gestion 
+ * Clase que contiene metodos de conexion con la base de datos, asi como
+ * diferentes metodos de gestion
+ *
  * @author Natalia y Gabriela
  */
 public class Conexiones {
@@ -67,8 +69,9 @@ public class Conexiones {
      * correspondiente
      *
      * @param o objeto que se inserta en la BD
+     * @return devuelve true se ingresaron correctamente los datos, false si no
      */
-    public static void insertarDatos(Object o) {
+    public static boolean insertarDatos(Object o) {
         try {
 
             //Establece la conexion con la base de datos
@@ -88,7 +91,7 @@ public class Conexiones {
                 //Se ejecuta la insercion en la BD 
                 pst.executeUpdate();
                 pst.close();
-
+                return true;
             } else if (o.getClass() == Producto.class) {
                 //Si el objeto es de tipo producto, se inserta en la tabla producto
                 PreparedStatement pst = con.prepareStatement("insert into producto values (?,?,?,?,?,?)");
@@ -102,7 +105,7 @@ public class Conexiones {
                 //Se ejecuta la insercion en la BD 
                 pst.executeUpdate();
                 pst.close();
-
+                return true;
             } else if (o.getClass() == Vendedor.class) {
                 //Si el objeto es de tipo vendedor, se inserta en la tabla vendedor
                 PreparedStatement pst = con.prepareStatement("insert into vendedor values (?,?,?,?,?,?)");
@@ -116,7 +119,7 @@ public class Conexiones {
 
                 pst.executeUpdate();//Se ejecuta la insercion en la BD 
                 pst.close();
-
+                return true;
             } else if (o.getClass() == Cliente.class) {
                 //Si el objeto es de tipo cliente, se inserta en la tabla cliente
                 PreparedStatement pst = con.prepareStatement("insert into cliente values (?,?,?,?,?,?)");
@@ -130,7 +133,7 @@ public class Conexiones {
 
                 pst.executeUpdate();//Se ejecuta la insercion en la BD 
                 pst.close();
-
+                return true;
             } else if (o.getClass() == Pedido.class) {
                 //Si el objeto es de tipo pedido, se inserta en la tabla pedido
                 PreparedStatement pst = con.prepareStatement("insert into pedido values (?,?,?,?,?,?,?)");
@@ -145,7 +148,7 @@ public class Conexiones {
 
                 pst.executeUpdate();//Se ejecuta la insercion en la BD 
                 pst.close();
-
+                return true;
             } else if (o.getClass() == LineaPedido.class) {
                 //Si el objeto es de tipo LineaPedido, se inserta en la tabla LineaPedido
                 PreparedStatement pst = con.prepareStatement("insert into lineaPedido values (?,?,?,?)");
@@ -157,6 +160,7 @@ public class Conexiones {
 
                 pst.executeUpdate();//Se ejecuta la insercion en la BD 
                 pst.close();
+                return true;
             } else {
                 System.out.println("Esa clase no existe");
             }
@@ -164,6 +168,7 @@ public class Conexiones {
         } catch (SQLException ex) {
             Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return false;
 
     }
 
@@ -272,6 +277,8 @@ public class Conexiones {
      *
      * @param clase indica la tabla a actualizar
      * @param codigo codigo del registro a acatualizar
+     * @return si se actualizo correctamente devuleve un true, de lo contrario
+     * false
      */
     public static boolean actualizarFila(int clase, int codigo) {
 
@@ -292,7 +299,7 @@ public class Conexiones {
                 if (!Comprobaciones.comprobarAnyo(anyoFundacionFabri)) {
                     return false;
                 }
-                
+
                 System.out.println("INSERTA NUEVO LUGAR SEDE DEL FABRICANTE ");
                 String lugarSedeFabri = teclado.nextLine();
                 //Valida caracteres 
@@ -306,7 +313,7 @@ public class Conexiones {
                 System.out.println("INSERTA NUEVO SITIO WEB DEL FABRICANTE");
                 String sitioWebFabri = teclado.next();
                 //Valida caracteres permitidos
-                if (!Comprobaciones.comprobarStringValido(nombreFabri)) {
+                if (!Comprobaciones.comprobarStringValido(sitioWebFabri)) {
                     return false;
                 }
                 PreparedStatement pst = con.prepareStatement("update fabricante set nombre= ?,"
@@ -343,7 +350,7 @@ public class Conexiones {
                 if (!Comprobaciones.comprobarStringValido(categoria)) {
                     return false;
                 }
-                System.out.println("INSERTA NUEVO DISPONIBILIDAD DEL PRODUCTO");
+                System.out.println("INSERTA NUEVO DISPONIBILIDAD DEL PRODUCTO: DISPONIBLE/POCAS UNIDADES/NO DISPONIBLE");
                 String disponibilidad = teclado.nextLine();
                 //Valida disponibilidad
                 if (!Comprobaciones.verificarDisponibilidad(disponibilidad)) {
@@ -351,11 +358,11 @@ public class Conexiones {
                 }
                 System.out.println("INSERTA NUEVO PRECIO DE VENTA DEL PRODUCTO");
                 double precioVenta = teclado.nextDouble();
-                //Valida precio
-                if(!Comprobaciones.validarNumero(precioVenta)){
-                    return  false;
-                }
                 teclado.nextLine();
+                //Valida precio
+                if (!Comprobaciones.validarNumero(precioVenta)) {
+                    return false;
+                }
 
                 PreparedStatement pst = con.prepareStatement("update producto set codigoFabricante=?,nombre=?,categoria=?,"
                         + "disponibilidad=?,precioVenta=? where codigo=? ");
@@ -368,7 +375,7 @@ public class Conexiones {
                 pst.setInt(6, codigo);
                 pst.executeUpdate();
                 pst.close();
-                return  true;
+                return true;
             } else if (clase == 3) {
 
                 //Actualiza vendedor
@@ -378,7 +385,7 @@ public class Conexiones {
                 if (!Comprobaciones.comprobarStringValido(nombreVen)) {
                     return false;
                 }
-                System.out.println("INSERTA NUEVA FECHA DE ALTA DEL VENDEDOR");
+                System.out.println("INSERTA NUEVA FECHA DE ALTA DEL VENDEDOR YYYY-MM-DD");
                 String fechaAltaVen = teclado.nextLine();
                 //Valida formato de fecha
                 if (Comprobaciones.comprobarFecha(fechaAltaVen)) {
@@ -392,8 +399,11 @@ public class Conexiones {
                 }
                 System.out.println("INSERTA NUEVO SALARIO DEL VENDEDOR");
                 double salarioVen = teclado.nextDouble();
-               
                 teclado.nextLine();
+                if (!Comprobaciones.validarNumero(salarioVen)) {
+                    return false;
+                }
+
                 System.out.println("INSERTA NUEVO PORCENTAJE DEL VENDEDOR");
                 double porcentajeVen = teclado.nextDouble();
 
@@ -403,14 +413,14 @@ public class Conexiones {
                         + "salario=?,porcentaje=? where codigo=? ");
 
                 pst.setString(1, nombreVen);
-                pst.setString(2, fechaAltaVen);//Verificar fecha
+                pst.setString(2, fechaAltaVen);
                 pst.setString(3, domicilioVen);
                 pst.setDouble(4, salarioVen);
                 pst.setDouble(5, porcentajeVen);
                 pst.setInt(6, codigo);
                 pst.executeUpdate();
                 pst.close();
-                return  true;
+                return true;
             } else if (clase == 4) {
                 //Actualiza cliente
                 System.out.println("INSERTA NUEVO  NOMBRE DEL CLIENTE");
@@ -419,7 +429,7 @@ public class Conexiones {
                 if (!Comprobaciones.comprobarStringValido(nombreCli)) {
                     return false;
                 }
-                System.out.println("INSERTA NUEVA FECHA DE NACIMIENTO DEL CLIENTE");
+                System.out.println("INSERTA NUEVA FECHA DE NACIMIENTO DEL CLIENTE YYYY-MM-DD");
                 String fechaNacimientoCli = teclado.nextLine();
                 //Valida fecha
                 if (Comprobaciones.comprobarFecha(fechaNacimientoCli)) {
@@ -433,7 +443,6 @@ public class Conexiones {
                 }
                 System.out.println("INSERTA NUEVO TELEFONO DEL CLIENTE");
                 String telCliente = teclado.nextLine();
-                teclado.nextLine();
 
                 System.out.println("INSERTA NUEVO CORREO DEL CLIENTE");
                 String correoCli = teclado.nextLine();
@@ -445,14 +454,14 @@ public class Conexiones {
                         + "direccionEnvio=?,telefono=?,correo=? where codigo=? ");
 
                 pst.setString(1, nombreCli);
-                pst.setString(2, fechaNacimientoCli);//Verificar fecha
+                pst.setString(2, fechaNacimientoCli);
                 pst.setString(3, direccionEnvio);
                 pst.setString(4, telCliente);
                 pst.setString(5, correoCli);
                 pst.setInt(6, codigo);
                 pst.executeUpdate();
                 pst.close();
-                return  true;
+                return true;
             } else if (clase == 5) {
                 //Actualiza un pedido
                 System.out.println("INSERTA NUEVO CODIGO DEL VENDEDOR");
@@ -473,12 +482,12 @@ public class Conexiones {
 
                 System.out.println("INSERTA NUEVA FECHA DE ENTREGA DEL PEDIDO YYYY-MM-DD");
                 String fechaEnt = teclado.nextLine();
-                if(Comprobaciones.comprobarFecha(fechaEnt)){
+                if (Comprobaciones.comprobarFecha(fechaEnt)) {
                     return false;
                 }
-                System.out.println("INSERTA NUEVO ESTADO DEL PEDIDO");
+                System.out.println("INSERTA EL NUEVO ESTADO DEL PEDIDO: REALIZADO/CANCELADO/ENVIADO/ENTREGADO/DEVUELTO");
                 String estado = teclado.nextLine();
-                if(!Comprobaciones.verificarEstado(estado)){
+                if (!Comprobaciones.verificarEstado(estado)) {
                     return false;
                 }
 
@@ -492,7 +501,7 @@ public class Conexiones {
                 pst.setInt(5, codigo);
                 pst.executeUpdate();
                 pst.close();
-                return  true;
+                return true;
             } else {
                 System.out.println("Clase no encontrada");
             }
@@ -500,40 +509,50 @@ public class Conexiones {
         } catch (SQLException ex) {
             Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return true;
+        return false;
     }
 
     /**
      * Metodo que actualiza una linea de pedido
+     *
      * @param codigoped codigo del pedido
      * @param codpro codigo del producto
      */
-    public static void actualizarLineaPedido(int codigoped, int codpro) {
+    public static boolean actualizarLineaPedido(int codigoped, int codpro) {
         try {
 
             System.out.println("INSERTA LAS UNIDADES COMPRADAS");
             int unidadesCompradas = teclado.nextInt();
             teclado.nextLine();
-            System.out.println("INSERTA EL SUBTOTAL");
-            double subTotal = teclado.nextDouble();
-            teclado.nextLine();
-            PreparedStatement pst = con.prepareStatement("update lineaPedido set unidadesCompradas=?, subTotal=? "
-                    + "where codigoPedido=? and codigoProducto=?");
+            if (unidadesCompradas <= 0) {
+                return false;
+            }
+            double precio = Conexiones.precioProducto(codpro);
+            double subTotal = unidadesCompradas * precio;
+
+            PreparedStatement pst = con.prepareStatement(
+                    "update lineaPedido set unidadesCompradas=?, subTotal=? where codigoPedido=? and codigoProducto=?"
+            );
 
             pst.setInt(1, unidadesCompradas);
             pst.setDouble(2, subTotal);
             pst.setInt(3, codigoped);
             pst.setInt(4, codpro);
+
             pst.executeUpdate();
             pst.close();
+
+            return true;
 
         } catch (SQLException ex) {
             Logger.getLogger(Conexiones.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return false;
     }
 
     /**
      * Metodo que elimina una fila en la base de datos dependiendo del tipo
+     *
      * @param clase tipo de clase que le indico
      * @param codigo codigo por el cual se va buscar en la BD
      */
@@ -584,6 +603,7 @@ public class Conexiones {
 
     /**
      * Metodo que elimina una linea pedido en la base de datos
+     *
      * @param codPed codigo de pedido
      * @param codPro codigo del producto
      */
@@ -604,6 +624,7 @@ public class Conexiones {
 
     /**
      * Metodo que consulta una fila de la base de datos dependiento del tipo
+     *
      * @param clase tipo de clase que le indico
      * @param codigo codigo por el cual va a buscar en la base de datos
      */
@@ -704,6 +725,7 @@ public class Conexiones {
 
     /**
      * Metodo para consultar una linea de pedido de la base de datos
+     *
      * @param codPed codigo del pedido
      * @param codPro codigo de producto
      */
@@ -734,6 +756,7 @@ public class Conexiones {
     /**
      * Metodo que consulta todos los registro de una tabla en la base de datos
      * dependiendo del tipo de clase indicada
+     *
      * @param clase tipo de clase que le indiquemos
      */
     public static void consultarTodasFila(int clase) {
@@ -741,7 +764,7 @@ public class Conexiones {
         try {
 
             if (clase == 1) {
-                 //Consulta todas las filas de fabricantes
+                //Consulta todas las filas de fabricantes
                 PreparedStatement pst = con.prepareStatement("SELECT * FROM fabricante ORDER BY codigo ASC");
                 ResultSet rs = pst.executeQuery();
                 while (rs.next()) {
@@ -759,7 +782,7 @@ public class Conexiones {
                 pst.close();
 
             } else if (clase == 2) {
-                 //Consulta todas las filas de productos
+                //Consulta todas las filas de productos
                 PreparedStatement pst = con.prepareStatement("SELECT * FROM producto ORDER BY codigo ASC");
                 ResultSet rs = pst.executeQuery();
                 while (rs.next()) {
@@ -776,7 +799,7 @@ public class Conexiones {
                 rs.close();
                 pst.close();
             } else if (clase == 3) {
-                 //Consulta todas las filas de vendedores
+                //Consulta todas las filas de vendedores
                 PreparedStatement pst = con.prepareStatement("SELECT * FROM vendedor ORDER BY codigo ASC ");
                 ResultSet rs = pst.executeQuery();
                 while (rs.next()) {
@@ -793,7 +816,7 @@ public class Conexiones {
                 rs.close();
                 pst.close();
             } else if (clase == 4) {
-                 //Consulta todas las filas de clientes
+                //Consulta todas las filas de clientes
                 PreparedStatement pst = con.prepareStatement("SELECT * FROM cliente ORDER BY codigo ASC ");
                 ResultSet rs = pst.executeQuery();
                 while (rs.next()) {
@@ -810,7 +833,7 @@ public class Conexiones {
                 rs.close();
                 pst.close();
             } else if (clase == 5) {
-                 //Consulta todas las filas de pedidos
+                //Consulta todas las filas de pedidos
                 PreparedStatement pst = con.prepareStatement("SELECT * FROM pedido ORDER BY codigo ASC");
 
                 ResultSet rs = pst.executeQuery();
@@ -829,7 +852,7 @@ public class Conexiones {
                 rs.close();
                 pst.close();
             } else if (clase == 6) {
-                 //Consulta todas las filas de linea de pedido
+                //Consulta todas las filas de linea de pedido
                 PreparedStatement pst = con.prepareStatement("SELECT * FROM lineaPedido ORDER BY codigoPedido ASC");
 
                 ResultSet rs = pst.executeQuery();
@@ -990,6 +1013,7 @@ public class Conexiones {
 
     /**
      * Metodo para obtener el precio de un producto a partir de su codigo
+     *
      * @param codigo codigo del producto a consultar
      * @return precio de venta del producto
      */
@@ -1021,6 +1045,7 @@ public class Conexiones {
     /**
      * Metodo para calcular el importe final de un pedido sumnado todas sus
      * lineas de pedido
+     *
      * @param codigoPed codigo del pedido que se quiere sabe el importe
      * @return precio del importe final
      */
@@ -1051,6 +1076,7 @@ public class Conexiones {
 
     /**
      * Metodo para obtener el siguiente codigo de pedido de forma incremental
+     *
      * @return el siguiente codigo disponible
      */
     public static int codigoPedido() {
@@ -1076,11 +1102,12 @@ public class Conexiones {
 
     }
 
-   /**
-    * Consultas realizada a la base de datos que devuelte un reuslta y se almacena en un fichero
-    * dependiendo del tipo de consulta a realizar
-    * @param opcion consulta a realizar
-    */
+    /**
+     * Consultas realizada a la base de datos que devuelte un reuslta y se
+     * almacena en un fichero dependiendo del tipo de consulta a realizar
+     *
+     * @param opcion consulta a realizar
+     */
     public static void informesMultitabla(int opcion) {
         try {
 
@@ -1315,8 +1342,11 @@ public class Conexiones {
         }
 
     }
+
     /**
-     * Consulta información de pedidos de un cliente específico y la exporta a fichero
+     * Consulta información de pedidos de un cliente específico y la exporta a
+     * fichero
+     *
      * @param codigoCliente codigo de cliente que se desea consultar
      */
     public static void consulta2(int codigoCliente) {

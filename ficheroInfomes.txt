@@ -56,3 +56,15 @@ Fernando Costa;COGULLADA,Zaragoza;www.fer.com
 
 Consulta 9
 Marcelas Reyes;1;1473.97;1473.97
+Consulta 1
+Diego Gomez;Venecia,Zaragoza España;www.diegog.com;Impresora hp;Accesorios;disponible
+Diego Gomez;Venecia,Zaragoza España;www.diegog.com;Teclado inalambrico;Accesorios;Disponible
+Diego Gomez;Venecia,Zaragoza España;www.diegog.com;Raton inalambrico;Accesorios;Disponible
+Santiago Bermudez;Plaza, Zaragoza, España;www.san.com;null;null;null
+Consulta 2
+2026-05-22;2026-11-05;Entregado;163.86;Teclado inalambrico;1;99.9
+Consulta 1
+Diego Gomez;Venecia,Zaragoza España;www.diegog.com;Impresora hp;Accesorios;disponible
+Diego Gomez;Venecia,Zaragoza España;www.diegog.com;Teclado inalambrico;Accesorios;Disponible
+Diego Gomez;Venecia,Zaragoza España;www.diegog.com;Raton inalambrico;Accesorios;Disponible
+Santiago Bermudez;Plaza, Zaragoza, España;www.san.com;null;null;null

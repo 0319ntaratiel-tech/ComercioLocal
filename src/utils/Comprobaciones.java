@@ -168,7 +168,7 @@ public class Comprobaciones {
             System.out.println("ERROR,EL TEXTO NO PUEDE ESTAR VACIO");
             return false;
         } else if (texto.length() > 50) {
-            System.out.println("ERROR, EL TEXTO NO PUEDE TENER MAS DE 50 CARCATERES");
+            System.out.println("ERROR, LA DIRECCION NO PUEDE TENER MAS DE 50 CARCATERES");
             return false;
         }
 
@@ -186,6 +186,24 @@ public class Comprobaciones {
         }
         System.out.println("ERROR, EL NUMERO INGRESADO DEBE SER MAYOR DE 0");
         return false;
+    }
+    
+     /**
+     * Metodo que verifica si el texto ingresado no esta vacio, nulo o mayor a 9 caracteres
+     * @param texto texto a validar
+     * @return texto a validar
+     */
+    public static boolean comprobarTelefono(String texto) {
+
+        if (texto == null || texto.isEmpty()) {
+            System.out.println("ERROR,EL TEXTO NO PUEDE ESTAR VACIO");
+            return false;
+        } else if (texto.length() > 9) {
+            System.out.println("ERROR, EL NUMERO NO PUEDE TENER MAS DE 9 CARCATERES");
+            return false;
+        }
+
+        return true;
     }
 
 }
