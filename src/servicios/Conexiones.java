@@ -381,13 +381,13 @@ public class Conexiones {
                 System.out.println("INSERTA NUEVA FECHA DE ALTA DEL VENDEDOR");
                 String fechaAltaVen = teclado.nextLine();
                 //Valida formato de fecha
-                if (!Comprobaciones.comprobarFecha(fechaAltaVen)) {
+                if (Comprobaciones.comprobarFecha(fechaAltaVen)) {
                     return false;
                 }
                 System.out.println("INSERTA NUEVO DOMICILIO DEL VENDEDOR");
                 String domicilioVen = teclado.nextLine();
                 //Valida caracteres
-                if (Comprobaciones.comprobarCarcateresDireccion(domicilioVen)) {
+                if (!Comprobaciones.comprobarCarcateresDireccion(domicilioVen)) {
                     return false;
                 }
                 System.out.println("INSERTA NUEVO SALARIO DEL VENDEDOR");
@@ -457,7 +457,7 @@ public class Conexiones {
                 //Actualiza un pedido
                 System.out.println("INSERTA NUEVO CODIGO DEL VENDEDOR");
                 int codigoVen = teclado.nextInt();
-                if (verificarExistenciaCodigo(3, codigoVen)) {
+                if (!verificarExistenciaCodigo(3, codigoVen)) {
                     System.out.println("EL CODIGO NO EXISTE EN LA BASE DE DATOS");
                     return false;
                 }
@@ -465,7 +465,7 @@ public class Conexiones {
 
                 System.out.println("INSERTA NUEVO CODIGO DEL CLIENTE");
                 int codigoCli = teclado.nextInt();
-                if (verificarExistenciaCodigo(4, codigoCli)) {
+                if (!verificarExistenciaCodigo(4, codigoCli)) {
                     System.out.println("EL CODIGO NO EXISTE EN LA BASE DE DATOS");
                     return false;
                 }
@@ -482,14 +482,14 @@ public class Conexiones {
                     return false;
                 }
 
-                PreparedStatement pst = con.prepareStatement("update pedido set codigoVendedor=?,codigoCliente=?,fechaEntrega =?,estado=?"
-                        + "estado=?,importe=? where codigo=? ");
+                PreparedStatement pst = con.prepareStatement("update pedido set codigoVendedor=?,codigoCliente=?,fechaEntrega =?,"
+                        + "estado=? where codigo=? ");
 
                 pst.setInt(1, codigoVen);//Verificar codigo vendedor
                 pst.setInt(2, codigoCli);//Verificar codigo cliente
                 pst.setString(3, fechaEnt);//Verificar fecha
                 pst.setString(4, estado);//Verificar estado
-                pst.setInt(6, codigo);
+                pst.setInt(5, codigo);
                 pst.executeUpdate();
                 pst.close();
                 return  true;
@@ -1324,7 +1324,7 @@ public class Conexiones {
 
             String consulta1 = "  SELECT p.fechaRealizacion AS fechaRea, p.fechaEntrega AS fechaEntr,p.estado AS estado, p.importe AS importe,"
                     + " pr.nombre AS producto, lp.unidadesCompradas, lp.subTotal FROM pedido p JOIN lineaPedido lp ON p.codigo = lp.codigoPedido"
-                    + " JOIN producto pr ON lp.codigoProducto = pr.codigo WHERE p.codigoCliente = ? ORDER BY p.fechaRealizacion ASC";
+                    + " JOIN producto pr ON lp.codigoProducto = pr.codigo WHERE p.codigoCliente = ? ORDER BY fechaRea ASC";
             PreparedStatement pst = con.prepareStatement(consulta1);
             pst.setInt(1, codigoCliente);
             ResultSet rs = pst.executeQuery();
@@ -1332,8 +1332,8 @@ public class Conexiones {
             InformesMultitablaFicheros.guardarLinea(consultasF2);
             while (rs.next()) {
 
-                String linea = rs.getDate("fechaRealización") + ";"
-                        + rs.getDate("fechaEntrega") + ";"
+                String linea = rs.getDate("fechaRea") + ";"
+                        + rs.getDate("fechaEntr") + ";"
                         + rs.getString("estado") + ";"
                         + rs.getDouble("importe") + ";"
                         + rs.getString("producto") + ";"
@@ -1341,8 +1341,8 @@ public class Conexiones {
                         + rs.getDouble("subTotal");
 
                 System.out.println(linea);
-                String linea1 = rs.getDate("fechaRealización") + ";"
-                        + rs.getDate("fechaEntrega") + ";"
+                String linea1 = rs.getDate("fechaRea") + ";"
+                        + rs.getDate("fechaEntr") + ";"
                         + rs.getString("estado") + ";"
                         + rs.getDouble("importe") + ";"
                         + rs.getString("producto") + ";"

@@ -1,0 +1,58 @@
+Consulta 1
+Diego Silvestre;VENECIA, Zaragoza;www.die.com;Raton Inalambrico M185;Accesorios;disponible
+Diego Silvestre;VENECIA, Zaragoza;www.die.com;Tecla inalambrico MX-S;Accesorios;pocas unidades
+Fernando Costa;COGULLADA,Zaragoza;www.fer.com;Cascos JBL;Audio;disponible
+Fernando Costa;COGULLADA,Zaragoza;www.fer.com;Auriculares Sony WH;Audio;no disponible
+Santiago Bermudez;PLAZA, Zaragoza;www.san.com;Portatil Lenovo 3;Informatica;disponible
+Santiago Bermudez;PLAZA, Zaragoza;www.san.com;Portatil-Samsung Galaxy;Informatica;disponible
+
+Consulta 2
+2026-05-22;2026-05-29;realizado;1473.97;Portatil Lenovo 3;2;1457.98
+2026-05-22;2026-05-29;realizado;1473.97;Raton Inalambrico M185;1;15.99
+
+Consulta 3
+Cascos JBL;Audio;Thomas Paz;2
+Portatil Lenovo 3;Informatica;Camilo Arturo;3
+Portatil Lenovo 3;Informatica;Carolina Varon;5
+Portatil Lenovo 3;Informatica;Felipe Galarza;2
+Portatil Lenovo 3;Informatica;Thomas Paz;1
+Portatil-Samsung Galaxy;Informatica;Carolina Varon;2
+Raton Inalambrico M185;Accesorios;Felipe Galarza;1
+Tecla inalambrico MX-S;Accesorios;Carolina Varon;2
+
+Consulta 4
+Camilo Arturo;Calle de Vergara 204;Portatil Lenovo 3;3
+Carolina Varon;Calle Alcala 337;Portatil Lenovo 3;5
+Carolina Varon;Calle Alcala 337;Portatil-Samsung Galaxy;2
+Carolina Varon;Calle Alcala 337;Tecla inalambrico MX-S;2
+Felipe Galarza;Avenida San Juan 12;Portatil Lenovo 3;2
+Felipe Galarza;Avenida San Juan 12;Raton Inalambrico M185;1
+Thomas Paz;Sabino Arana Etorbidea 12;Cascos JBL;2
+Thomas Paz;Sabino Arana Etorbidea 12;Portatil Lenovo 3;1
+
+Consulta 5
+Diego Silvestre;VENECIA, Zaragoza;www.die.com;Carolina Varon;1998-09-22;1
+Diego Silvestre;VENECIA, Zaragoza;www.die.com;Felipe Galarza;2005-11-25;1
+Fernando Costa;COGULLADA,Zaragoza;www.fer.com;Thomas Paz;2001-03-08;1
+Santiago Bermudez;PLAZA, Zaragoza;www.san.com;Camilo Arturo;1995-07-18;1
+Santiago Bermudez;PLAZA, Zaragoza;www.san.com;Carolina Varon;1998-09-22;4
+Santiago Bermudez;PLAZA, Zaragoza;www.san.com;Felipe Galarza;2005-11-25;1
+Santiago Bermudez;PLAZA, Zaragoza;www.san.com;Thomas Paz;2001-03-08;1
+
+Consulta 6
+Daniela Garcia;2020-05-01;2026-05-22;realizado;928.79;46.4395
+Jesus Zambrano;2015-02-18;2026-05-22;realizado;2028.09;304.2135
+Jose Ojeda;2015-05-01;2026-05-22;realizado;860.97;129.1455
+Marcelas Reyes;2016-12-01;2026-05-22;realizado;1473.97;147.397
+Marcelas Reyes;2016-12-01;2026-05-22;realizado;2186.97;218.697
+Marcelas Reyes;2016-12-01;2026-05-22;realizado;2186.97;218.697
+
+Consulta 7
+Portatil Lenovo 3;Informatica;11;8018.89;6
+
+Consulta 8
+Fernando Costa;COGULLADA,Zaragoza;www.fer.com
+
+
+Consulta 9
+Marcelas Reyes;1;1473.97;1473.97

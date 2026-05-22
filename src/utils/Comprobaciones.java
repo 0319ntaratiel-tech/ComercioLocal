@@ -149,7 +149,7 @@ public class Comprobaciones {
             System.out.println("ERROR,EL TEXTO NO PUEDE ESTAR VACIO");
             return false;
         }
-        if (texto.length() > 45) {
+        if (texto.length() > 50) {
             System.out.println("ERROR, EL TEXTO NO PUEDE TENER MAS DE 45 CARCATERES");
             return false;
         }
