@@ -1105,7 +1105,7 @@ public class Menu {
                         Pedido ped = new Pedido(codigoVen, codigoCli, LocalDate.now().toString(), LocalDate.now().plusDays(7).toString(), "realizado", importeFinal);
 
                         if (Conexiones.insertarDatos(ped)) {
-                            System.out.println("PEDIDO CON CODIGO "+codigopedidogeneral+"INGRESADO CORRECTAMENTE");
+                            System.out.println("PEDIDO CON CODIGO "+codigopedidogeneral+" INGRESADO CORRECTAMENTE");
                             ContenedorPedido.agregarPedidoNuevos(ped);
                         }
 
