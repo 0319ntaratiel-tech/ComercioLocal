@@ -1,1 +1,3 @@
-Hola este es mi primer proyecto.
+Este proyecto consiste en el desarrollo de una aplicación de gestión para un comercio local, basada en una base de datos relacional, que permite administrar de forma eficiente información sobre clientes, productos, fabricantes, vendedores y pedidos. La aplicación implementa operaciones CRUD completas, así como funcionalidades de importación y exportación de datos en distintos formatos, facilitando la organización, actualización y consulta de la información. Además, el proyecto ha sido desarrollado siguiendo la metodología ágil Scrum, lo que ha permitido estructurar el trabajo en distintas fases y garantizar un desarrollo ordenado y progresivo.
+
+Autoras: Natalia Taratiel y Gabriela Gomez
